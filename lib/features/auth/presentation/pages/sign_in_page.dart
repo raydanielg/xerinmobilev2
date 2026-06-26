@@ -94,54 +94,37 @@ class _SignInPageState extends State<SignInPage>
                       ),
                     ),
                     const SizedBox(height: 44),
-                    TextFormField(
+                    _buildInputField(
                       controller: _emailCtrl,
                       focusNode: _emailNode,
+                      label: 'Email',
+                      hint: 'name@email.com',
+                      icon: Icons.email_outlined,
                       keyboardType: TextInputType.emailAddress,
                       validator: (v) =>
                           v == null || v.isEmpty ? 'Enter your email' : null,
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                        hintText: 'example@email.com',
-                        prefixIcon: Icon(
-                          Icons.email_outlined,
-                          color: _emailNode.hasFocus
-                              ? colorScheme.primary
-                              : colorScheme.onSurface.withValues(alpha: 0.35),
-                        ),
-                      ),
                     ),
                     const SizedBox(height: 18),
-                    TextFormField(
+                    _buildInputField(
                       controller: _passCtrl,
                       focusNode: _passNode,
+                      label: 'Password',
+                      hint: 'Enter your password',
+                      icon: Icons.lock_outlined,
                       obscureText: _obscurePass,
                       validator: (v) => v == null || v.isEmpty
                           ? 'Enter your password'
                           : null,
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        hintText: '••••••••',
-                        prefixIcon: Icon(
-                          Icons.lock_outlined,
-                          color: _passNode.hasFocus
-                              ? colorScheme.primary
-                              : colorScheme.onSurface.withValues(alpha: 0.35),
+                      suffix: IconButton(
+                        icon: Icon(
+                          _obscurePass
+                              ? Icons.visibility_off_rounded
+                              : Icons.visibility_rounded,
+                          color: colorScheme.onSurface.withValues(alpha: 0.4),
+                          size: 20,
                         ),
-                        suffixIcon: Padding(
-                          padding: const EdgeInsets.only(right: 4),
-                          child: IconButton(
-                            icon: Icon(
-                              _obscurePass
-                                  ? Icons.visibility_off_rounded
-                                  : Icons.visibility_rounded,
-                              color: colorScheme.onSurface
-                                  .withValues(alpha: 0.35),
-                            ),
-                            onPressed: () =>
-                                setState(() => _obscurePass = !_obscurePass),
-                          ),
-                        ),
+                        onPressed: () =>
+                            setState(() => _obscurePass = !_obscurePass),
                       ),
                     ),
                     const SizedBox(height: 6),
@@ -219,53 +202,6 @@ class _SignInPageState extends State<SignInPage>
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 28),
-                    Row(
-                      children: [
-                        const Expanded(child: Divider()),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Text(
-                            'or continue with',
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: colorScheme.onSurface
-                                  .withValues(alpha: 0.35),
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        const Expanded(child: Divider()),
-                      ],
-                    ),
-                    const SizedBox(height: 24),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _socialButton(
-                            icon: Icons.g_mobiledata_rounded,
-                            label: 'Google',
-                            colorScheme: colorScheme,
-                          ),
-                        ),
-                        const SizedBox(width: 14),
-                        Expanded(
-                          child: _socialButton(
-                            icon: Icons.facebook_rounded,
-                            label: 'Facebook',
-                            colorScheme: colorScheme,
-                          ),
-                        ),
-                        const SizedBox(width: 14),
-                        Expanded(
-                          child: _socialButton(
-                            icon: Icons.apple_rounded,
-                            label: 'Apple',
-                            colorScheme: colorScheme,
-                          ),
-                        ),
-                      ],
                     ),
                     const SizedBox(height: 36),
                     Row(
