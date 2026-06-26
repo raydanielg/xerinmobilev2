@@ -403,7 +403,6 @@ class _ConfettiPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final random = Random(42);
     final paint = Paint()..style = PaintingStyle.fill;
 
     for (int i = 0; i < 30; i++) {
