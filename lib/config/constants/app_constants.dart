@@ -10,6 +10,7 @@ abstract class AppConstants {
   static const String registerRoute = '/register';
   static const String verifyOtpRoute = '/verify-otp';
   static const String homeRoute = '/';
+  static const String sellerDashboardRoute = '/seller-dashboard';
 
   // Timeouts
   static const int connectionTimeoutSeconds = 30;
