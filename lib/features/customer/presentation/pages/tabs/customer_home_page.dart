@@ -884,7 +884,11 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                           width: double.infinity,
                           height: 54,
                           child: ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
+                              Navigator.pop(context);
+                              _showFilterLoadingDialog(context, colorScheme);
+                              await Future.delayed(const Duration(seconds: 2));
+                              if (!context.mounted) return;
                               Navigator.pop(context);
                               setState(() {
                                 _searchQuery = _searchCtrl.text.trim().toLowerCase();
