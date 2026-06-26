@@ -30,29 +30,9 @@ class _RegisterPageState extends State<RegisterPage>
   bool _agree = false;
   bool _isSeller = false;
 
-  final _shopNameCtrl = TextEditingController();
-  final _shopDescCtrl = TextEditingController();
-  final _shopAddressCtrl = TextEditingController();
-  final _shopNameNode = FocusNode();
-  final _shopDescNode = FocusNode();
-  final _shopAddressNode = FocusNode();
-  String _shopCategory = 'Electronics';
-
-  final List<String> _categories = [
-    'Electronics',
-    'Fashion',
-    'Home & Garden',
-    'Food & Beverages',
-    'Health & Beauty',
-    'Sports',
-    'Books & Media',
-    'Other',
-  ];
-
   late final AnimationController _animCtrl;
   late final Animation<Offset> _slideAnim;
   late final Animation<double> _fadeAnim;
-  late final Animation<double> _sellerFieldsAnim;
 
   @override
   void initState() {
@@ -66,10 +46,6 @@ class _RegisterPageState extends State<RegisterPage>
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic));
     _fadeAnim = CurvedAnimation(parent: _animCtrl, curve: Curves.easeOut);
-    _sellerFieldsAnim = CurvedAnimation(
-      parent: _animCtrl,
-      curve: Curves.easeOutCubic,
-    );
     _animCtrl.forward();
   }
 
@@ -85,12 +61,6 @@ class _RegisterPageState extends State<RegisterPage>
     _phoneNode.dispose();
     _passNode.dispose();
     _confirmNode.dispose();
-    _shopNameCtrl.dispose();
-    _shopDescCtrl.dispose();
-    _shopAddressCtrl.dispose();
-    _shopNameNode.dispose();
-    _shopDescNode.dispose();
-    _shopAddressNode.dispose();
     _animCtrl.dispose();
     super.dispose();
   }
@@ -98,7 +68,7 @@ class _RegisterPageState extends State<RegisterPage>
   void _onRegister() {
     if (_formKey.currentState!.validate() && _agree) {
       if (_isSeller) {
-        context.go(AppConstants.sellerOnboardingRoute);
+        context.go(AppConstants.sellerDetailsRoute);
       } else {
         context.go(AppConstants.verifyOtpRoute);
       }
@@ -262,21 +232,7 @@ class _RegisterPageState extends State<RegisterPage>
                             setState(() => _obscureConfirm = !_obscureConfirm),
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    AnimatedBuilder(
-                      animation: _sellerFieldsAnim,
-                      builder: (context, _) {
-                        return AnimatedCrossFade(
-                          duration: const Duration(milliseconds: 400),
-                          crossFadeState: _isSeller
-                              ? CrossFadeState.showFirst
-                              : CrossFadeState.showSecond,
-                          firstChild: _buildSellerFields(colorScheme),
-                          secondChild: const SizedBox.shrink(),
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 24),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -346,9 +302,7 @@ class _RegisterPageState extends State<RegisterPage>
                             elevation: 0,
                           ),
                           child: Text(
-                            _isSeller
-                                ? 'Register as Seller'
-                                : 'Create Account',
+                            _isSeller ? 'Next' : 'Create Account',
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -452,114 +406,4 @@ class _RegisterPageState extends State<RegisterPage>
     );
   }
 
-  Widget _buildSellerFields(ColorScheme colorScheme) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20),
-      child: Column(
-        children: [
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            decoration: BoxDecoration(
-              color: colorScheme.primary.withValues(alpha: 0.06),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              children: [
-                Icon(Icons.storefront_rounded,
-                    size: 16, color: colorScheme.primary),
-                const SizedBox(width: 8),
-                Text(
-                  'Shop Details',
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: colorScheme.primary,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 16),
-          AuthTextField(
-            controller: _shopNameCtrl,
-            focusNode: _shopNameNode,
-            label: 'Shop Name',
-            hint: 'e.g. Xerin Fashion Store',
-            icon: Icons.badge_outlined,
-            textCapitalization: TextCapitalization.words,
-            validator: (v) =>
-                _isSeller && (v == null || v.isEmpty)
-                    ? 'Enter your shop name'
-                    : null,
-          ),
-          const SizedBox(height: 16),
-          DropdownButtonFormField<String>(
-            value: _shopCategory,
-            items: _categories.map((cat) {
-              return DropdownMenuItem(value: cat, child: Text(cat));
-            }).toList(),
-            onChanged: (v) => setState(() => _shopCategory = v ?? 'Electronics'),
-            decoration: InputDecoration(
-              labelText: 'Shop Category',
-              filled: true,
-              fillColor: colorScheme.surface.withValues(alpha: 0.6),
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              prefixIcon: Icon(
-                Icons.category_outlined,
-                color: colorScheme.onSurface.withValues(alpha: 0.4),
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(
-                  color: colorScheme.onSurface.withValues(alpha: 0.1),
-                ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(
-                  color: colorScheme.onSurface.withValues(alpha: 0.1),
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(
-                  color: colorScheme.primary,
-                  width: 2,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 16),
-          AuthTextField(
-            controller: _shopDescCtrl,
-            focusNode: _shopDescNode,
-            label: 'Shop Description',
-            hint: 'Tell customers about your shop...',
-            icon: Icons.description_outlined,
-            maxLines: 3,
-            textCapitalization: TextCapitalization.sentences,
-            validator: (v) =>
-                _isSeller && (v == null || v.isEmpty)
-                    ? 'Enter a short description'
-                    : null,
-          ),
-          const SizedBox(height: 16),
-          AuthTextField(
-            controller: _shopAddressCtrl,
-            focusNode: _shopAddressNode,
-            label: 'Shop Address',
-            hint: 'e.g. Mlimani City, Dar es Salaam',
-            icon: Icons.location_on_outlined,
-            textCapitalization: TextCapitalization.sentences,
-            validator: (v) =>
-                _isSeller && (v == null || v.isEmpty)
-                    ? 'Enter your shop address'
-                    : null,
-          ),
-        ],
-      ),
-    );
-  }
 }
