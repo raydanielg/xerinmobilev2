@@ -36,13 +36,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
     ).animate(CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic));
     _fadeAnim = CurvedAnimation(parent: _animCtrl, curve: Curves.easeOut);
     _animCtrl.forward();
-    _phoneNode.addListener(() => setState(() {}));
   }
 
   @override
   void dispose() {
     _phoneCtrl.dispose();
-    _phoneNode.removeListener(() {});
     _phoneNode.dispose();
     _animCtrl.dispose();
     super.dispose();
