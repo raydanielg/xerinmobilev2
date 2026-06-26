@@ -110,50 +110,19 @@ class _OnboardingPageState extends State<OnboardingPage>
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      body: Stack(
+      body: Column(
         children: [
-          Column(
-            children: [
-              Expanded(
-                flex: 5,
-                child: PageView.builder(
-                  controller: _pageController,
-                  onPageChanged: _onPageChanged,
-                  itemCount: _pages.length,
-                  itemBuilder: (context, index) =>
-                      _buildTopSection(_pages[index], colorScheme),
-                ),
-              ),
-              _buildBottomSection(colorScheme),
-            ],
-          ),
-          if (_currentPage > 0)
-            Positioned(
-              top: MediaQuery.of(context).padding.top + 8,
-              right: 8,
-              child: _buildBackButton(colorScheme),
+          Expanded(
+            flex: 5,
+            child: PageView.builder(
+              controller: _pageController,
+              onPageChanged: _onPageChanged,
+              itemCount: _pages.length,
+              itemBuilder: (context, index) =>
+                  _buildTopSection(_pages[index], colorScheme),
             ),
-          Positioned(
-            top: MediaQuery.of(context).padding.top + 8,
-            left: 24,
-            child: _buildPageCounter(colorScheme),
           ),
-          if (_currentPage < _pages.length - 1)
-            Positioned(
-              top: MediaQuery.of(context).padding.top + 8,
-              right: 16,
-              child: TextButton(
-                onPressed: _onSkip,
-                child: Text(
-                  'Skip',
-                  style: TextStyle(
-                    color: colorScheme.onSurface.withValues(alpha: 0.5),
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ),
+          _buildBottomSection(colorScheme),
         ],
       ),
     );
