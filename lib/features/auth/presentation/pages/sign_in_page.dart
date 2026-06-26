@@ -73,30 +73,11 @@ class _SignInPageState extends State<SignInPage>
                 child: Column(
                   children: [
                     const SizedBox(height: 40),
-                    Container(
-                      width: 80,
-                      height: 80,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            colorScheme.primary,
-                            colorScheme.primary.withValues(alpha: 0.7),
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(22),
-                        boxShadow: [
-                          BoxShadow(
-                            color: colorScheme.primary.withValues(alpha: 0.3),
-                            blurRadius: 20,
-                            offset: const Offset(0, 8),
-                          ),
-                        ],
-                      ),
-                      child: const Icon(
-                        Icons.shopping_bag_rounded,
-                        color: Colors.white,
-                        size: 38,
-                      ),
+                    SvgPicture.asset(
+                      'assets/logo/full_named_logo.svg',
+                      width: 200,
+                      height: 130,
+                      fit: BoxFit.contain,
                     ),
                     const SizedBox(height: 28),
                     Text(
