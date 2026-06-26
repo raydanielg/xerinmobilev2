@@ -394,7 +394,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       barrierColor: Colors.black.withValues(alpha: 0.3),
       transitionDuration: const Duration(milliseconds: 300),
-      pageBuilder: (_, __, ___) {
+      pageBuilder: (_, _, _) {
         return Align(
           alignment: Alignment.centerRight,
           child: Material(
@@ -510,7 +510,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
           ),
         );
       },
-      transitionBuilder: (_, animation, __, child) {
+      transitionBuilder: (_, animation, _, child) {
         return SlideTransition(
           position: Tween<Offset>(
             begin: const Offset(1, 0),
