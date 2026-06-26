@@ -86,11 +86,11 @@ class _OnboardingPageState extends State<OnboardingPage>
   }
 
   void _onSkip() {
-    context.go(AppConstants.homeRoute);
+    context.go(AppConstants.signInRoute);
   }
 
   void _onGetStarted() {
-    context.go(AppConstants.homeRoute);
+    context.go(AppConstants.signInRoute);
   }
 
   @override

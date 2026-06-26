@@ -6,6 +6,9 @@ abstract class AppConstants {
   // Routes
   static const String splashRoute = '/splash';
   static const String onboardingRoute = '/onboarding';
+  static const String signInRoute = '/sign-in';
+  static const String registerRoute = '/register';
+  static const String verifyOtpRoute = '/verify-otp';
   static const String homeRoute = '/';
 
   // Timeouts
