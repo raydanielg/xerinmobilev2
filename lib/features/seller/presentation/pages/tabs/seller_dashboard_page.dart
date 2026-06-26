@@ -248,13 +248,20 @@ class _SellerDashboardPageState extends State<SellerDashboardPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    width: 34,
-                    height: 34,
+                    width: 38,
+                    height: 38,
                     decoration: BoxDecoration(
-                      color: stat.color.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: stat.color.withValues(alpha: 0.2),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
                     ),
-                    child: Icon(stat.icon, color: stat.color, size: 18),
+                    child: Icon(stat.icon, color: stat.color, size: 20),
                   ),
                   Container(
                     padding:
