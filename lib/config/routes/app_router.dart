@@ -9,6 +9,7 @@ import '../../features/auth/presentation/pages/verify_otp_page.dart';
 import '../../features/customer/presentation/pages/categories_page.dart';
 import '../../features/customer/presentation/pages/category_products_page.dart';
 import '../../features/customer/presentation/pages/customer_dashboard.dart';
+import '../../features/customer/presentation/pages/product_detail_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../../features/seller/presentation/pages/seller_dashboard.dart';
 import '../../features/seller/presentation/pages/seller_details_page.dart';
