@@ -29,10 +29,11 @@ class CartController extends ChangeNotifier {
 
   double get total {
     return _items.fold(0, (sum, item) {
-      final priceValue = double.tryParse(
-            item.price.replaceAll('\$', '').replaceAll(',', ''),
-          ) ??
-          0;
+      final numeric = item.price
+          .replaceAll('TSh ', '')
+          .replaceAll(',', '')
+          .trim();
+      final priceValue = double.tryParse(numeric) ?? 0;
       return sum + (priceValue * item.quantity);
     });
   }
