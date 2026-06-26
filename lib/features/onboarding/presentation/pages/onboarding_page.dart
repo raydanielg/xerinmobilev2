@@ -139,7 +139,7 @@ class _OnboardingPageState extends State<OnboardingPage>
     );
   }
 
-  Widget _buildTopSection(_OnboardingItem item, ColorScheme colorScheme) {
+  Widget _buildTopSection(_OnboardingItem item, ColorScheme colorScheme, bool isDark) {
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -155,9 +155,13 @@ class _OnboardingPageState extends State<OnboardingPage>
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Colors.black.withValues(alpha: 0.05),
+                isDark
+                    ? Colors.black.withValues(alpha: 0.25)
+                    : Colors.black.withValues(alpha: 0.05),
                 Colors.transparent,
-                Colors.black.withValues(alpha: 0.15),
+                isDark
+                    ? Colors.black.withValues(alpha: 0.45)
+                    : Colors.black.withValues(alpha: 0.15),
               ],
             ),
           ),
