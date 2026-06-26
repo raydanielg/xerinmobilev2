@@ -322,6 +322,56 @@ class _SignInPageState extends State<SignInPage>
     );
   }
 
+  Widget _roleOption({
+    required String value,
+    required String label,
+    required IconData icon,
+    required ColorScheme colorScheme,
+  }) {
+    final isSelected = _role == value;
+
+    return GestureDetector(
+      onTap: () => setState(() => _role = value),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+        decoration: BoxDecoration(
+          color: isSelected
+              ? colorScheme.primary.withValues(alpha: 0.1)
+              : colorScheme.surface,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isSelected
+                ? colorScheme.primary
+                : colorScheme.onSurface.withValues(alpha: 0.12),
+            width: isSelected ? 1.5 : 1,
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              size: 18,
+              color: isSelected ? colorScheme.primary : colorScheme.onSurface
+                  .withValues(alpha: 0.5),
+            ),
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                color: isSelected
+                    ? colorScheme.primary
+                    : colorScheme.onSurface.withValues(alpha: 0.7),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildInputField({
     required TextEditingController controller,
     required FocusNode focusNode,
