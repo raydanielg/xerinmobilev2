@@ -94,7 +94,12 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
               _buildSearchResults(colorScheme),
               const SizedBox(height: 24),
             ] else ...[
-              _buildSectionTitle('Categories', 'See all', colorScheme),
+              _buildSectionTitle(
+                'Categories',
+                'See all',
+                colorScheme,
+                onActionTap: () => context.go(AppConstants.categoriesRoute),
+              ),
               const SizedBox(height: 14),
               _buildCategories(colorScheme),
               const SizedBox(height: 24),
