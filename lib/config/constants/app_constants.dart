@@ -11,6 +11,8 @@ abstract class AppConstants {
   static const String verifyOtpRoute = '/verify-otp';
   static const String forgotPasswordRoute = '/forgot-password';
   static const String homeRoute = '/';
+  static const String categoriesRoute = '/categories';
+  static const String categoryProductsRoute = '/category-products';
   static const String sellerDashboardRoute = '/seller-dashboard';
   static const String sellerOnboardingRoute = '/seller-onboarding';
   static const String sellerDetailsRoute = '/seller-details';

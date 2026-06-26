@@ -6,6 +6,8 @@ import '../../features/auth/presentation/pages/register_page.dart';
 import '../../features/auth/presentation/pages/registration_success_page.dart';
 import '../../features/auth/presentation/pages/sign_in_page.dart';
 import '../../features/auth/presentation/pages/verify_otp_page.dart';
+import '../../features/customer/presentation/pages/categories_page.dart';
+import '../../features/customer/presentation/pages/category_products_page.dart';
 import '../../features/customer/presentation/pages/customer_dashboard.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../../features/seller/presentation/pages/seller_dashboard.dart';
