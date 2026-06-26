@@ -486,84 +486,82 @@ class _RegisterPageState extends State<RegisterPage>
             ),
           ),
           const SizedBox(height: 16),
-          TextFormField(
+          AuthTextField(
             controller: _shopNameCtrl,
             focusNode: _shopNameNode,
+            label: 'Shop Name',
+            hint: 'e.g. Xerin Fashion Store',
+            icon: Icons.badge_outlined,
             textCapitalization: TextCapitalization.words,
             validator: (v) =>
                 _isSeller && (v == null || v.isEmpty)
                     ? 'Enter your shop name'
                     : null,
-            decoration: InputDecoration(
-              labelText: 'Shop Name',
-              hintText: 'e.g. Xerin Fashion Store',
-              prefixIcon: Icon(
-                Icons.badge_outlined,
-                color: _shopNameNode.hasFocus
-                    ? colorScheme.primary
-                    : colorScheme.onSurface.withValues(alpha: 0.35),
-              ),
-            ),
           ),
           const SizedBox(height: 16),
           DropdownButtonFormField<String>(
-            initialValue: _shopCategory,
+            value: _shopCategory,
             items: _categories.map((cat) {
               return DropdownMenuItem(value: cat, child: Text(cat));
             }).toList(),
             onChanged: (v) => setState(() => _shopCategory = v ?? 'Electronics'),
             decoration: InputDecoration(
               labelText: 'Shop Category',
+              filled: true,
+              fillColor: colorScheme.surface.withValues(alpha: 0.6),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               prefixIcon: Icon(
                 Icons.category_outlined,
-                color: colorScheme.onSurface.withValues(alpha: 0.35),
+                color: colorScheme.onSurface.withValues(alpha: 0.4),
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(
+                  color: colorScheme.onSurface.withValues(alpha: 0.1),
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(
+                  color: colorScheme.onSurface.withValues(alpha: 0.1),
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(
+                  color: colorScheme.primary,
+                  width: 2,
+                ),
               ),
             ),
           ),
           const SizedBox(height: 16),
-          TextFormField(
+          AuthTextField(
             controller: _shopDescCtrl,
             focusNode: _shopDescNode,
+            label: 'Shop Description',
+            hint: 'Tell customers about your shop...',
+            icon: Icons.description_outlined,
             maxLines: 3,
             textCapitalization: TextCapitalization.sentences,
             validator: (v) =>
                 _isSeller && (v == null || v.isEmpty)
                     ? 'Enter a short description'
                     : null,
-            decoration: InputDecoration(
-              labelText: 'Shop Description',
-              hintText: 'Tell customers about your shop...',
-              alignLabelWithHint: true,
-              prefixIcon: Padding(
-                padding: const EdgeInsets.only(bottom: 40),
-                child: Icon(
-                  Icons.description_outlined,
-                  color: _shopDescNode.hasFocus
-                      ? colorScheme.primary
-                      : colorScheme.onSurface.withValues(alpha: 0.35),
-                ),
-              ),
-            ),
           ),
           const SizedBox(height: 16),
-          TextFormField(
+          AuthTextField(
             controller: _shopAddressCtrl,
             focusNode: _shopAddressNode,
+            label: 'Shop Address',
+            hint: 'e.g. Mlimani City, Dar es Salaam',
+            icon: Icons.location_on_outlined,
             textCapitalization: TextCapitalization.sentences,
             validator: (v) =>
                 _isSeller && (v == null || v.isEmpty)
                     ? 'Enter your shop address'
                     : null,
-            decoration: InputDecoration(
-              labelText: 'Shop Address',
-              hintText: 'e.g. Mlimani City, Dar es Salaam',
-              prefixIcon: Icon(
-                Icons.location_on_outlined,
-                color: _shopAddressNode.hasFocus
-                    ? colorScheme.primary
-                    : colorScheme.onSurface.withValues(alpha: 0.35),
-              ),
-            ),
           ),
         ],
       ),
