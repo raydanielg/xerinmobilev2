@@ -12,6 +12,7 @@ class AuthTextField extends StatefulWidget {
   final String? Function(String?)? validator;
   final int? maxLength;
   final void Function(String)? onChanged;
+  final Widget? prefix;
 
   const AuthTextField({
     super.key,
@@ -19,13 +20,14 @@ class AuthTextField extends StatefulWidget {
     this.focusNode,
     required this.label,
     required this.hint,
-    required this.icon,
+    this.icon = Icons.text_fields,
     this.keyboardType,
     this.obscureText = false,
     this.suffix,
     this.validator,
     this.maxLength,
     this.onChanged,
+    this.prefix,
   });
 
   @override
