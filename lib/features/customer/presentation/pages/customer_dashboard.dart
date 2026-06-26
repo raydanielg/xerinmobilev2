@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../common/presentation/widgets/modern_bottom_nav.dart';
+import '../controllers/cart_controller.dart';
 import 'tabs/customer_cart_page.dart';
 import 'tabs/customer_explore_page.dart';
 import 'tabs/customer_home_page.dart';
@@ -16,14 +17,7 @@ class CustomerDashboard extends StatefulWidget {
 
 class _CustomerDashboardState extends State<CustomerDashboard> {
   int _selectedIndex = 0;
-
-  final List<NavItem> _navItems = const [
-    NavItem(icon: Icons.home_outlined, activeIcon: Icons.home_rounded, label: 'Home'),
-    NavItem(icon: Icons.explore_outlined, activeIcon: Icons.explore_rounded, label: 'Explore'),
-    NavItem(icon: Icons.shopping_cart_outlined, activeIcon: Icons.shopping_cart_rounded, label: 'Cart'),
-    NavItem(icon: Icons.favorite_outline_rounded, activeIcon: Icons.favorite_rounded, label: 'Wishlist'),
-    NavItem(icon: Icons.person_outline_rounded, activeIcon: Icons.person_rounded, label: 'Profile'),
-  ];
+  final _cartController = CartController();
 
   final List<Widget> _pages = const [
     CustomerHomePage(),
@@ -37,17 +31,47 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Scaffold(
-      backgroundColor: colorScheme.surface,
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: _pages,
-      ),
-      bottomNavigationBar: ModernBottomNav(
-        selectedIndex: _selectedIndex,
-        onTap: (index) => setState(() => _selectedIndex = index),
-        items: _navItems,
-      ),
+    return ListenableBuilder(
+      listenable: _cartController,
+      builder: (context, child) {
+        final navItems = [
+          const NavItem(
+              icon: Icons.home_outlined,
+              activeIcon: Icons.home_rounded,
+              label: 'Home'),
+          const NavItem(
+              icon: Icons.explore_outlined,
+              activeIcon: Icons.explore_rounded,
+              label: 'Explore'),
+          NavItem(
+            icon: Icons.shopping_cart_outlined,
+            activeIcon: Icons.shopping_cart_rounded,
+            label: 'Cart',
+            badgeCount: _cartController.count,
+          ),
+          const NavItem(
+              icon: Icons.favorite_outline_rounded,
+              activeIcon: Icons.favorite_rounded,
+              label: 'Wishlist'),
+          const NavItem(
+              icon: Icons.person_outline_rounded,
+              activeIcon: Icons.person_rounded,
+              label: 'Profile'),
+        ];
+
+        return Scaffold(
+          backgroundColor: colorScheme.surface,
+          body: IndexedStack(
+            index: _selectedIndex,
+            children: _pages,
+          ),
+          bottomNavigationBar: ModernBottomNav(
+            selectedIndex: _selectedIndex,
+            onTap: (index) => setState(() => _selectedIndex = index),
+            items: navItems,
+          ),
+        );
+      },
     );
   }
 }
