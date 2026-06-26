@@ -168,122 +168,91 @@ class _RegisterPageState extends State<RegisterPage>
                       ),
                     ),
                     const SizedBox(height: 32),
-                    TextFormField(
+                    AuthTextField(
                       controller: _nameCtrl,
                       focusNode: _nameNode,
+                      label: 'Full Name',
+                      hint: 'John Doe',
+                      icon: Icons.person_outlined,
                       textCapitalization: TextCapitalization.words,
                       validator: (v) =>
                           v == null || v.isEmpty ? 'Enter your full name' : null,
-                      decoration: InputDecoration(
-                        labelText: 'Full Name',
-                        hintText: 'John Doe',
-                        prefixIcon: Icon(
-                          Icons.person_outlined,
-                          color: _nameNode.hasFocus
-                              ? colorScheme.primary
-                              : colorScheme.onSurface.withValues(alpha: 0.35),
-                        ),
-                      ),
                     ),
                     const SizedBox(height: 16),
-                    TextFormField(
+                    AuthTextField(
                       controller: _emailCtrl,
                       focusNode: _emailNode,
+                      label: 'Email',
+                      hint: 'example@email.com',
+                      icon: Icons.email_outlined,
                       keyboardType: TextInputType.emailAddress,
                       validator: (v) =>
                           v == null || v.isEmpty ? 'Enter your email' : null,
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                        hintText: 'example@email.com',
-                        prefixIcon: Icon(
-                          Icons.email_outlined,
-                          color: _emailNode.hasFocus
-                              ? colorScheme.primary
-                              : colorScheme.onSurface.withValues(alpha: 0.35),
-                        ),
-                      ),
                     ),
                     const SizedBox(height: 16),
-                    TextFormField(
+                    AuthTextField(
                       controller: _phoneCtrl,
                       focusNode: _phoneNode,
+                      label: 'Phone Number',
+                      hint: '7XXXXXXXX',
+                      icon: Icons.phone_outlined,
                       keyboardType: TextInputType.phone,
-                      validator: (v) => v == null || v.isEmpty
-                          ? 'Enter your phone number'
-                          : null,
-                      decoration: InputDecoration(
-                        labelText: 'Phone Number',
-                        hintText: '+255 7XX XXX XXX',
-                        prefixIcon: Icon(
-                          Icons.phone_outlined,
-                          color: _phoneNode.hasFocus
-                              ? colorScheme.primary
-                              : colorScheme.onSurface.withValues(alpha: 0.35),
-                        ),
-                      ),
+                      maxLength: 9,
+                      validator: (v) {
+                        if (v == null || v.isEmpty) {
+                          return 'Enter your phone number';
+                        }
+                        if (v.length != 9) {
+                          return 'Phone number must be 9 digits';
+                        }
+                        if (!RegExp(r'^[67]\d{8}$').hasMatch(v)) {
+                          return 'Enter a valid Tanzania number';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 16),
-                    TextFormField(
+                    AuthTextField(
                       controller: _passCtrl,
                       focusNode: _passNode,
+                      label: 'Password',
+                      hint: 'Enter your password',
+                      icon: Icons.lock_outlined,
                       obscureText: _obscurePass,
                       validator: (v) =>
                           v == null || v.length < 6 ? 'Min 6 characters' : null,
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        hintText: '••••••••',
-                        prefixIcon: Icon(
-                          Icons.lock_outlined,
-                          color: _passNode.hasFocus
-                              ? colorScheme.primary
-                              : colorScheme.onSurface.withValues(alpha: 0.35),
+                      suffix: IconButton(
+                        icon: Icon(
+                          _obscurePass
+                              ? Icons.visibility_off_rounded
+                              : Icons.visibility_rounded,
+                          color: colorScheme.onSurface.withValues(alpha: 0.4),
+                          size: 20,
                         ),
-                        suffixIcon: Padding(
-                          padding: const EdgeInsets.only(right: 4),
-                          child: IconButton(
-                            icon: Icon(
-                              _obscurePass
-                                  ? Icons.visibility_off_rounded
-                                  : Icons.visibility_rounded,
-                              color: colorScheme.onSurface
-                                  .withValues(alpha: 0.35),
-                            ),
-                            onPressed: () =>
-                                setState(() => _obscurePass = !_obscurePass),
-                          ),
-                        ),
+                        onPressed: () =>
+                            setState(() => _obscurePass = !_obscurePass),
                       ),
                     ),
                     const SizedBox(height: 16),
-                    TextFormField(
+                    AuthTextField(
                       controller: _confirmPassCtrl,
                       focusNode: _confirmNode,
+                      label: 'Confirm Password',
+                      hint: 'Re-enter your password',
+                      icon: Icons.lock_outlined,
                       obscureText: _obscureConfirm,
                       validator: (v) =>
                           v != _passCtrl.text ? 'Passwords do not match' : null,
-                      decoration: InputDecoration(
-                        labelText: 'Confirm Password',
-                        hintText: '••••••••',
-                        prefixIcon: Icon(
-                          Icons.lock_outlined,
-                          color: _confirmNode.hasFocus
-                              ? colorScheme.primary
-                              : colorScheme.onSurface.withValues(alpha: 0.35),
+                      suffix: IconButton(
+                        icon: Icon(
+                          _obscureConfirm
+                              ? Icons.visibility_off_rounded
+                              : Icons.visibility_rounded,
+                          color: colorScheme.onSurface.withValues(alpha: 0.4),
+                          size: 20,
                         ),
-                        suffixIcon: Padding(
-                          padding: const EdgeInsets.only(right: 4),
-                          child: IconButton(
-                            icon: Icon(
-                              _obscureConfirm
-                                  ? Icons.visibility_off_rounded
-                                  : Icons.visibility_rounded,
-                              color: colorScheme.onSurface
-                                  .withValues(alpha: 0.35),
-                            ),
-                            onPressed: () => setState(
-                                () => _obscureConfirm = !_obscureConfirm),
-                          ),
-                        ),
+                        onPressed: () =>
+                            setState(() => _obscureConfirm = !_obscureConfirm),
                       ),
                     ),
                     const SizedBox(height: 24),
