@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../../../common/presentation/widgets/modern_bottom_nav.dart';
+import 'tabs/seller_analytics_page.dart';
+import 'tabs/seller_dashboard_page.dart';
+import 'tabs/seller_orders_page.dart';
+import 'tabs/seller_products_page.dart';
+import 'tabs/seller_profile_page.dart';
+
 class SellerDashboard extends StatefulWidget {
   const SellerDashboard({super.key});
 
