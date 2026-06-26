@@ -12,6 +12,7 @@ class AuthTextField extends StatefulWidget {
   final Widget? suffix;
   final String? Function(String?)? validator;
   final int? maxLength;
+  final int? maxLines;
   final void Function(String)? onChanged;
   final Widget? prefix;
 
@@ -28,6 +29,7 @@ class AuthTextField extends StatefulWidget {
     this.suffix,
     this.validator,
     this.maxLength,
+    this.maxLines = 1,
     this.onChanged,
     this.prefix,
   });
@@ -98,6 +100,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
             obscureText: widget.obscureText,
             validator: widget.validator,
             maxLength: widget.maxLength,
+            maxLines: widget.maxLines,
             onChanged: widget.onChanged,
             style: TextStyle(
               fontSize: 14,
