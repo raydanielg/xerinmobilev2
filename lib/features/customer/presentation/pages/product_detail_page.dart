@@ -226,77 +226,135 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               ),
               child: SafeArea(
                 top: false,
-                child: Row(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            'Total Price',
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: colorScheme.onSurface.withValues(alpha: 0.5),
-                            ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            widget.price,
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                              color: colorScheme.onSurface,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 54,
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          _cartController.addToCart(
-                            name: widget.name,
-                            price: widget.price,
-                            image: widget.image,
-                            category: widget.category,
-                          );
-                          setState(() => _added = true);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('${widget.name} added to cart'),
-                              backgroundColor: const Color(0xFF22C55E),
-                              behavior: SnackBarBehavior.floating,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Total Price',
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: colorScheme.onSurface.withValues(alpha: 0.5),
                               ),
                             ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: _added
-                              ? const Color(0xFF22C55E)
-                              : colorScheme.primary,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
+                            const SizedBox(height: 2),
+                            Text(
+                              widget.price,
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: colorScheme.onSurface,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 14),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            height: 54,
+                            child: ElevatedButton.icon(
+                              onPressed: () {
+                                _cartController.addToCart(
+                                  name: widget.name,
+                                  price: widget.price,
+                                  image: widget.image,
+                                  category: widget.category,
+                                );
+                                setState(() => _added = true);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('${widget.name} added to cart'),
+                                    backgroundColor: const Color(0xFF22C55E),
+                                    behavior: SnackBarBehavior.floating,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: _added
+                                    ? const Color(0xFF22C55E)
+                                    : colorScheme.onSurface.withValues(alpha: 0.05),
+                                foregroundColor: _added
+                                    ? Colors.white
+                                    : colorScheme.onSurface,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                elevation: 0,
+                              ),
+                              icon: Icon(
+                                _added
+                                    ? Icons.check_rounded
+                                    : Icons.shopping_cart_outlined,
+                                size: 20,
+                              ),
+                              label: Text(
+                                _added ? 'Added' : 'Add to Cart',
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
                           ),
-                          elevation: 0,
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
                         ),
-                        icon: Icon(
-                          _added ? Icons.check_rounded : Icons.shopping_cart_outlined,
-                          size: 20,
-                        ),
-                        label: Text(
-                          _added ? 'Added' : 'Add to Cart',
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: SizedBox(
+                            height: 54,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _cartController.addToCart(
+                                  name: widget.name,
+                                  price: widget.price,
+                                  image: widget.image,
+                                  category: widget.category,
+                                );
+                                context.go(AppConstants.homeRoute);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Proceeding to checkout for ${widget.name}',
+                                    ),
+                                    backgroundColor: const Color(0xFF22C55E),
+                                    behavior: SnackBarBehavior.floating,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: colorScheme.primary,
+                                foregroundColor: colorScheme.onPrimary,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                elevation: 0,
+                              ),
+                              child: const Text(
+                                'Buy Now',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
                   ],
                 ),
