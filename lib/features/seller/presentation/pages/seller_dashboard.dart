@@ -520,11 +520,12 @@ class _SellerDashboardState extends State<SellerDashboard> {
 
     return Column(
       children: products.map((product) {
-        final rankColor = product['rank'] == 1
+        final rank = product['rank'] as int;
+        final rankColor = rank == 1
             ? const Color(0xFFF59E0B)
-            : product['rank'] == 2
+            : rank == 2
                 ? const Color(0xFF9CA3AF)
-                : product['rank'] == 3
+                : rank == 3
                     ? const Color(0xFF92400E)
                     : Colors.transparent;
         return Container(
@@ -543,7 +544,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                 width: 36,
                 height: 36,
                 decoration: BoxDecoration(
-                  color: product['rank'] <= 3
+                  color: rank <= 3
                       ? rankColor.withValues(alpha: 0.15)
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(10),
@@ -554,7 +555,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
-                      color: product['rank'] <= 3
+                      color: rank <= 3
                           ? rankColor
                           : colorScheme.onSurface.withValues(alpha: 0.3),
                     ),
