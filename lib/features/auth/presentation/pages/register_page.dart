@@ -353,57 +353,40 @@ class _RegisterPageState extends State<RegisterPage>
   }
 
   Widget _buildSellerToggle(ColorScheme colorScheme) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      decoration: BoxDecoration(
-        color: _isSeller
-            ? colorScheme.primary.withValues(alpha: 0.08)
-            : colorScheme.surface,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: _isSeller
-              ? colorScheme.primary.withValues(alpha: 0.35)
-              : colorScheme.onSurface.withValues(alpha: 0.1),
-          width: 1.5,
-        ),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: _isSeller
-                  ? colorScheme.primary.withValues(alpha: 0.12)
-                  : colorScheme.onSurface.withValues(alpha: 0.06),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(
-              Icons.store_rounded,
-              color: _isSeller
-                  ? colorScheme.primary
-                  : colorScheme.onSurface.withValues(alpha: 0.4),
-              size: 24,
-            ),
-          ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Text(
-              'Become Seller',
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Become a Seller',
               style: TextStyle(
                 fontSize: 16,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w800,
                 color: _isSeller ? colorScheme.primary : colorScheme.onSurface,
               ),
             ),
-          ),
-          Switch.adaptive(
-            value: _isSeller,
-            onChanged: (v) => setState(() => _isSeller = v),
-            activeTrackColor: colorScheme.primary,
-          ),
-        ],
-      ),
+            const SizedBox(height: 2),
+            Text(
+              'Start selling your products',
+              style: TextStyle(
+                fontSize: 12,
+                color: colorScheme.onSurface.withValues(alpha: 0.5),
+              ),
+            ),
+          ],
+        ),
+        Switch.adaptive(
+          value: _isSeller,
+          onChanged: (v) => setState(() => _isSeller = v),
+          activeTrackColor: colorScheme.primary,
+          activeColor: colorScheme.onPrimary,
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
+      ],
     );
   }
 
