@@ -238,6 +238,13 @@ class _CustomerCartPageState extends State<CustomerCartPage> {
     );
   }
 
+  String _formatTzs(double amount) {
+    return amount.round().toString().replaceAllMapped(
+          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+          (match) => '${match[1]},',
+        );
+  }
+
   Widget _quantityButton(
       IconData icon, VoidCallback onTap, ColorScheme colorScheme) {
     return GestureDetector(
