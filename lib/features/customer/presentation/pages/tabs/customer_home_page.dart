@@ -764,7 +764,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
       transitionDuration: const Duration(milliseconds: 300),
       pageBuilder: (_, _, _) {
         return StatefulBuilder(
-          builder: (context, setModalState) {
+          builder: (modalContext, setModalState) {
             return Align(
               alignment: Alignment.centerRight,
               child: Material(
@@ -821,7 +821,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                               ],
                             ),
                             GestureDetector(
-                              onTap: () => Navigator.pop(context),
+                              onTap: () => Navigator.pop(modalContext),
                               child: Container(
                                 padding: const EdgeInsets.all(6),
                                 decoration: BoxDecoration(
@@ -885,7 +885,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                           height: 54,
                           child: ElevatedButton(
                             onPressed: () async {
-                              Navigator.pop(context);
+                              Navigator.pop(modalContext);
                               _showFilterLoadingDialog(context, colorScheme);
                               await Future.delayed(const Duration(seconds: 2));
                               if (!context.mounted) return;
