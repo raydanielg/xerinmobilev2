@@ -15,6 +15,8 @@ class AuthTextField extends StatefulWidget {
   final int? maxLines;
   final void Function(String)? onChanged;
   final Widget? prefix;
+  final BoxConstraints? prefixIconConstraints;
+  final EdgeInsetsGeometry? contentPadding;
 
   const AuthTextField({
     super.key,
