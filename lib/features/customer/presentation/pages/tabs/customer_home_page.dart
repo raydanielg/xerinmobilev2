@@ -8,6 +8,12 @@ class CustomerHomePage extends StatefulWidget {
 }
 
 class _CustomerHomePageState extends State<CustomerHomePage> {
+  final _searchCtrl = TextEditingController();
+  final _searchNode = FocusNode();
+  String _searchQuery = '';
+  String? _selectedCategory;
+  String? _selectedRegion;
+
   final List<_CategoryItem> _categories = const [
     _CategoryItem(icon: Icons.devices_rounded, label: 'Electronics'),
     _CategoryItem(icon: Icons.checkroom_rounded, label: 'Fashion'),
