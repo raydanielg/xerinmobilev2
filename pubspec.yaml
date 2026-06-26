@@ -57,7 +57,7 @@ dependencies:
   dartz: ^0.10.1
 
   # SVG rendering
-  flutter_svg: ^2.0.17
+  flutter_svg: ^2.0.18
 
 dev_dependencies:
   flutter_test:
