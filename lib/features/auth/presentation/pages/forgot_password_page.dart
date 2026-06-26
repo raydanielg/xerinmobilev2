@@ -228,36 +228,54 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
     );
   }
 
-  Widget _buildInputField({
+  Widget _buildPhoneInputField({
     required TextEditingController controller,
     required FocusNode focusNode,
-    required String label,
-    required String hint,
-    required IconData icon,
-    String? Function(String?)? validator,
-    TextInputType? keyboardType,
   }) {
     final colorScheme = Theme.of(context).colorScheme;
 
     return TextFormField(
       controller: controller,
       focusNode: focusNode,
-      keyboardType: keyboardType,
-      validator: validator,
+      keyboardType: TextInputType.phone,
+      maxLength: 9,
+      validator: (v) {
+        if (v == null || v.isEmpty) {
+          return 'Enter your phone number';
+        }
+        if (v.length != 9) {
+          return 'Phone number must be 9 digits';
+        }
+        if (!RegExp(r'^[67]\d{8}$').hasMatch(v)) {
+          return 'Enter a valid Tanzania number (e.g. 7XXXXXXXX)';
+        }
+        return null;
+      },
       style: TextStyle(
         fontSize: 15,
         color: colorScheme.onSurface,
+        letterSpacing: 0.5,
       ),
       decoration: InputDecoration(
-        labelText: label,
-        hintText: hint,
+        labelText: 'Phone Number',
+        hintText: '7XXXXXXXX',
+        counterText: '',
         floatingLabelBehavior: FloatingLabelBehavior.auto,
-        prefixIcon: Icon(
-          icon,
-          size: 20,
-          color: focusNode.hasFocus
-              ? colorScheme.primary
-              : colorScheme.onSurface.withValues(alpha: 0.4),
+        prefixIcon: Container(
+          margin: const EdgeInsets.only(left: 12, right: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          decoration: BoxDecoration(
+            color: colorScheme.primary.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Text(
+            _countryCode,
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: colorScheme.primary,
+            ),
+          ),
         ),
         filled: true,
         fillColor: colorScheme.surface.withValues(alpha: 0.5),
