@@ -103,7 +103,7 @@ class _OnboardingPageState extends State<OnboardingPage>
           Column(
             children: [
               Expanded(
-                flex: 5,
+                flex: 6,
                 child: PageView.builder(
                   controller: _pageController,
                   onPageChanged: _onPageChanged,
@@ -112,7 +112,10 @@ class _OnboardingPageState extends State<OnboardingPage>
                       _buildTopSection(_pages[index], colorScheme),
                 ),
               ),
-              _buildBottomSection(colorScheme),
+              Transform.translate(
+                offset: const Offset(0, -50),
+                child: _buildBottomSection(colorScheme),
+              ),
             ],
           ),
           if (_currentPage < _pages.length - 1)
@@ -169,7 +172,21 @@ class _OnboardingPageState extends State<OnboardingPage>
     final isLast = _currentPage == _pages.length - 1;
 
     return Container(
-      padding: const EdgeInsets.fromLTRB(32, 16, 32, 32),
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(40),
+          topRight: Radius.circular(40),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 20,
+            offset: const Offset(0, -5),
+          ),
+        ],
+      ),
+      padding: const EdgeInsets.fromLTRB(32, 32, 32, 32),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
