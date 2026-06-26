@@ -9,6 +9,7 @@ abstract class AppConstants {
   static const String signInRoute = '/sign-in';
   static const String registerRoute = '/register';
   static const String verifyOtpRoute = '/verify-otp';
+  static const String forgotPasswordRoute = '/forgot-password';
   static const String homeRoute = '/';
   static const String sellerDashboardRoute = '/seller-dashboard';
 
