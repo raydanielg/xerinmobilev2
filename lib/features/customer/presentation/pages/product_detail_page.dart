@@ -366,6 +366,116 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     );
   }
 
+  Widget _buildReviewsSection(ColorScheme colorScheme) {
+    final reviews = [
+      {'name': 'John M.', 'rating': 5, 'comment': 'Great quality, fast delivery!'},
+      {'name': 'Amina K.', 'rating': 4, 'comment': 'Nice product, worth the price.'},
+      {'name': 'David L.', 'rating': 5, 'comment': 'Exceeded my expectations.'},
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Reviews',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: colorScheme.onSurface,
+              ),
+            ),
+            Text(
+              '${reviews.length} reviews',
+              style: TextStyle(
+                fontSize: 12,
+                color: colorScheme.onSurface.withValues(alpha: 0.5),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Row(
+          children: [
+            ...List.generate(5, (index) {
+              return Icon(
+                index < widget.rating.round()
+                    ? Icons.star_rounded
+                    : Icons.star_border_rounded,
+                size: 18,
+                color: Colors.amber.shade700,
+              );
+            }),
+            const SizedBox(width: 8),
+            Text(
+              widget.rating.toStringAsFixed(1),
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: colorScheme.onSurface,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Column(
+          children: reviews.map((review) {
+            return Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: colorScheme.onSurface.withValues(alpha: 0.03),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: colorScheme.onSurface.withValues(alpha: 0.06),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        review['name'] as String,
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          color: colorScheme.onSurface,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      Row(
+                        children: List.generate(5, (index) {
+                          return Icon(
+                            index < (review['rating'] as int)
+                                ? Icons.star_rounded
+                                : Icons.star_border_rounded,
+                            size: 12,
+                            color: Colors.amber.shade700,
+                          );
+                        }),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    review['comment'] as String,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: colorScheme.onSurface.withValues(alpha: 0.6),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+
   Widget _buildFeature(String text, ColorScheme colorScheme) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
