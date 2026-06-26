@@ -116,7 +116,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
               counterText: '',
               filled: true,
               fillColor: colorScheme.surface.withValues(alpha: 0.6),
-              contentPadding:
+              contentPadding: widget.contentPadding ??
                   const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               prefixIcon: widget.prefix ??
                   Icon(
@@ -126,6 +126,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
                         ? colorScheme.primary
                         : colorScheme.onSurface.withValues(alpha: 0.4),
                   ),
+              prefixIconConstraints: widget.prefixIconConstraints,
               suffixIcon: widget.suffix,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
