@@ -283,13 +283,13 @@ class _OnboardingPageState extends State<OnboardingPage>
                       gradient: LinearGradient(
                         colors: [
                           colorScheme.primary,
-                          colorScheme.primary.withValues(alpha: 0.8),
+                          colorScheme.primary.withOpacity(0.8),
                         ],
                       ),
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: colorScheme.primary.withValues(alpha: 0.4),
+                          color: colorScheme.primary.withOpacity(0.4),
                           blurRadius: 20,
                           offset: const Offset(0, 8),
                         ),
@@ -314,13 +314,13 @@ class _OnboardingPageState extends State<OnboardingPage>
                       gradient: LinearGradient(
                         colors: [
                           colorScheme.primary,
-                          colorScheme.primary.withValues(alpha: 0.8),
+                          colorScheme.primary.withOpacity(0.8),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(30),
                       boxShadow: [
                         BoxShadow(
-                          color: colorScheme.primary.withValues(alpha: 0.4),
+                          color: colorScheme.primary.withOpacity(0.4),
                           blurRadius: 20,
                           offset: const Offset(0, 8),
                         ),
