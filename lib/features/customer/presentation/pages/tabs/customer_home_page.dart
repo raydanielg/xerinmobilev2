@@ -1446,7 +1446,8 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
           ),
         );
       },
-    );
+    ),
+  );
   }
 
   Widget _buildRecentOrders(ColorScheme colorScheme) {
