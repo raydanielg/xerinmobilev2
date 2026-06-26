@@ -7,6 +7,7 @@ class AuthTextField extends StatefulWidget {
   final String hint;
   final IconData icon;
   final TextInputType? keyboardType;
+  final TextCapitalization textCapitalization;
   final bool obscureText;
   final Widget? suffix;
   final String? Function(String?)? validator;
@@ -22,6 +23,7 @@ class AuthTextField extends StatefulWidget {
     required this.hint,
     this.icon = Icons.text_fields,
     this.keyboardType,
+    this.textCapitalization = TextCapitalization.none,
     this.obscureText = false,
     this.suffix,
     this.validator,
@@ -92,6 +94,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
             controller: widget.controller,
             focusNode: _effectiveFocusNode,
             keyboardType: widget.keyboardType,
+            textCapitalization: widget.textCapitalization,
             obscureText: widget.obscureText,
             validator: widget.validator,
             maxLength: widget.maxLength,
