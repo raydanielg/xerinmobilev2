@@ -1267,7 +1267,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
             width: 160,
             decoration: BoxDecoration(
               color: colorScheme.surface,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(14),
               border: Border.all(
                 color: colorScheme.onSurface.withValues(alpha: 0.06),
               ),
