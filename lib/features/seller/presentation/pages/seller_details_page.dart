@@ -161,7 +161,7 @@ class _SellerDetailsPageState extends State<SellerDetailsPage>
                     ),
                     const SizedBox(height: 16),
                     DropdownButtonFormField<String>(
-                      value: _shopCategory,
+                      initialValue: _shopCategory,
                       items: _categories.map((cat) {
                         return DropdownMenuItem(value: cat, child: Text(cat));
                       }).toList(),
