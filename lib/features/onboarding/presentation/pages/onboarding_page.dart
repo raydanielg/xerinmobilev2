@@ -407,6 +407,28 @@ class _CurveClipper extends CustomClipper<Path> {
   bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
 }
 
+class _UpwardCurveClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    final path = Path()
+      ..lineTo(0, 40)
+      ..quadraticBezierTo(
+        size.width * 0.5,
+        0,
+        size.width,
+        40,
+      )
+      ..lineTo(size.width, size.height)
+      ..lineTo(0, size.height)
+      ..close();
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
+}
+
 class AnimatedArrow extends StatefulWidget {
   final Color color;
   const AnimatedArrow({super.key, required this.color});
