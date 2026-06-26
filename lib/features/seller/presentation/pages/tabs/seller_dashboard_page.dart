@@ -10,15 +10,15 @@ class SellerDashboardPage extends StatefulWidget {
 class _SellerDashboardPageState extends State<SellerDashboardPage> {
   final List<_StatCard> _stats = const [
     _StatCard(
-      icon: Icons.attach_money_rounded,
+      icon: Icons.account_balance_wallet_outlined,
       label: 'Total Revenue',
-      value: '\$12,845',
+      value: 'TSh 32.1M',
       change: '+12.5%',
       isUp: true,
       color: Color(0xFF22C55E),
     ),
     _StatCard(
-      icon: Icons.shopping_bag_rounded,
+      icon: Icons.shopping_bag_outlined,
       label: 'Orders',
       value: '342',
       change: '+8.2%',
@@ -26,7 +26,7 @@ class _SellerDashboardPageState extends State<SellerDashboardPage> {
       color: Color(0xFFF47524),
     ),
     _StatCard(
-      icon: Icons.inventory_2_rounded,
+      icon: Icons.inventory_2_outlined,
       label: 'Products',
       value: '1,284',
       change: '+3.1%',
@@ -34,7 +34,7 @@ class _SellerDashboardPageState extends State<SellerDashboardPage> {
       color: Color(0xFF3B82F6),
     ),
     _StatCard(
-      icon: Icons.people_rounded,
+      icon: Icons.people_outline_rounded,
       label: 'Customers',
       value: '892',
       change: '+5.7%',
