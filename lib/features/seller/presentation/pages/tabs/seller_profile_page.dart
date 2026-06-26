@@ -136,7 +136,12 @@ class SellerProfilePage extends StatelessWidget {
                       size: 14,
                       color: colorScheme.onSurface.withValues(alpha: 0.3),
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      final route = item['route'] as String?;
+                      if (route != null) {
+                        context.go(route);
+                      }
+                    },
                   );
                 }).toList(),
               ),
