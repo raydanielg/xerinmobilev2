@@ -57,8 +57,22 @@ class _SignInPageState extends State<SignInPage>
     super.dispose();
   }
 
-  void _onSignIn() {
-    if (_formKey.currentState!.validate()) {
+  Future<void> _onSignIn() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() => _isLoading = true);
+
+    // Simulate API sign in request
+    await Future.delayed(const Duration(seconds: 2));
+
+    if (!mounted) return;
+
+    setState(() => _isLoading = false);
+
+    // Navigate based on role
+    if (_role == 'seller') {
+      context.go(AppConstants.sellerDashboardRoute);
+    } else {
       context.go(AppConstants.homeRoute);
     }
   }
@@ -192,23 +206,36 @@ class _SignInPageState extends State<SignInPage>
                       width: double.infinity,
                       height: 54,
                       child: ElevatedButton(
-                        onPressed: _onSignIn,
+                        onPressed: _isLoading ? null : _onSignIn,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: colorScheme.primary,
                           foregroundColor: colorScheme.onPrimary,
+                          disabledBackgroundColor: colorScheme.primary
+                              .withValues(alpha: 0.6),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
                           ),
                           elevation: 0,
                         ),
-                        child: const Text(
-                          'Sign In',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.3,
-                          ),
-                        ),
+                        child: _isLoading
+                            ? SizedBox(
+                                width: 22,
+                                height: 22,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2.5,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    colorScheme.onPrimary,
+                                  ),
+                                ),
+                              )
+                            : const Text(
+                                'Sign In',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 0.3,
+                                ),
+                              ),
                       ),
                     ),
                     const SizedBox(height: 36),

@@ -27,10 +27,31 @@ class _RegisterPageState extends State<RegisterPage>
   bool _obscurePass = true;
   bool _obscureConfirm = true;
   bool _agree = false;
+  bool _isSeller = false;
+
+  final _shopNameCtrl = TextEditingController();
+  final _shopDescCtrl = TextEditingController();
+  final _shopAddressCtrl = TextEditingController();
+  final _shopNameNode = FocusNode();
+  final _shopDescNode = FocusNode();
+  final _shopAddressNode = FocusNode();
+  String _shopCategory = 'Electronics';
+
+  final List<String> _categories = [
+    'Electronics',
+    'Fashion',
+    'Home & Garden',
+    'Food & Beverages',
+    'Health & Beauty',
+    'Sports',
+    'Books & Media',
+    'Other',
+  ];
 
   late final AnimationController _animCtrl;
   late final Animation<Offset> _slideAnim;
   late final Animation<double> _fadeAnim;
+  late final Animation<double> _sellerFieldsAnim;
 
   @override
   void initState() {
@@ -44,6 +65,10 @@ class _RegisterPageState extends State<RegisterPage>
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic));
     _fadeAnim = CurvedAnimation(parent: _animCtrl, curve: Curves.easeOut);
+    _sellerFieldsAnim = CurvedAnimation(
+      parent: _animCtrl,
+      curve: Curves.easeOutCubic,
+    );
     _animCtrl.forward();
   }
 
@@ -59,13 +84,23 @@ class _RegisterPageState extends State<RegisterPage>
     _phoneNode.dispose();
     _passNode.dispose();
     _confirmNode.dispose();
+    _shopNameCtrl.dispose();
+    _shopDescCtrl.dispose();
+    _shopAddressCtrl.dispose();
+    _shopNameNode.dispose();
+    _shopDescNode.dispose();
+    _shopAddressNode.dispose();
     _animCtrl.dispose();
     super.dispose();
   }
 
   void _onRegister() {
     if (_formKey.currentState!.validate() && _agree) {
-      context.go(AppConstants.verifyOtpRoute);
+      if (_isSeller) {
+        context.go(AppConstants.sellerOnboardingRoute);
+      } else {
+        context.go(AppConstants.verifyOtpRoute);
+      }
     }
   }
 
@@ -117,7 +152,9 @@ class _RegisterPageState extends State<RegisterPage>
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Join us and start shopping today',
+                      _isSeller
+                          ? 'Register your shop and start selling'
+                          : 'Join us and start shopping today',
                       style: TextStyle(
                         fontSize: 15,
                         color: colorScheme.onSurface.withValues(alpha: 0.45),
@@ -242,6 +279,21 @@ class _RegisterPageState extends State<RegisterPage>
                         ),
                       ),
                     ),
+                    const SizedBox(height: 24),
+                    _buildSellerToggle(colorScheme),
+                    AnimatedBuilder(
+                      animation: _sellerFieldsAnim,
+                      builder: (context, _) {
+                        return AnimatedCrossFade(
+                          duration: const Duration(milliseconds: 400),
+                          crossFadeState: _isSeller
+                              ? CrossFadeState.showFirst
+                              : CrossFadeState.showSecond,
+                          firstChild: _buildSellerFields(colorScheme),
+                          secondChild: const SizedBox.shrink(),
+                        );
+                      },
+                    ),
                     const SizedBox(height: 20),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -311,9 +363,11 @@ class _RegisterPageState extends State<RegisterPage>
                             ),
                             elevation: 0,
                           ),
-                          child: const Text(
-                            'Create Account',
-                            style: TextStyle(
+                          child: Text(
+                            _isSeller
+                                ? 'Register as Seller'
+                                : 'Create Account',
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                               letterSpacing: 0.3,
@@ -357,6 +411,186 @@ class _RegisterPageState extends State<RegisterPage>
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildSellerToggle(ColorScheme colorScheme) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: _isSeller
+            ? colorScheme.primary.withValues(alpha: 0.06)
+            : colorScheme.onSurface.withValues(alpha: 0.03),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: _isSeller
+              ? colorScheme.primary.withValues(alpha: 0.2)
+              : colorScheme.onSurface.withValues(alpha: 0.06),
+        ),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: _isSeller
+                  ? colorScheme.primary.withValues(alpha: 0.12)
+                  : colorScheme.onSurface.withValues(alpha: 0.06),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(
+              Icons.store_rounded,
+              color: _isSeller
+                  ? colorScheme.primary
+                  : colorScheme.onSurface.withValues(alpha: 0.35),
+              size: 22,
+            ),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Become a Seller',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: colorScheme.onSurface,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  'Register your shop & start selling',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: colorScheme.onSurface.withValues(alpha: 0.45),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Switch.adaptive(
+            value: _isSeller,
+            onChanged: (v) => setState(() => _isSeller = v),
+            activeColor: colorScheme.primary,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSellerFields(ColorScheme colorScheme) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 20),
+      child: Column(
+        children: [
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            decoration: BoxDecoration(
+              color: colorScheme.primary.withValues(alpha: 0.06),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.storefront_rounded,
+                    size: 16, color: colorScheme.primary),
+                const SizedBox(width: 8),
+                Text(
+                  'Shop Details',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: colorScheme.primary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          TextFormField(
+            controller: _shopNameCtrl,
+            focusNode: _shopNameNode,
+            textCapitalization: TextCapitalization.words,
+            validator: (v) =>
+                _isSeller && (v == null || v.isEmpty)
+                    ? 'Enter your shop name'
+                    : null,
+            decoration: InputDecoration(
+              labelText: 'Shop Name',
+              hintText: 'e.g. Xerin Fashion Store',
+              prefixIcon: Icon(
+                Icons.badge_outlined,
+                color: _shopNameNode.hasFocus
+                    ? colorScheme.primary
+                    : colorScheme.onSurface.withValues(alpha: 0.35),
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          DropdownButtonFormField<String>(
+            value: _shopCategory,
+            items: _categories.map((cat) {
+              return DropdownMenuItem(value: cat, child: Text(cat));
+            }).toList(),
+            onChanged: (v) => setState(() => _shopCategory = v ?? 'Electronics'),
+            decoration: InputDecoration(
+              labelText: 'Shop Category',
+              prefixIcon: Icon(
+                Icons.category_outlined,
+                color: colorScheme.onSurface.withValues(alpha: 0.35),
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          TextFormField(
+            controller: _shopDescCtrl,
+            focusNode: _shopDescNode,
+            maxLines: 3,
+            textCapitalization: TextCapitalization.sentences,
+            validator: (v) =>
+                _isSeller && (v == null || v.isEmpty)
+                    ? 'Enter a short description'
+                    : null,
+            decoration: InputDecoration(
+              labelText: 'Shop Description',
+              hintText: 'Tell customers about your shop...',
+              alignLabelWithHint: true,
+              prefixIcon: Padding(
+                padding: const EdgeInsets.only(bottom: 40),
+                child: Icon(
+                  Icons.description_outlined,
+                  color: _shopDescNode.hasFocus
+                      ? colorScheme.primary
+                      : colorScheme.onSurface.withValues(alpha: 0.35),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          TextFormField(
+            controller: _shopAddressCtrl,
+            focusNode: _shopAddressNode,
+            textCapitalization: TextCapitalization.sentences,
+            validator: (v) =>
+                _isSeller && (v == null || v.isEmpty)
+                    ? 'Enter your shop address'
+                    : null,
+            decoration: InputDecoration(
+              labelText: 'Shop Address',
+              hintText: 'e.g. Mlimani City, Dar es Salaam',
+              prefixIcon: Icon(
+                Icons.location_on_outlined,
+                color: _shopAddressNode.hasFocus
+                    ? colorScheme.primary
+                    : colorScheme.onSurface.withValues(alpha: 0.35),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
