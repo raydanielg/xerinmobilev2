@@ -94,7 +94,7 @@ class _RegisterPageState extends State<RegisterPage>
                   children: [
                     const SizedBox(height: 16),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         GestureDetector(
@@ -119,7 +119,8 @@ class _RegisterPageState extends State<RegisterPage>
                             ),
                           ),
                         ),
-                        _buildSellerToggle(colorScheme),
+                        const SizedBox(width: 12),
+                        Expanded(child: _buildSellerToggle(colorScheme)),
                       ],
                     ),
                     const SizedBox(height: 24),
