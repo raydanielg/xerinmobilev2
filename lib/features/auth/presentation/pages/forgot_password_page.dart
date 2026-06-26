@@ -18,6 +18,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
   final _phoneNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
   bool _isSubmitted = false;
+  static const String _countryCode = '+255';
 
   late final AnimationController _animCtrl;
   late final Animation<Offset> _slideAnim;
