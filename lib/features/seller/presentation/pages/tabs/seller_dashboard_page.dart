@@ -224,7 +224,7 @@ class _SellerDashboardPageState extends State<SellerDashboardPage> {
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 1.55,
+        childAspectRatio: 1.95,
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
       ),
@@ -232,88 +232,54 @@ class _SellerDashboardPageState extends State<SellerDashboardPage> {
       itemBuilder: (context, index) {
         final stat = _stats[index];
         return Container(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: stat.color.withValues(alpha: 0.06),
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(
-              color: stat.color.withValues(alpha: 0.12),
-            ),
+            color: colorScheme.surface,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.04),
+                blurRadius: 10,
+                offset: const Offset(0, 2),
+              ),
+            ],
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Row(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: 38,
-                    height: 38,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: stat.color.withValues(alpha: 0.2),
-                          blurRadius: 8,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: Icon(stat.icon, color: stat.color, size: 20),
-                  ),
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                    decoration: BoxDecoration(
-                      color: stat.isUp
-                          ? const Color(0xFF22C55E).withValues(alpha: 0.1)
-                          : const Color(0xFFE53935).withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          stat.isUp
-                              ? Icons.trending_up_rounded
-                              : Icons.trending_down_rounded,
-                          size: 12,
-                          color: stat.isUp
-                              ? const Color(0xFF22C55E)
-                              : const Color(0xFFE53935),
-                        ),
-                        const SizedBox(width: 2),
-                        Text(
-                          stat.change,
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w600,
-                            color: stat.isUp
-                                ? const Color(0xFF22C55E)
-                                : const Color(0xFFE53935),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Text(
-                stat.value,
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: colorScheme.onSurface,
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: stat.color.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(10),
                 ),
+                child: Icon(stat.icon, color: stat.color, size: 20),
               ),
-              Text(
-                stat.label,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: colorScheme.onSurface.withValues(alpha: 0.5),
-                  fontWeight: FontWeight.w500,
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      stat.value,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: colorScheme.onSurface,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      stat.label,
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: colorScheme.onSurface.withValues(alpha: 0.5),
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
