@@ -22,21 +22,21 @@ class _OnboardingPageState extends State<OnboardingPage>
   final List<_OnboardingItem> _pages = const [
     _OnboardingItem(
       image: 'assets/onboarding/1stonbaoidng .jpg',
-      title: 'Karibu Xerin',
+      title: 'Welcome to Xerin',
       description:
-          'Pata bidhaa bora na bei nafuu. Tembelea maduka yote kutoka kifaa chako.',
+          'Discover a marketplace built for everyone. Shop, sell, and connect with trusted vendors from one beautiful app.',
     ),
     _OnboardingItem(
       image: 'assets/onboarding/deliveryobaording.jpg',
-      title: 'Usafiri Haraka',
+      title: 'Fast Delivery',
       description:
-          'Pokea oda zako haraka zaidi. Tunaenda kwa wateja wote kwa muda mfupi.',
+          'From cart to doorstep in record time. We deliver your orders quickly, safely, and reliably — every single time.',
     ),
     _OnboardingItem(
       image: 'assets/onboarding/securepayemtbns.jpg',
-      title: 'Malipo Salama',
+      title: 'Secure Payments',
       description:
-          'Lipa kwa usalama kamili. Data na malipo yako yanatazamwa vizuri.',
+          'Pay with confidence using encrypted, secure transactions. Your data and money are always protected with us.',
     ),
   ];
 
