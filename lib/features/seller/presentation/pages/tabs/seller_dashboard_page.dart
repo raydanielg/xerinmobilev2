@@ -83,18 +83,52 @@ class _SellerDashboardPageState extends State<SellerDashboardPage> {
         Row(
           children: [
             Container(
-              width: 48,
-              height: 48,
+              width: 50,
+              height: 50,
+              padding: const EdgeInsets.all(3),
               decoration: BoxDecoration(
+                shape: BoxShape.circle,
                 gradient: LinearGradient(
                   colors: [
                     colorScheme.primary,
                     colorScheme.primary.withValues(alpha: 0.7),
                   ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(14),
+                boxShadow: [
+                  BoxShadow(
+                    color: colorScheme.primary.withValues(alpha: 0.25),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
-              child: const Icon(Icons.store_rounded, color: Colors.white, size: 26),
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                padding: const EdgeInsets.all(2),
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        colorScheme.primary,
+                        colorScheme.primary.withValues(alpha: 0.7),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.store_rounded,
+                    color: Colors.white,
+                    size: 24,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(width: 14),
             Column(
@@ -133,17 +167,53 @@ class _SellerDashboardPageState extends State<SellerDashboardPage> {
   }
 
   Widget _iconBtn(IconData icon, ColorScheme colorScheme) {
-    return Container(
-      width: 44,
-      height: 44,
-      decoration: BoxDecoration(
-        color: colorScheme.primary.withValues(alpha: 0.07),
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Icon(
-        icon,
-        color: colorScheme.onSurface.withValues(alpha: 0.6),
-        size: 22,
+    final hasBadge = icon == Icons.notifications_outlined;
+    return SizedBox(
+      width: 34,
+      height: 34,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Center(
+            child: Icon(
+              icon,
+              color: colorScheme.onSurface.withValues(alpha: 0.75),
+              size: 26,
+            ),
+          ),
+          if (hasBadge)
+            Positioned(
+              top: -2,
+              right: -2,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFE53935),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: colorScheme.surface,
+                    width: 1.5,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFFE53935).withValues(alpha: 0.5),
+                      blurRadius: 6,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: const Text(
+                  '3',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 9,
+                    fontWeight: FontWeight.bold,
+                    height: 1,
+                  ),
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
