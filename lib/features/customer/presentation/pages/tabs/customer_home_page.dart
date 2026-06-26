@@ -69,18 +69,52 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
         Row(
           children: [
             Container(
-              width: 48,
-              height: 48,
+              width: 50,
+              height: 50,
+              padding: const EdgeInsets.all(3),
               decoration: BoxDecoration(
+                shape: BoxShape.circle,
                 gradient: LinearGradient(
                   colors: [
                     colorScheme.primary,
                     colorScheme.primary.withValues(alpha: 0.7),
                   ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(14),
+                boxShadow: [
+                  BoxShadow(
+                    color: colorScheme.primary.withValues(alpha: 0.25),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
-              child: const Icon(Icons.person_rounded, color: Colors.white, size: 26),
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                padding: const EdgeInsets.all(2),
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        colorScheme.primary,
+                        colorScheme.primary.withValues(alpha: 0.7),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.person_rounded,
+                    color: Colors.white,
+                    size: 24,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(width: 14),
             Column(
