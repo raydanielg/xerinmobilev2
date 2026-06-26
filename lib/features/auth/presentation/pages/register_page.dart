@@ -490,7 +490,7 @@ class _RegisterPageState extends State<RegisterPage>
           value: _isSeller,
           onChanged: (v) => setState(() => _isSeller = v),
           activeTrackColor: colorScheme.primary,
-          activeColor: colorScheme.onPrimary,
+          activeThumbColor: colorScheme.onPrimary,
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
       ],
