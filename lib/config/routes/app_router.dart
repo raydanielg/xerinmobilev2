@@ -64,6 +64,19 @@ class AppRouter {
         },
       ),
       GoRoute(
+        path: AppConstants.productDetailRoute,
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return ProductDetailPage(
+            name: extra?['name'] as String? ?? 'Product',
+            price: extra?['price'] as String? ?? '\$0.00',
+            image: extra?['image'] as String? ?? '',
+            category: extra?['category'] as String? ?? 'All',
+            rating: (extra?['rating'] as num?)?.toDouble() ?? 4.5,
+          );
+        },
+      ),
+      GoRoute(
         path: AppConstants.sellerDashboardRoute,
         builder: (context, state) => const SellerDashboard(),
       ),
