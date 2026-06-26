@@ -116,7 +116,7 @@ class _OnboardingPageState extends State<OnboardingPage>
               ),
               Transform.translate(
                 offset: const Offset(0, -50),
-                child: _buildBottomSection(colorScheme),
+                child: _buildBottomSection(colorScheme, isDark),
               ),
             ],
           ),
