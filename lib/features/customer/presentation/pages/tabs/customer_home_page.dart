@@ -60,6 +60,12 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    _searchNode.addListener(() => setState(() {}));
+  }
+
+  @override
   void dispose() {
     _searchCtrl.dispose();
     _searchNode.dispose();
@@ -454,25 +460,42 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
 
   Widget _buildSearchBar(ColorScheme colorScheme) {
     return Container(
-      height: 50,
+      height: 54,
       decoration: BoxDecoration(
-        color: colorScheme.primary.withValues(alpha: 0.06),
-        borderRadius: BorderRadius.circular(16),
+        color: colorScheme.surface,
+        borderRadius: BorderRadius.circular(18),
         border: Border.all(
-          color: colorScheme.primary.withValues(alpha: 0.1),
+          color: _searchNode.hasFocus
+              ? colorScheme.primary
+              : colorScheme.onSurface.withValues(alpha: 0.08),
+          width: _searchNode.hasFocus ? 2 : 1,
         ),
+        boxShadow: [
+          BoxShadow(
+            color: colorScheme.primary.withValues(
+              alpha: _searchNode.hasFocus ? 0.15 : 0.05,
+            ),
+            blurRadius: _searchNode.hasFocus ? 16 : 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Row(
         children: [
           const SizedBox(width: 16),
           Icon(
             Icons.search_rounded,
-            color: colorScheme.onSurface.withValues(alpha: 0.35),
+            color: _searchNode.hasFocus
+                ? colorScheme.primary
+                : colorScheme.onSurface.withValues(alpha: 0.35),
             size: 22,
           ),
           const SizedBox(width: 12),
           Expanded(
             child: TextField(
+              controller: _searchCtrl,
+              focusNode: _searchNode,
+              onChanged: (v) => setState(() => _searchQuery = v.trim().toLowerCase()),
               decoration: InputDecoration(
                 hintText: 'Search products...',
                 hintStyle: TextStyle(
@@ -486,18 +509,376 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
               ),
             ),
           ),
-          Container(
-            margin: const EdgeInsets.all(6),
-            width: 38,
-            height: 38,
-            decoration: BoxDecoration(
-              color: colorScheme.primary,
-              borderRadius: BorderRadius.circular(12),
+          if (_searchQuery.isNotEmpty)
+            GestureDetector(
+              onTap: () {
+                _searchCtrl.clear();
+                setState(() => _searchQuery = '');
+              },
+              child: Icon(
+                Icons.close_rounded,
+                color: colorScheme.onSurface.withValues(alpha: 0.4),
+                size: 20,
+              ),
             ),
-            child: const Icon(Icons.tune_rounded, color: Colors.white, size: 20),
+          const SizedBox(width: 8),
+          GestureDetector(
+            onTap: () => _showFilterSheet(context, colorScheme),
+            child: Container(
+              margin: const EdgeInsets.all(6),
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    colorScheme.primary,
+                    colorScheme.primary.withValues(alpha: 0.8),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: colorScheme.primary.withValues(alpha: 0.3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: const Icon(Icons.tune_rounded, color: Colors.white, size: 20),
+            ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildSearchResults(ColorScheme colorScheme) {
+    final results = _allProducts.where((p) {
+      final matchesQuery = _searchQuery.isEmpty ||
+          (p['name'] as String).toLowerCase().contains(_searchQuery);
+      final matchesCategory = _selectedCategory == null ||
+          p['category'] == _selectedCategory;
+      final matchesRegion = _selectedRegion == null ||
+          p['region'] == _selectedRegion;
+      return matchesQuery && matchesCategory && matchesRegion;
+    }).toList();
+
+    if (results.isEmpty) {
+      return Container(
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: colorScheme.surface,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(
+            color: colorScheme.onSurface.withValues(alpha: 0.06),
+          ),
+        ),
+        child: Center(
+          child: Column(
+            children: [
+              Icon(
+                Icons.search_off_rounded,
+                size: 48,
+                color: colorScheme.onSurface.withValues(alpha: 0.2),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                'No products found',
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  color: colorScheme.onSurface.withValues(alpha: 0.5),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Search Results',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: colorScheme.onSurface,
+              ),
+            ),
+            Text(
+              '${results.length} found',
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: colorScheme.primary,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 14),
+        Column(
+          children: results.map((product) {
+            return Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: colorScheme.surface,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: colorScheme.onSurface.withValues(alpha: 0.06),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    width: 48,
+                    height: 48,
+                    decoration: BoxDecoration(
+                      color: colorScheme.primary.withValues(alpha: 0.08),
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: Icon(
+                      product['icon'] as IconData,
+                      color: colorScheme.primary,
+                      size: 24,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          product['name'] as String,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: colorScheme.onSurface,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          '${product['category']} • ${product['region']}',
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: colorScheme.onSurface.withValues(alpha: 0.45),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Text(
+                    product['price'] as String,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: colorScheme.primary,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+
+  void _showFilterSheet(BuildContext context, ColorScheme colorScheme) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return Container(
+              margin: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: colorScheme.surface,
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.1),
+                    blurRadius: 24,
+                    offset: const Offset(0, 8),
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Filter Products',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: colorScheme.onSurface,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: colorScheme.onSurface.withValues(alpha: 0.06),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.close_rounded,
+                            size: 18,
+                            color: colorScheme.onSurface.withValues(alpha: 0.5),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    'Category',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: colorScheme.onSurface,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: _categories.map((cat) {
+                      final isSelected = _selectedCategory == cat.label;
+                      return ChoiceChip(
+                        label: Text(cat.label),
+                        selected: isSelected,
+                        onSelected: (selected) {
+                          setModalState(() {
+                            _selectedCategory = selected ? cat.label : null;
+                          });
+                        },
+                        selectedColor: colorScheme.primary.withValues(alpha: 0.15),
+                        backgroundColor: colorScheme.onSurface.withValues(alpha: 0.05),
+                        labelStyle: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: isSelected ? colorScheme.primary : colorScheme.onSurface,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          side: BorderSide(
+                            color: isSelected
+                                ? colorScheme.primary
+                                : colorScheme.onSurface.withValues(alpha: 0.08),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    'Region / Location',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: colorScheme.onSurface,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: _regions.map((region) {
+                      final isSelected = _selectedRegion == region;
+                      return ChoiceChip(
+                        label: Text(region),
+                        selected: isSelected,
+                        onSelected: (selected) {
+                          setModalState(() {
+                            _selectedRegion = selected ? region : null;
+                          });
+                        },
+                        selectedColor: colorScheme.primary.withValues(alpha: 0.15),
+                        backgroundColor: colorScheme.onSurface.withValues(alpha: 0.05),
+                        labelStyle: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: isSelected ? colorScheme.primary : colorScheme.onSurface,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          side: BorderSide(
+                            color: isSelected
+                                ? colorScheme.primary
+                                : colorScheme.onSurface.withValues(alpha: 0.08),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                  const SizedBox(height: 24),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 54,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        setState(() {
+                          _searchQuery = _searchCtrl.text.trim().toLowerCase();
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: colorScheme.primary,
+                        foregroundColor: colorScheme.onPrimary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        elevation: 0,
+                      ),
+                      child: const Text(
+                        'Apply Filters',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    width: double.infinity,
+                    child: TextButton(
+                      onPressed: () {
+                        setModalState(() {
+                          _selectedCategory = null;
+                          _selectedRegion = null;
+                        });
+                      },
+                      style: TextButton.styleFrom(
+                        foregroundColor: colorScheme.onSurface.withValues(alpha: 0.6),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                      ),
+                      child: const Text(
+                        'Clear Filters',
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
     );
   }
 
