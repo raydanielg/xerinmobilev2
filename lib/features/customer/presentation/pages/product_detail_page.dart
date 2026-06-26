@@ -167,6 +167,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             ),
                           ),
                           const SizedBox(height: 20),
+                          _buildReviewsSection(colorScheme),
+                          const SizedBox(height: 20),
                           Text(
                             'Description',
                             style: TextStyle(
