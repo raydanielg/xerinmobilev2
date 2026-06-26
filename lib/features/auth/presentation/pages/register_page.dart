@@ -158,6 +158,8 @@ class _RegisterPageState extends State<RegisterPage>
                       ),
                     ),
                     const SizedBox(height: 8),
+                    _buildSellerToggle(colorScheme),
+                    const SizedBox(height: 8),
                     Text(
                       _isSeller
                           ? 'Register your shop and start selling'
@@ -255,8 +257,7 @@ class _RegisterPageState extends State<RegisterPage>
                             setState(() => _obscureConfirm = !_obscureConfirm),
                       ),
                     ),
-                    const SizedBox(height: 24),
-                    _buildSellerToggle(colorScheme),
+                    const SizedBox(height: 16),
                     AnimatedBuilder(
                       animation: _sellerFieldsAnim,
                       builder: (context, _) {
@@ -393,16 +394,17 @@ class _RegisterPageState extends State<RegisterPage>
 
   Widget _buildSellerToggle(ColorScheme colorScheme) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
         color: _isSeller
-            ? colorScheme.primary.withValues(alpha: 0.06)
-            : colorScheme.onSurface.withValues(alpha: 0.03),
+            ? colorScheme.primary.withValues(alpha: 0.08)
+            : colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: _isSeller
-              ? colorScheme.primary.withValues(alpha: 0.2)
-              : colorScheme.onSurface.withValues(alpha: 0.06),
+              ? colorScheme.primary.withValues(alpha: 0.35)
+              : colorScheme.onSurface.withValues(alpha: 0.1),
+          width: 1.5,
         ),
       ),
       child: Row(
@@ -420,37 +422,25 @@ class _RegisterPageState extends State<RegisterPage>
               Icons.store_rounded,
               color: _isSeller
                   ? colorScheme.primary
-                  : colorScheme.onSurface.withValues(alpha: 0.35),
-              size: 22,
+                  : colorScheme.onSurface.withValues(alpha: 0.4),
+              size: 24,
             ),
           ),
           const SizedBox(width: 14),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Become a Seller',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: colorScheme.onSurface,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  'Register your shop & start selling',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: colorScheme.onSurface.withValues(alpha: 0.45),
-                  ),
-                ),
-              ],
+            child: Text(
+              'Become Seller',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: _isSeller ? colorScheme.primary : colorScheme.onSurface,
+              ),
             ),
           ),
           Switch.adaptive(
             value: _isSeller,
             onChanged: (v) => setState(() => _isSeller = v),
+            activeTrackColor: colorScheme.primary,
           ),
         ],
       ),
