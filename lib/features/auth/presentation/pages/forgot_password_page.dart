@@ -36,14 +36,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
     ).animate(CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic));
     _fadeAnim = CurvedAnimation(parent: _animCtrl, curve: Curves.easeOut);
     _animCtrl.forward();
-    _emailNode.addListener(() => setState(() {}));
+    _phoneNode.addListener(() => setState(() {}));
   }
 
   @override
   void dispose() {
-    _emailCtrl.dispose();
-    _emailNode.removeListener(() {});
-    _emailNode.dispose();
+    _phoneCtrl.dispose();
+    _phoneNode.removeListener(() {});
+    _phoneNode.dispose();
     _animCtrl.dispose();
     super.dispose();
   }
@@ -110,7 +110,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      'Enter your email address and we will send you a link to reset your password.',
+                      'Enter your phone number and we will send you a verification code to reset your password.',
                       style: TextStyle(
                         fontSize: 15,
                         color: colorScheme.onSurface.withValues(alpha: 0.45),
@@ -119,15 +119,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                     ),
                     const SizedBox(height: 40),
                     if (!_isSubmitted)
-                      _buildInputField(
-                        controller: _emailCtrl,
-                        focusNode: _emailNode,
-                        label: 'Email',
-                        hint: 'name@email.com',
-                        icon: Icons.email_outlined,
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (v) =>
-                            v == null || v.isEmpty ? 'Enter your email' : null,
+                      _buildPhoneInputField(
+                        controller: _phoneCtrl,
+                        focusNode: _phoneNode,
                       )
                     else
                       Container(
