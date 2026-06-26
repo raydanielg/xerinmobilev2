@@ -971,29 +971,65 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
             color: colorScheme.onSurface,
           ),
         ),
-        const SizedBox(height: 12),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
+        const SizedBox(height: 10),
+        Column(
           children: options.map((option) {
             final isSelected = selectedValue == option;
-            return ChoiceChip(
-              label: Text(option),
-              selected: isSelected,
-              onSelected: (_) => onSelected(option),
-              selectedColor: colorScheme.primary.withValues(alpha: 0.15),
-              backgroundColor: colorScheme.onSurface.withValues(alpha: 0.05),
-              labelStyle: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: isSelected ? colorScheme.primary : colorScheme.onSurface,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-                side: BorderSide(
+            return GestureDetector(
+              onTap: () => onSelected(option),
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                decoration: BoxDecoration(
                   color: isSelected
-                      ? colorScheme.primary
-                      : colorScheme.onSurface.withValues(alpha: 0.08),
+                      ? colorScheme.primary.withValues(alpha: 0.08)
+                      : colorScheme.onSurface.withValues(alpha: 0.03),
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(
+                    color: isSelected
+                        ? colorScheme.primary
+                        : colorScheme.onSurface.withValues(alpha: 0.08),
+                    width: isSelected ? 1.5 : 1,
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      width: 22,
+                      height: 22,
+                      decoration: BoxDecoration(
+                        color: isSelected ? colorScheme.primary : Colors.transparent,
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(
+                          color: isSelected
+                              ? colorScheme.primary
+                              : colorScheme.onSurface.withValues(alpha: 0.3),
+                          width: 1.5,
+                        ),
+                      ),
+                      child: isSelected
+                          ? Icon(
+                              Icons.check_rounded,
+                              color: colorScheme.onPrimary,
+                              size: 16,
+                            )
+                          : null,
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        option,
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                          color: isSelected
+                              ? colorScheme.primary
+                              : colorScheme.onSurface.withValues(alpha: 0.75),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             );
