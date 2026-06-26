@@ -4,11 +4,13 @@ class NavItem {
   final IconData icon;
   final IconData? activeIcon;
   final String label;
+  final int badgeCount;
 
   const NavItem({
     required this.icon,
     this.activeIcon,
     required this.label,
+    this.badgeCount = 0,
   });
 }
 
@@ -80,10 +82,39 @@ class ModernBottomNav extends StatelessWidget {
                     AnimatedScale(
                       scale: isActive ? 1.1 : 1.0,
                       duration: const Duration(milliseconds: 200),
-                      child: Icon(
-                        isActive ? (item.activeIcon ?? item.icon) : item.icon,
-                        color: isActive ? active : inactive,
-                        size: 22,
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Icon(
+                            isActive ? (item.activeIcon ?? item.icon) : item.icon,
+                            color: isActive ? active : inactive,
+                            size: 22,
+                          ),
+                          if (item.badgeCount > 0)
+                            Positioned(
+                              top: -6,
+                              right: -8,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 5, vertical: 2),
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFFE53935),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Text(
+                                  item.badgeCount > 99
+                                      ? '99+'
+                                      : item.badgeCount.toString(),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 8,
+                                    fontWeight: FontWeight.bold,
+                                    height: 1,
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
                     ),
                     AnimatedSize(
