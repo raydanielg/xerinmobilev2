@@ -55,11 +55,18 @@ class AppRouter {
         builder: (context, state) => const SellerOnboardingPage(),
       ),
       GoRoute(
+        path: AppConstants.sellerDetailsRoute,
+        builder: (context, state) => const SellerDetailsPage(),
+      ),
+      GoRoute(
         path: AppConstants.registrationSuccessRoute,
-        builder: (context, state) => const RegistrationSuccessPage(
-          isSeller: true,
-          shopName: 'XerinMart Store',
-        ),
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return RegistrationSuccessPage(
+            isSeller: extra?['isSeller'] as bool? ?? true,
+            shopName: extra?['shopName'] as String? ?? 'XerinMart Store',
+          );
+        },
       ),
     ],
     errorBuilder: (context, state) => Scaffold(
