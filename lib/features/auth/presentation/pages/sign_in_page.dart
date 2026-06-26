@@ -38,12 +38,17 @@ class _SignInPageState extends State<SignInPage>
     ).animate(CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic));
     _fadeAnim = CurvedAnimation(parent: _animCtrl, curve: Curves.easeOut);
     _animCtrl.forward();
+
+    _emailNode.addListener(() => setState(() {}));
+    _passNode.addListener(() => setState(() {}));
   }
 
   @override
   void dispose() {
     _emailCtrl.dispose();
     _passCtrl.dispose();
+    _emailNode.removeListener(() {});
+    _passNode.removeListener(() {});
     _emailNode.dispose();
     _passNode.dispose();
     _animCtrl.dispose();
@@ -241,36 +246,77 @@ class _SignInPageState extends State<SignInPage>
     );
   }
 
-  Widget _socialButton({
-    required IconData icon,
+  Widget _buildInputField({
+    required TextEditingController controller,
+    required FocusNode focusNode,
     required String label,
-    required ColorScheme colorScheme,
+    required String hint,
+    required IconData icon,
+    String? Function(String?)? validator,
+    TextInputType? keyboardType,
+    bool obscureText = false,
+    Widget? suffix,
   }) {
-    return OutlinedButton(
-      onPressed: () {},
-      style: OutlinedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: 14),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
-        ),
-        side: BorderSide(
-          color: colorScheme.onSurface.withValues(alpha: 0.1),
-        ),
-        backgroundColor: colorScheme.surface,
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return TextFormField(
+      controller: controller,
+      focusNode: focusNode,
+      keyboardType: keyboardType,
+      obscureText: obscureText,
+      validator: validator,
+      style: TextStyle(
+        fontSize: 15,
+        color: colorScheme.onSurface,
       ),
-      child: Column(
-        children: [
-          Icon(icon, size: 22, color: colorScheme.onSurface.withValues(alpha: 0.55)),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w500,
-              color: colorScheme.onSurface.withValues(alpha: 0.55),
-            ),
+      decoration: InputDecoration(
+        labelText: label,
+        hintText: hint,
+        floatingLabelBehavior: FloatingLabelBehavior.auto,
+        prefixIcon: Icon(
+          icon,
+          size: 20,
+          color: focusNode.hasFocus
+              ? colorScheme.primary
+              : colorScheme.onSurface.withValues(alpha: 0.4),
+        ),
+        suffixIcon: suffix,
+        filled: true,
+        fillColor: colorScheme.surface.withValues(alpha: 0.5),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(
+            color: colorScheme.onSurface.withValues(alpha: 0.12),
           ),
-        ],
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(
+            color: colorScheme.onSurface.withValues(alpha: 0.12),
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(
+            color: colorScheme.primary,
+            width: 1.5,
+          ),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(
+            color: colorScheme.error,
+          ),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(
+            color: colorScheme.error,
+            width: 1.5,
+          ),
+        ),
       ),
     );
   }
