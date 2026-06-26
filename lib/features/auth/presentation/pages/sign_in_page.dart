@@ -115,8 +115,8 @@ class _SignInPageState extends State<SignInPage>
                         letterSpacing: 0.2,
                       ),
                     ),
-                    const SizedBox(height: 44),
-                    _buildInputField(
+                    const SizedBox(height: 36),
+                    AuthTextField(
                       controller: _emailCtrl,
                       focusNode: _emailNode,
                       label: 'Email',
@@ -127,7 +127,7 @@ class _SignInPageState extends State<SignInPage>
                           v == null || v.isEmpty ? 'Enter your email' : null,
                     ),
                     const SizedBox(height: 18),
-                    _buildInputField(
+                    AuthTextField(
                       controller: _passCtrl,
                       focusNode: _passNode,
                       label: 'Password',
