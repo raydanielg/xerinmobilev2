@@ -391,3 +391,53 @@ class _CurveClipper extends CustomClipper<Path> {
   @override
   bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
 }
+
+class AnimatedArrow extends StatefulWidget {
+  final Color color;
+  const AnimatedArrow({super.key, required this.color});
+
+  @override
+  State<AnimatedArrow> createState() => _AnimatedArrowState();
+}
+
+class _AnimatedArrowState extends State<AnimatedArrow>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    )..repeat(reverse: true);
+    _animation = Tween<double>(begin: 0, end: 6).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (context, child) {
+        return Transform.translate(
+          offset: Offset(_animation.value, 0),
+          child: child,
+        );
+      },
+      child: Icon(
+        Icons.arrow_forward_rounded,
+        color: widget.color,
+        size: 24,
+      ),
+    );
+  }
+}
