@@ -41,17 +41,12 @@ class _SignInPageState extends State<SignInPage>
     ).animate(CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic));
     _fadeAnim = CurvedAnimation(parent: _animCtrl, curve: Curves.easeOut);
     _animCtrl.forward();
-
-    _emailNode.addListener(() => setState(() {}));
-    _passNode.addListener(() => setState(() {}));
   }
 
   @override
   void dispose() {
     _emailCtrl.dispose();
     _passCtrl.dispose();
-    _emailNode.removeListener(() {});
-    _passNode.removeListener(() {});
     _emailNode.dispose();
     _passNode.dispose();
     _animCtrl.dispose();
@@ -373,78 +368,4 @@ class _SignInPageState extends State<SignInPage>
     );
   }
 
-  Widget _buildInputField({
-    required TextEditingController controller,
-    required FocusNode focusNode,
-    required String label,
-    required String hint,
-    required IconData icon,
-    String? Function(String?)? validator,
-    TextInputType? keyboardType,
-    bool obscureText = false,
-    Widget? suffix,
-  }) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return TextFormField(
-      controller: controller,
-      focusNode: focusNode,
-      keyboardType: keyboardType,
-      obscureText: obscureText,
-      validator: validator,
-      style: TextStyle(
-        fontSize: 15,
-        color: colorScheme.onSurface,
-      ),
-      decoration: InputDecoration(
-        labelText: label,
-        hintText: hint,
-        floatingLabelBehavior: FloatingLabelBehavior.auto,
-        prefixIcon: Icon(
-          icon,
-          size: 20,
-          color: focusNode.hasFocus
-              ? colorScheme.primary
-              : colorScheme.onSurface.withValues(alpha: 0.4),
-        ),
-        suffixIcon: suffix,
-        filled: true,
-        fillColor: colorScheme.surface.withValues(alpha: 0.5),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(
-            color: colorScheme.onSurface.withValues(alpha: 0.12),
-          ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(
-            color: colorScheme.onSurface.withValues(alpha: 0.12),
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(
-            color: colorScheme.primary,
-            width: 1.5,
-          ),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(
-            color: colorScheme.error,
-          ),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(
-            color: colorScheme.error,
-            width: 1.5,
-          ),
-        ),
-      ),
-    );
-  }
 }
