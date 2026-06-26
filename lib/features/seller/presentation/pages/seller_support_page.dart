@@ -228,7 +228,7 @@ class _SellerSupportPageState extends State<SellerSupportPage>
                           colorScheme: colorScheme,
                         ),
                       );
-                    }).toList(),
+                    }),
                     const SizedBox(height: 24),
                     Text(
                       'Send Message',

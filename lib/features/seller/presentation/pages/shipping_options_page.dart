@@ -234,7 +234,7 @@ class _ShippingOptionsPageState extends State<ShippingOptionsPage>
                           ),
                         ),
                       );
-                    }).toList(),
+                    }),
                     const SizedBox(height: 16),
                     Container(
                       padding: const EdgeInsets.all(16),
