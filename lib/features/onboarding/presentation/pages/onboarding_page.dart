@@ -333,8 +333,9 @@ class _OnboardingPageState extends State<OnboardingPage>
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildDot(int index, ColorScheme colorScheme) {
     final isActive = index == _currentPage;
