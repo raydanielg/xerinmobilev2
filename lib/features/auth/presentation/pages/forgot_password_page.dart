@@ -222,12 +222,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                           ),
                         ),
                         prefixIconConstraints: const BoxConstraints(
-                          minWidth: 100,
+                          minWidth: 120,
                           minHeight: 40,
-                          maxWidth: 100,
+                          maxWidth: 120,
                         ),
                         contentPadding: const EdgeInsets.only(
-                          left: 110,
+                          left: 130,
                           right: 16,
                           top: 16,
                           bottom: 16,
