@@ -30,15 +30,36 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
     _CategoryItem(icon: Icons.more_horiz_rounded, label: 'More'),
   ];
 
-  final List<Map<String, dynamic>> _featured = List.generate(
-    4,
-    (i) => {
-      'name': 'Product ${i + 1}',
-      'price': '\$${(i + 1) * 15}.99',
-      'rating': 4.5 + (i * 0.1),
-      'image': Icons.shopping_bag_rounded,
+  final List<Map<String, dynamic>> _featured = const [
+    {
+      'name': 'Wireless Headphones',
+      'price': '\$129.99',
+      'rating': 4.8,
+      'image': 'https://picsum.photos/seed/headphones/300/400',
+      'category': 'Electronics',
     },
-  );
+    {
+      'name': 'Running Shoes',
+      'price': '\$89.50',
+      'rating': 4.6,
+      'image': 'https://picsum.photos/seed/shoes/300/400',
+      'category': 'Sports',
+    },
+    {
+      'name': 'Smart Watch',
+      'price': '\$249.00',
+      'rating': 4.9,
+      'image': 'https://picsum.photos/seed/watch/300/400',
+      'category': 'Electronics',
+    },
+    {
+      'name': 'Designer Bag',
+      'price': '\$59.99',
+      'rating': 4.4,
+      'image': 'https://picsum.photos/seed/bag/300/400',
+      'category': 'Fashion',
+    },
+  ];
 
   final List<Map<String, dynamic>> _allProducts = const [
     {'name': 'Wireless Headphones', 'price': '\$129.99', 'category': 'Electronics', 'region': 'Dar es Salaam', 'icon': Icons.headphones_rounded},
