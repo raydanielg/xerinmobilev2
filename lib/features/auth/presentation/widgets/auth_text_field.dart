@@ -108,13 +108,14 @@ class _AuthTextFieldState extends State<AuthTextField> {
               fillColor: colorScheme.surface.withValues(alpha: 0.6),
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              prefixIcon: Icon(
-                widget.icon,
-                size: 20,
-                color: _isFocused
-                    ? colorScheme.primary
-                    : colorScheme.onSurface.withValues(alpha: 0.4),
-              ),
+              prefixIcon: widget.prefix ??
+                  Icon(
+                    widget.icon,
+                    size: 20,
+                    color: _isFocused
+                        ? colorScheme.primary
+                        : colorScheme.onSurface.withValues(alpha: 0.4),
+                  ),
               suffixIcon: widget.suffix,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
