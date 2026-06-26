@@ -119,17 +119,42 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                     ),
                     const SizedBox(height: 40),
                     if (!_isSubmitted)
-                      _buildInputField(
+                      AuthTextField(
                         controller: _phoneCtrl,
                         focusNode: _phoneNode,
                         label: 'Phone Number',
-                        hint: '+255 7XX XXX XXX',
-                        icon: Icons.phone_outlined,
-                        validator: (v) =>
-                            v == null || v.isEmpty
-                                ? 'Enter your phone number'
-                                : null,
+                        hint: '7XXXXXXXX',
                         keyboardType: TextInputType.phone,
+                        maxLength: 9,
+                        prefix: Container(
+                          margin: const EdgeInsets.only(left: 12, right: 8),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: colorScheme.primary.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            _countryCode,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                        validator: (v) {
+                          if (v == null || v.isEmpty) {
+                            return 'Enter your phone number';
+                          }
+                          if (v.length != 9) {
+                            return 'Phone number must be 9 digits';
+                          }
+                          if (!RegExp(r'^[67]\d{8}$').hasMatch(v)) {
+                            return 'Enter a valid Tanzania number';
+                          }
+                          return null;
+                        },
                       )
                     else
                       Container(
