@@ -12,6 +12,20 @@ class RegisterPage extends StatefulWidget {
   State<RegisterPage> createState() => _RegisterPageState();
 }
 
+class _Country {
+  final String name;
+  final String flag;
+  final String dialCode;
+  final String regex;
+
+  const _Country({
+    required this.name,
+    required this.flag,
+    required this.dialCode,
+    required this.regex,
+  });
+}
+
 class _RegisterPageState extends State<RegisterPage>
     with SingleTickerProviderStateMixin {
   final _nameCtrl = TextEditingController();
