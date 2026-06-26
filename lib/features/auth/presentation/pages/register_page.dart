@@ -68,9 +68,6 @@ class _RegisterPageState extends State<RegisterPage>
     }
   }
 
-  bool get _canSubmit =>
-      _formKey.currentState?.validate() == true && _agree;
-
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;

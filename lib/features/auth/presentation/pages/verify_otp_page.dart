@@ -54,12 +54,6 @@ class _VerifyOtpPageState extends State<VerifyOtpPage>
     }
   }
 
-  void _onOtpKey(int index, String value) {
-    if (value.isEmpty && index > 0) {
-      _focusNodes[index - 1].requestFocus();
-    }
-  }
-
   void _onVerify() {
     final otp = _otpCtls.map((c) => c.text).join();
     if (otp.length == 4) {
