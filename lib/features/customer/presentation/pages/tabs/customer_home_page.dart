@@ -16,6 +16,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
   String _searchQuery = '';
   String? _selectedCategory;
   String? _selectedRegion;
+  String? _selectedPriceRange;
 
   final List<_CategoryItem> _categories = const [
     _CategoryItem(icon: Icons.devices_rounded, label: 'Electronics'),
