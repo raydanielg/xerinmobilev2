@@ -1071,11 +1071,11 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
 
   bool _matchesPriceRange(String price) {
     if (_selectedPriceRange == null || _selectedPriceRange == 'All') return true;
-    final priceValue = double.tryParse(
-          price.replaceAll('\$', '').replaceAll(',', ''),
-        ) ??
-        0;
-    final tzs = priceValue * 2500;
+    final numeric = price
+        .replaceAll('TSh ', '')
+        .replaceAll(',', '')
+        .trim();
+    final tzs = double.tryParse(numeric) ?? 0;
 
     switch (_selectedPriceRange) {
       case '0 - 100k':
