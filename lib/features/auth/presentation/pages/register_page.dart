@@ -123,27 +123,34 @@ class _RegisterPageState extends State<RegisterPage>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 16),
-                    GestureDetector(
-                      onTap: () {
-                        if (context.canPop()) {
-                          context.pop();
-                        } else {
-                          context.go(AppConstants.signInRoute);
-                        }
-                      },
-                      child: Container(
-                        width: 44,
-                        height: 44,
-                        decoration: BoxDecoration(
-                          color: colorScheme.primary.withValues(alpha: 0.08),
-                          borderRadius: BorderRadius.circular(14),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            if (context.canPop()) {
+                              context.pop();
+                            } else {
+                              context.go(AppConstants.signInRoute);
+                            }
+                          },
+                          child: Container(
+                            width: 44,
+                            height: 44,
+                            decoration: BoxDecoration(
+                              color: colorScheme.primary.withValues(alpha: 0.08),
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                            child: Icon(
+                              Icons.arrow_back_rounded,
+                              color: colorScheme.primary,
+                              size: 22,
+                            ),
+                          ),
                         ),
-                        child: Icon(
-                          Icons.arrow_back_rounded,
-                          color: colorScheme.primary,
-                          size: 22,
-                        ),
-                      ),
+                        _buildSellerToggle(colorScheme),
+                      ],
                     ),
                     const SizedBox(height: 24),
                     const AuthLogo(width: 180, height: 110),
@@ -157,8 +164,6 @@ class _RegisterPageState extends State<RegisterPage>
                         letterSpacing: -0.3,
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    _buildSellerToggle(colorScheme),
                     const SizedBox(height: 8),
                     Text(
                       _isSeller
