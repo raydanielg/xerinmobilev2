@@ -18,6 +18,11 @@ abstract class AppConstants {
   static const String sellerDashboardRoute = '/seller-dashboard';
   static const String sellerOnboardingRoute = '/seller-onboarding';
   static const String sellerDetailsRoute = '/seller-details';
+  static const String sellerShopDetailsRoute = '/seller/shop-details';
+  static const String sellerShippingOptionsRoute = '/seller/shipping-options';
+  static const String sellerPayoutsRoute = '/seller/payouts';
+  static const String sellerReportsRoute = '/seller/reports';
+  static const String sellerSupportRoute = '/seller/support';
   static const String registrationSuccessRoute = '/registration-success';
 
   // Timeouts
