@@ -1065,6 +1065,61 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
     }
   }
 
+  void _showFilterLoadingDialog(BuildContext context, ColorScheme colorScheme) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return Dialog(
+          backgroundColor: colorScheme.surface,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(28),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SvgPicture.asset(
+                  'assets/logo/full_named_logo.svg',
+                  width: 120,
+                  height: 70,
+                  fit: BoxFit.contain,
+                ),
+                const SizedBox(height: 24),
+                SizedBox(
+                  width: 36,
+                  height: 36,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 3,
+                    color: colorScheme.primary,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  'Applying filters...',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: colorScheme.onSurface,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  'Finding the best products for you',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: colorScheme.onSurface.withValues(alpha: 0.5),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   Widget _buildSectionTitle(
     String title,
     String action,
