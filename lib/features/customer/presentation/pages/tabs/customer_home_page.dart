@@ -1268,14 +1268,25 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
         separatorBuilder: (_, _) => const SizedBox(width: 14),
         itemBuilder: (context, index) {
           final product = _featured[index];
-          return Container(
-            width: 160,
-            decoration: BoxDecoration(
-              color: colorScheme.surface,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: colorScheme.onSurface.withValues(alpha: 0.06),
-              ),
+          return GestureDetector(
+            onTap: () => context.go(
+              AppConstants.productDetailRoute,
+              extra: {
+                'name': product['name'],
+                'price': product['price'],
+                'image': product['image'],
+                'category': product['category'],
+                'rating': product['rating'],
+              },
+            ),
+            child: Container(
+              width: 160,
+              decoration: BoxDecoration(
+                color: colorScheme.surface,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: colorScheme.onSurface.withValues(alpha: 0.06),
+                ),
               boxShadow: [
                 BoxShadow(
                   color: colorScheme.primary.withValues(alpha: 0.08),
@@ -1432,9 +1443,9 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                 ),
               ],
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 
