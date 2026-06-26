@@ -257,6 +257,7 @@ class _VerifyOtpPageState extends State<VerifyOtpPage>
                       ),
                     ),
                   ),
+                  const SizedBox(height: 24),
                 ],
               ),
             ),
