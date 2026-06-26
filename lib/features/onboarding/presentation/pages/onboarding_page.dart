@@ -137,31 +137,31 @@ class _OnboardingPageState extends State<OnboardingPage>
   }
 
   Widget _buildTopSection(_OnboardingItem item, ColorScheme colorScheme) {
-    return ClipPath(
-      clipper: _CurveClipper(),
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              colorScheme.primary.withValues(alpha: 0.18),
-              colorScheme.primary.withValues(alpha: 0.05),
-              colorScheme.surface,
-            ],
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        // Image fills the entire top section
+        Image.asset(
+          item.image,
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
+        ),
+        // Soft gradient overlay for smooth transition to bottom
+        Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.black.withOpacity(0.05),
+                Colors.transparent,
+                Colors.black.withOpacity(0.15),
+              ],
+            ),
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
-          child: Image.asset(
-            item.image,
-            fit: BoxFit.contain,
-            width: 360,
-            height: 320,
-          ),
-        ),
-      ),
+      ],
     );
   }
 
