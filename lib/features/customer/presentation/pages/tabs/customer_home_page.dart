@@ -33,28 +33,28 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
   final List<Map<String, dynamic>> _featured = const [
     {
       'name': 'Wireless Headphones',
-      'price': '\$129.99',
+      'price': 'TSh 325,000',
       'rating': 4.8,
       'image': 'https://picsum.photos/seed/headphones/300/400',
       'category': 'Electronics',
     },
     {
       'name': 'Running Shoes',
-      'price': '\$89.50',
+      'price': 'TSh 224,000',
       'rating': 4.6,
       'image': 'https://picsum.photos/seed/shoes/300/400',
       'category': 'Sports',
     },
     {
       'name': 'Smart Watch',
-      'price': '\$249.00',
+      'price': 'TSh 622,500',
       'rating': 4.9,
       'image': 'https://picsum.photos/seed/watch/300/400',
       'category': 'Electronics',
     },
     {
       'name': 'Designer Bag',
-      'price': '\$59.99',
+      'price': 'TSh 150,000',
       'rating': 4.4,
       'image': 'https://picsum.photos/seed/bag/300/400',
       'category': 'Fashion',
