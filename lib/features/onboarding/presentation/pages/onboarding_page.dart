@@ -149,6 +149,41 @@ class _OnboardingPageState extends State<OnboardingPage>
     );
   }
 
+  Widget _buildThemeToggleButton() {
+    return BlocBuilder<AppThemeCubit, AppThemeState>(
+      bloc: sl<AppThemeCubit>(),
+      builder: (context, state) {
+        final isDark = state.isDark ||
+            (state.isSystem &&
+                MediaQuery.of(context).platformBrightness == Brightness.dark);
+
+        return GestureDetector(
+          onTap: () => sl<AppThemeCubit>().toggleTheme(),
+          child: Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: isDark ? Colors.grey[850] : Colors.white,
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.1),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Icon(
+              isDark ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
+              color: isDark ? Colors.amber : Colors.orange,
+              size: 22,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   Widget _buildTopSection(_OnboardingItem item, ColorScheme colorScheme, bool isDark) {
     return Stack(
       fit: StackFit.expand,
