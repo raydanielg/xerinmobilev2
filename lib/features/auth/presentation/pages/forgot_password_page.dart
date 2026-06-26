@@ -13,10 +13,11 @@ class ForgotPasswordPage extends StatefulWidget {
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage>
     with SingleTickerProviderStateMixin {
-  final _emailCtrl = TextEditingController();
-  final _emailNode = FocusNode();
+  final _phoneCtrl = TextEditingController();
+  final _phoneNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
   bool _isSubmitted = false;
+  static const String _countryCode = '+255';
 
   late final AnimationController _animCtrl;
   late final Animation<Offset> _slideAnim;

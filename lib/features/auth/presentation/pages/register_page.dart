@@ -314,7 +314,7 @@ class _RegisterPageState extends State<RegisterPage>
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(4),
                             ),
-            activeThumbColor: colorScheme.primary,
+                            activeColor: colorScheme.primary,
                             materialTapTargetSize:
                                 MaterialTapTargetSize.shrinkWrap,
                           ),
@@ -481,7 +481,6 @@ class _RegisterPageState extends State<RegisterPage>
           Switch.adaptive(
             value: _isSeller,
             onChanged: (v) => setState(() => _isSeller = v),
-            activeColor: colorScheme.primary,
           ),
         ],
       ),
