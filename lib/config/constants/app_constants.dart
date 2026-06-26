@@ -13,6 +13,7 @@ abstract class AppConstants {
   static const String homeRoute = '/';
   static const String categoriesRoute = '/categories';
   static const String categoryProductsRoute = '/category-products';
+  static const String exploreProductsRoute = '/explore-products';
   static const String productDetailRoute = '/product-detail';
   static const String sellerDashboardRoute = '/seller-dashboard';
   static const String sellerOnboardingRoute = '/seller-onboarding';
