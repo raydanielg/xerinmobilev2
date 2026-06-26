@@ -891,7 +891,11 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
   }
 
   Widget _buildSectionTitle(
-      String title, String action, ColorScheme colorScheme) {
+    String title,
+    String action,
+    ColorScheme colorScheme, {
+    VoidCallback? onActionTap,
+  }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -904,12 +908,15 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
           ),
         ),
         if (action.isNotEmpty)
-          Text(
-            action,
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: colorScheme.primary,
+          GestureDetector(
+            onTap: onActionTap,
+            child: Text(
+              action,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: colorScheme.primary,
+              ),
             ),
           ),
       ],
@@ -918,38 +925,80 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
 
   Widget _buildCategories(ColorScheme colorScheme) {
     return SizedBox(
-      height: 88,
+      height: 94,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: _categories.length,
-        separatorBuilder: (_, _) => const SizedBox(width: 8),
+        separatorBuilder: (_, _) => const SizedBox(width: 10),
         itemBuilder: (context, index) {
           final cat = _categories[index];
-          return SizedBox(
-            width: 68,
-            child: Column(
-              children: [
-                Container(
-                  width: 52,
-                  height: 52,
-                  decoration: BoxDecoration(
-                    color: colorScheme.primary.withValues(alpha: 0.08),
-                    borderRadius: BorderRadius.circular(16),
+          return GestureDetector(
+            onTap: () => context.go(
+              AppConstants.categoryProductsRoute,
+              extra: {'category': cat.label},
+            ),
+            child: SizedBox(
+              width: 72,
+              child: Column(
+                children: [
+                  Container(
+                    width: 56,
+                    height: 56,
+                    padding: const EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        colors: [
+                          colorScheme.primary,
+                          colorScheme.primary.withValues(alpha: 0.7),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: colorScheme.primary.withValues(alpha: 0.2),
+                          blurRadius: 8,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 2,
+                        ),
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: colorScheme.primary.withValues(alpha: 0.08),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          cat.icon,
+                          color: colorScheme.primary,
+                          size: 24,
+                        ),
+                      ),
+                    ),
                   ),
-                  child: Icon(cat.icon,
-                      color: colorScheme.primary, size: 24),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  cat.label,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w500,
-                    color: colorScheme.onSurface.withValues(alpha: 0.6),
+                  const SizedBox(height: 8),
+                  Text(
+                    cat.label,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                      color: colorScheme.onSurface.withValues(alpha: 0.7),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },
