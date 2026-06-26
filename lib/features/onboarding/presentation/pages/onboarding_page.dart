@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../config/constants/app_constants.dart';
+import '../../../../config/di/service_locator.dart';
+import '../../../../core/theme/app_theme_cubit.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -119,6 +122,11 @@ class _OnboardingPageState extends State<OnboardingPage>
                 child: _buildBottomSection(colorScheme, isDark),
               ),
             ],
+          ),
+          Positioned(
+            top: MediaQuery.of(context).padding.top + 16,
+            left: 16,
+            child: _buildThemeToggleButton(),
           ),
           if (_currentPage < _pages.length - 1)
             Positioned(
