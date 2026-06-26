@@ -164,19 +164,7 @@ class _OnboardingPageState extends State<OnboardingPage>
             ],
           ),
         ),
-        child: AnimatedBuilder(
-          animation: _svgAnim,
-          builder: (context, child) {
-            final animValue = _svgAnim.value.clamp(0.0, 1.0);
-            return Transform.scale(
-              scale: 0.7 + (0.3 * animValue),
-              child: Opacity(
-                opacity: animValue,
-                child: child,
-              ),
-            );
-          },
-          child: Padding(
+        child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
             child: Image.asset(
               item.image,
@@ -184,7 +172,6 @@ class _OnboardingPageState extends State<OnboardingPage>
               width: 360,
               height: 320,
             ),
-          ),
         ),
       ),
     );
