@@ -12,13 +12,38 @@ class ForgotPasswordPage extends StatefulWidget {
   State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
 }
 
+class _Country {
+  final String name;
+  final String flag;
+  final String dialCode;
+  final String regex;
+
+  const _Country({
+    required this.name,
+    required this.flag,
+    required this.dialCode,
+    required this.regex,
+  });
+}
+
 class _ForgotPasswordPageState extends State<ForgotPasswordPage>
     with SingleTickerProviderStateMixin {
   final _phoneCtrl = TextEditingController();
   final _phoneNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
   bool _isSubmitted = false;
-  static const String _countryCode = '+255';
+  static const List<_Country> _countries = [
+    _Country(
+        name: 'Tanzania',
+        flag: '🇹🇿',
+        dialCode: '+255',
+        regex: r'^[67]\d{8}$'),
+    _Country(
+        name: 'Kenya', flag: '🇰🇪', dialCode: '+254', regex: r'^[71]\d{8}$'),
+    _Country(
+        name: 'Uganda', flag: '🇺🇬', dialCode: '+256', regex: r'^[7]\d{8}$'),
+  ];
+  _Country _selectedCountry = _countries[0];
 
   late final AnimationController _animCtrl;
   late final Animation<Offset> _slideAnim;
@@ -126,21 +151,93 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                         keyboardType: TextInputType.phone,
                         maxLength: 9,
                         prefix: Container(
-                          margin: const EdgeInsets.only(left: 12, right: 8),
+                          margin: const EdgeInsets.only(left: 8, right: 4),
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 6),
+                              horizontal: 8, vertical: 6),
                           decoration: BoxDecoration(
                             color: colorScheme.primary.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: Text(
-                            _countryCode,
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: colorScheme.primary,
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<_Country>(
+                              value: _selectedCountry,
+                              isDense: true,
+                              icon: Icon(
+                                Icons.keyboard_arrow_down_rounded,
+                                size: 18,
+                                color: colorScheme.primary,
+                              ),
+                              selectedItemBuilder: (context) {
+                                return _countries.map((country) {
+                                  return Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        country.flag,
+                                        style: const TextStyle(fontSize: 18),
+                                      ),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        country.dialCode,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          color: colorScheme.primary,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                }).toList();
+                              },
+                              items: _countries.map((country) {
+                                return DropdownMenuItem<_Country>(
+                                  value: country,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        country.flag,
+                                        style: const TextStyle(fontSize: 20),
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Text(
+                                        country.dialCode,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          color: colorScheme.onSurface,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 6),
+                                      Text(
+                                        country.name,
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          color: colorScheme.onSurface
+                                              .withValues(alpha: 0.6),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (country) {
+                                if (country != null) {
+                                  setState(() => _selectedCountry = country);
+                                }
+                              },
                             ),
                           ),
+                        ),
+                        prefixIconConstraints: const BoxConstraints(
+                          minWidth: 100,
+                          minHeight: 40,
+                          maxWidth: 100,
+                        ),
+                        contentPadding: const EdgeInsets.only(
+                          left: 110,
+                          right: 16,
+                          top: 16,
+                          bottom: 16,
                         ),
                         validator: (v) {
                           if (v == null || v.isEmpty) {
@@ -149,8 +246,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                           if (v.length != 9) {
                             return 'Phone number must be 9 digits';
                           }
-                          if (!RegExp(r'^[67]\d{8}$').hasMatch(v)) {
-                            return 'Enter a valid Tanzania number';
+                          if (!RegExp(_selectedCountry.regex).hasMatch(v)) {
+                            return 'Enter a valid ${_selectedCountry.name} number';
                           }
                           return null;
                         },
