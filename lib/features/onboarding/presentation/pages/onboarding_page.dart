@@ -225,10 +225,12 @@ class _OnboardingPageState extends State<OnboardingPage>
           const SizedBox(height: 36),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(
-              _pages.length,
-              (index) => _buildDot(index, colorScheme),
-            ),
+            children: [
+              ...List.generate(
+                _pages.length,
+                (index) => _buildDot(index, colorScheme),
+              ),
+            ],
           ),
           const SizedBox(height: 36),
           Row(
