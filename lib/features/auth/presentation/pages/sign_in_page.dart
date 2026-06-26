@@ -20,6 +20,8 @@ class _SignInPageState extends State<SignInPage>
   final _passNode = FocusNode();
   bool _obscurePass = true;
   bool _remember = false;
+  bool _isLoading = false;
+  String _role = 'customer'; // 'customer' or 'seller'
 
   late final AnimationController _animCtrl;
   late final Animation<Offset> _slideAnim;
