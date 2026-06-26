@@ -158,39 +158,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                             color: colorScheme.primary.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<_Country>(
-                              value: _selectedCountry,
-                              isDense: true,
-                              icon: Icon(
-                                Icons.keyboard_arrow_down_rounded,
-                                size: 18,
-                                color: colorScheme.primary,
-                              ),
-                              selectedItemBuilder: (context) {
-                                return _countries.map((country) {
-                                  return Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        country.flag,
-                                        style: const TextStyle(fontSize: 18),
-                                      ),
-                                      const SizedBox(width: 4),
-                                      Text(
-                                        country.dialCode,
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          color: colorScheme.primary,
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                }).toList();
-                              },
-                              items: _countries.map((country) {
-                                return DropdownMenuItem<_Country>(
+                          child: PopupMenuButton<_Country>(
+                            initialValue: _selectedCountry,
+                            onSelected: (country) =>
+                                setState(() => _selectedCountry = country),
+                            itemBuilder: (context) {
+                              return _countries.map((country) {
+                                return PopupMenuItem<_Country>(
                                   value: country,
                                   child: Row(
                                     children: [
@@ -219,12 +193,31 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                                     ],
                                   ),
                                 );
-                              }).toList(),
-                              onChanged: (country) {
-                                if (country != null) {
-                                  setState(() => _selectedCountry = country);
-                                }
-                              },
+                              }).toList();
+                            },
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  _selectedCountry.flag,
+                                  style: const TextStyle(fontSize: 18),
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  _selectedCountry.dialCode,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: colorScheme.primary,
+                                  ),
+                                ),
+                                const SizedBox(width: 2),
+                                Icon(
+                                  Icons.keyboard_arrow_down_rounded,
+                                  size: 16,
+                                  color: colorScheme.primary,
+                                ),
+                              ],
                             ),
                           ),
                         ),
