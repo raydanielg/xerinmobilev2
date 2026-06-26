@@ -12,18 +12,18 @@ class CategoryProductsPage extends StatelessWidget {
   });
 
   final List<Map<String, dynamic>> _allProducts = const [
-    {'name': 'Wireless Headphones', 'price': '\$129.99', 'category': 'Electronics', 'region': 'Dar es Salaam', 'icon': Icons.headphones_rounded},
-    {'name': 'Smart Watch Series 5', 'price': '\$249.00', 'category': 'Electronics', 'region': 'Arusha', 'icon': Icons.watch_rounded},
-    {'name': 'Running Shoes Pro', 'price': '\$89.50', 'category': 'Sports', 'region': 'Mwanza', 'icon': Icons.directions_run_rounded},
-    {'name': 'Laptop Stand', 'price': '\$45.99', 'category': 'Electronics', 'region': 'Dar es Salaam', 'icon': Icons.laptop_rounded},
-    {'name': 'Organic Coffee Beans', 'price': '\$24.99', 'category': 'Food', 'region': 'Kilimanjaro', 'icon': Icons.coffee_rounded},
-    {'name': 'Cotton T-Shirt', 'price': '\$19.99', 'category': 'Fashion', 'region': 'Dar es Salaam', 'icon': Icons.checkroom_rounded},
-    {'name': 'Bluetooth Speaker', 'price': '\$79.99', 'category': 'Electronics', 'region': 'Arusha', 'icon': Icons.speaker_rounded},
-    {'name': 'Yoga Mat', 'price': '\$34.50', 'category': 'Sports', 'region': 'Mwanza', 'icon': Icons.self_improvement_rounded},
-    {'name': 'Kitchen Blender', 'price': '\$59.99', 'category': 'Home', 'region': 'Dar es Salaam', 'icon': Icons.blender_rounded},
-    {'name': 'Car Phone Holder', 'price': '\$15.99', 'category': 'Auto', 'region': 'Arusha', 'icon': Icons.directions_car_rounded},
-    {'name': 'Novel Book', 'price': '\$12.99', 'category': 'Books', 'region': 'Mwanza', 'icon': Icons.book_rounded},
-    {'name': 'Sunscreen Lotion', 'price': '\$18.50', 'category': 'Health', 'region': 'Dar es Salaam', 'icon': Icons.health_and_safety_rounded},
+    {'name': 'Wireless Headphones', 'price': 'TSh 325,000', 'category': 'Electronics', 'region': 'Dar es Salaam', 'icon': Icons.headphones_rounded},
+    {'name': 'Smart Watch Series 5', 'price': 'TSh 622,500', 'category': 'Electronics', 'region': 'Arusha', 'icon': Icons.watch_rounded},
+    {'name': 'Running Shoes Pro', 'price': 'TSh 224,000', 'category': 'Sports', 'region': 'Mwanza', 'icon': Icons.directions_run_rounded},
+    {'name': 'Laptop Stand', 'price': 'TSh 115,000', 'category': 'Electronics', 'region': 'Dar es Salaam', 'icon': Icons.laptop_rounded},
+    {'name': 'Organic Coffee Beans', 'price': 'TSh 62,500', 'category': 'Food', 'region': 'Kilimanjaro', 'icon': Icons.coffee_rounded},
+    {'name': 'Cotton T-Shirt', 'price': 'TSh 50,000', 'category': 'Fashion', 'region': 'Dar es Salaam', 'icon': Icons.checkroom_rounded},
+    {'name': 'Bluetooth Speaker', 'price': 'TSh 200,000', 'category': 'Electronics', 'region': 'Arusha', 'icon': Icons.speaker_rounded},
+    {'name': 'Yoga Mat', 'price': 'TSh 86,000', 'category': 'Sports', 'region': 'Mwanza', 'icon': Icons.self_improvement_rounded},
+    {'name': 'Kitchen Blender', 'price': 'TSh 150,000', 'category': 'Home', 'region': 'Dar es Salaam', 'icon': Icons.blender_rounded},
+    {'name': 'Car Phone Holder', 'price': 'TSh 40,000', 'category': 'Auto', 'region': 'Arusha', 'icon': Icons.directions_car_rounded},
+    {'name': 'Novel Book', 'price': 'TSh 32,500', 'category': 'Books', 'region': 'Mwanza', 'icon': Icons.book_rounded},
+    {'name': 'Sunscreen Lotion', 'price': 'TSh 46,000', 'category': 'Health', 'region': 'Dar es Salaam', 'icon': Icons.health_and_safety_rounded},
   ];
 
   @override
