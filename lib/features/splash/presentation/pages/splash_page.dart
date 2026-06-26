@@ -36,28 +36,12 @@ class _SplashPageState extends State<SplashPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Full named logo - bigger and full color
-            Container(
-              width: 280,
-              height: 200,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(24),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.05),
-                    blurRadius: 30,
-                    offset: const Offset(0, 10),
-                  ),
-                ],
-              ),
-              padding: const EdgeInsets.all(24),
-              child: SvgPicture.asset(
-                'assets/logo/full_named_logo.svg',
-                width: 240,
-                height: 160,
-                fit: BoxFit.contain,
-              ),
+            // Full colored logo - plain on white background
+            SvgPicture.asset(
+              'assets/logo/full_named_logo.svg',
+              width: 260,
+              height: 180,
+              fit: BoxFit.contain,
             ),
             const SizedBox(height: 48),
             // Loading indicator
