@@ -551,7 +551,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                 ),
                 child: Center(
                   child: Text(
-                    '#${product['rank']}',
+                    '#$rank',
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.bold,

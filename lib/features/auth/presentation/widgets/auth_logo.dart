@@ -13,11 +13,16 @@ class AuthLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return SvgPicture.asset(
       'assets/logo/full_named_logo.svg',
       width: width,
       height: height,
       fit: BoxFit.contain,
+      colorFilter: isDark
+          ? const ColorFilter.mode(Colors.white, BlendMode.srcIn)
+          : null,
     );
   }
 }
