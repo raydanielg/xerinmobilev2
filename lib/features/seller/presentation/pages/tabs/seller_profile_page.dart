@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../../config/constants/app_constants.dart';
 
 class SellerProfilePage extends StatelessWidget {
   const SellerProfilePage({super.key});
@@ -8,12 +11,36 @@ class SellerProfilePage extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     final menuItems = [
-      {'icon': Icons.store_outlined, 'label': 'Shop Settings'},
-      {'icon': Icons.local_shipping_outlined, 'label': 'Shipping Options'},
-      {'icon': Icons.payment_outlined, 'label': 'Payouts'},
-      {'icon': Icons.bar_chart_outlined, 'label': 'Reports'},
-      {'icon': Icons.support_agent_outlined, 'label': 'Seller Support'},
-      {'icon': Icons.logout_rounded, 'label': 'Logout', 'color': const Color(0xFFE53935)},
+      {
+        'icon': Icons.store_outlined,
+        'label': 'Shop Details',
+        'route': AppConstants.sellerShopDetailsRoute,
+      },
+      {
+        'icon': Icons.local_shipping_outlined,
+        'label': 'Shipping Options',
+        'route': AppConstants.sellerShippingOptionsRoute,
+      },
+      {
+        'icon': Icons.payment_outlined,
+        'label': 'Payouts',
+        'route': AppConstants.sellerPayoutsRoute,
+      },
+      {
+        'icon': Icons.bar_chart_outlined,
+        'label': 'Reports',
+        'route': AppConstants.sellerReportsRoute,
+      },
+      {
+        'icon': Icons.support_agent_outlined,
+        'label': 'Seller Support',
+        'route': AppConstants.sellerSupportRoute,
+      },
+      {
+        'icon': Icons.logout_rounded,
+        'label': 'Logout',
+        'color': const Color(0xFFE53935),
+      },
     ];
 
     return SafeArea(
