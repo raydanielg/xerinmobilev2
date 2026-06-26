@@ -1,4 +1,4 @@
-package com.example.xerinnewmobile
+package com.xerinmarket.com
 
 import io.flutter.embedding.android.FlutterActivity
 
