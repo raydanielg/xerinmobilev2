@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../config/constants/app_constants.dart';
 import '../widgets/auth_logo.dart';
+import '../widgets/auth_text_field.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
