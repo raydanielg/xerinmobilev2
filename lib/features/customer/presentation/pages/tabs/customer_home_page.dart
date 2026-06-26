@@ -143,51 +143,270 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
         ),
         Row(
           children: [
-            _iconBadge(Icons.notifications_outlined, '3', colorScheme),
+            _iconBadge(
+              Icons.notifications_outlined,
+              badge: '3',
+              colorScheme: colorScheme,
+              onTap: () => _showNotificationsPopup(context, colorScheme),
+            ),
             const SizedBox(width: 8),
-            _iconBadge(Icons.favorite_outline_rounded, '', colorScheme),
+            _iconBadge(
+              Icons.favorite_outline_rounded,
+              badge: '2',
+              colorScheme: colorScheme,
+              onTap: () => _showWishlistPopup(context, colorScheme),
+            ),
           ],
         ),
       ],
     );
   }
 
-  Widget _iconBadge(IconData icon, String badge, ColorScheme colorScheme) {
-    return Container(
-      width: 44,
-      height: 44,
-      decoration: BoxDecoration(
-        color: colorScheme.primary.withValues(alpha: 0.07),
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Center(
-            child: Icon(icon, color: colorScheme.onSurface.withValues(alpha: 0.6), size: 22),
+  Widget _iconBadge(
+    IconData icon, {
+    required String badge,
+    required ColorScheme colorScheme,
+    required VoidCallback onTap,
+  }) {
+    final hasBadge = badge.isNotEmpty;
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 46,
+        height: 46,
+        decoration: BoxDecoration(
+          color: colorScheme.primary.withValues(alpha: 0.08),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(
+            color: colorScheme.primary.withValues(alpha: 0.12),
           ),
-          if (badge.isNotEmpty)
-            Positioned(
-              top: 6,
-              right: 8,
-              child: Container(
-                padding: const EdgeInsets.all(4),
-                decoration: const BoxDecoration(
-                  color: Color(0xFFE53935),
-                  shape: BoxShape.circle,
-                ),
-                child: Text(
-                  badge,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 8,
-                    fontWeight: FontWeight.bold,
+          boxShadow: [
+            BoxShadow(
+              color: colorScheme.primary.withValues(alpha: 0.08),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Center(
+              child: Icon(
+                icon,
+                color: colorScheme.onSurface.withValues(alpha: 0.65),
+                size: 22,
+              ),
+            ),
+            if (hasBadge)
+              Positioned(
+                top: 4,
+                right: 6,
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFE53935),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: colorScheme.surface,
+                      width: 1.5,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFFE53935).withValues(alpha: 0.4),
+                        blurRadius: 6,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Text(
+                    badge,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 8,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
+    );
+  }
+
+  void _showNotificationsPopup(BuildContext context, ColorScheme colorScheme) {
+    final notifications = [
+      {'title': 'Order shipped', 'body': 'Your order #ORD-2024001 is on the way', 'time': '2m ago'},
+      {'title': 'Flash Sale!', 'body': 'Get 50% off on electronics today', 'time': '1h ago'},
+      {'title': 'New arrival', 'body': 'New running shoes are now available', 'time': '3h ago'},
+      {'title': 'Order delivered', 'body': 'Your order #ORD-2023998 was delivered', 'time': '5h ago'},
+    ];
+    _showIconPopup(
+      context: context,
+      colorScheme: colorScheme,
+      title: 'Notifications',
+      icon: Icons.notifications_outlined,
+      items: notifications,
+      itemBuilder: (notification) => ListTile(
+        contentPadding: EdgeInsets.zero,
+        leading: Container(
+          width: 38,
+          height: 38,
+          decoration: BoxDecoration(
+            color: colorScheme.primary.withValues(alpha: 0.08),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Icon(Icons.notifications_rounded, color: colorScheme.primary, size: 18),
+        ),
+        title: Text(
+          notification['title']!,
+          style: TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w700,
+            color: colorScheme.onSurface,
+          ),
+        ),
+        subtitle: Text(
+          '${notification['body']} • ${notification['time']}',
+          style: TextStyle(
+            fontSize: 11,
+            color: colorScheme.onSurface.withValues(alpha: 0.5),
+          ),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+    );
+  }
+
+  void _showWishlistPopup(BuildContext context, ColorScheme colorScheme) {
+    final items = [
+      {'name': 'Wireless Headphones', 'price': '\$129.99'},
+      {'name': 'Smart Watch Series 5', 'price': '\$249.00'},
+      {'name': 'Running Shoes Pro', 'price': '\$89.50'},
+      {'name': 'Laptop Stand', 'price': '\$45.99'},
+    ];
+    _showIconPopup(
+      context: context,
+      colorScheme: colorScheme,
+      title: 'Wishlist',
+      icon: Icons.favorite_rounded,
+      items: items,
+      itemBuilder: (item) => ListTile(
+        contentPadding: EdgeInsets.zero,
+        leading: Container(
+          width: 38,
+          height: 38,
+          decoration: BoxDecoration(
+            color: const Color(0xFFE53935).withValues(alpha: 0.08),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: const Icon(Icons.favorite_rounded, color: Color(0xFFE53935), size: 18),
+        ),
+        title: Text(
+          item['name']!,
+          style: TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w700,
+            color: colorScheme.onSurface,
+          ),
+        ),
+        trailing: Text(
+          item['price']!,
+          style: TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.bold,
+            color: colorScheme.primary,
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showIconPopup<T>({
+    required BuildContext context,
+    required ColorScheme colorScheme,
+    required String title,
+    required IconData icon,
+    required List<T> items,
+    required Widget Function(T) itemBuilder,
+  }) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) {
+        return Container(
+          margin: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: colorScheme.surface,
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.1),
+                blurRadius: 24,
+                offset: const Offset(0, 8),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: colorScheme.primary.withValues(alpha: 0.08),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(icon, color: colorScheme.primary, size: 22),
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: colorScheme.onSurface,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Column(
+                children: items.map((item) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: itemBuilder(item),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
+                width: double.infinity,
+                child: TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  style: TextButton.styleFrom(
+                    foregroundColor: colorScheme.primary,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: const Text(
+                    'See all',
+                    style: TextStyle(fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
