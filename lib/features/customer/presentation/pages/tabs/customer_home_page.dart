@@ -1256,7 +1256,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
 
   Widget _buildFeaturedProducts(ColorScheme colorScheme) {
     return SizedBox(
-      height: 190,
+      height: 220,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: _featured.length,
@@ -1264,41 +1264,111 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
         itemBuilder: (context, index) {
           final product = _featured[index];
           return Container(
-            width: 150,
+            width: 160,
             decoration: BoxDecoration(
               color: colorScheme.surface,
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(20),
               border: Border.all(
                 color: colorScheme.onSurface.withValues(alpha: 0.06),
               ),
               boxShadow: [
                 BoxShadow(
+                  color: colorScheme.primary.withValues(alpha: 0.08),
+                  blurRadius: 16,
+                  offset: const Offset(0, 6),
+                ),
+                BoxShadow(
                   color: Colors.black.withValues(alpha: 0.04),
-                  blurRadius: 12,
-                  offset: const Offset(0, 4),
+                  blurRadius: 8,
+                  offset: const Offset(0, 3),
                 ),
               ],
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  height: 110,
-                  decoration: BoxDecoration(
-                    color: colorScheme.primary.withValues(alpha: 0.06),
-                    borderRadius:
-                        const BorderRadius.vertical(top: Radius.circular(18)),
-                  ),
-                  child: Center(
-                    child: Icon(
-                      product['image'] as IconData,
-                      size: 44,
-                      color: colorScheme.primary.withValues(alpha: 0.3),
+                Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius:
+                          const BorderRadius.vertical(top: Radius.circular(20)),
+                      child: Image.network(
+                        product['image'] as String,
+                        height: 130,
+                        width: 160,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Container(
+                            height: 130,
+                            width: 160,
+                            color: colorScheme.primary.withValues(alpha: 0.06),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: colorScheme.primary,
+                                value: loadingProgress.expectedTotalBytes != null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                    : null,
+                              ),
+                            ),
+                          );
+                        },
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            height: 130,
+                            width: 160,
+                            color: colorScheme.primary.withValues(alpha: 0.06),
+                            child: Icon(
+                              Icons.image_not_supported_rounded,
+                              color: colorScheme.primary.withValues(alpha: 0.3),
+                              size: 40,
+                            ),
+                          );
+                        },
+                      ),
                     ),
-                  ),
+                    Positioned(
+                      top: 8,
+                      left: 8,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: colorScheme.primary,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          product['category'] as String,
+                          style: TextStyle(
+                            fontSize: 9,
+                            fontWeight: FontWeight.w700,
+                            color: colorScheme.onPrimary,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 8,
+                      right: 8,
+                      child: Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.9),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.favorite_outline_rounded,
+                          size: 16,
+                          color: colorScheme.primary,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -1306,32 +1376,48 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                         product['name'] as String,
                         style: TextStyle(
                           fontSize: 13,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w700,
                           color: colorScheme.onSurface,
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: 6),
                       Row(
                         children: [
                           Text(
                             product['price'] as String,
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 15,
                               fontWeight: FontWeight.bold,
                               color: colorScheme.primary,
                             ),
                           ),
                           const Spacer(),
-                          Icon(Icons.star_rounded,
-                              size: 14,
-                              color: Colors.amber.shade600),
-                          const SizedBox(width: 2),
-                          Text(
-                            product['rating'].toStringAsFixed(1),
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: colorScheme.onSurface
-                                  .withValues(alpha: 0.5),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: Colors.amber.withValues(alpha: 0.12),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.star_rounded,
+                                  size: 12,
+                                  color: Colors.amber.shade700,
+                                ),
+                                const SizedBox(width: 2),
+                                Text(
+                                  product['rating'].toStringAsFixed(1),
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.amber.shade800,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
