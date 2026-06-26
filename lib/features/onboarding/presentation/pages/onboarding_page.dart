@@ -186,8 +186,8 @@ class _OnboardingPageState extends State<OnboardingPage>
         ),
         padding: const EdgeInsets.fromLTRB(32, 60, 32, 32),
         child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
+          mainAxisSize: MainAxisSize.min,
+          children: [
           SlideTransition(
             position: _slideAnim,
             child: FadeTransition(
