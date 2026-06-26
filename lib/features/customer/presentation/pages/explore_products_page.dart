@@ -7,14 +7,14 @@ class ExploreProductsPage extends StatelessWidget {
   const ExploreProductsPage({super.key});
 
   final List<Map<String, dynamic>> _products = const [
-    {'name': 'Wireless Headphones', 'price': '\$129.99', 'rating': 4.8, 'category': 'Electronics', 'image': 'https://picsum.photos/seed/headphones/300/400'},
-    {'name': 'Running Shoes', 'price': '\$89.50', 'rating': 4.6, 'category': 'Sports', 'image': 'https://picsum.photos/seed/shoes/300/400'},
-    {'name': 'Smart Watch', 'price': '\$249.00', 'rating': 4.9, 'category': 'Electronics', 'image': 'https://picsum.photos/seed/watch/300/400'},
-    {'name': 'Designer Bag', 'price': '\$59.99', 'rating': 4.4, 'category': 'Fashion', 'image': 'https://picsum.photos/seed/bag/300/400'},
-    {'name': 'Laptop Stand', 'price': '\$45.99', 'rating': 4.5, 'category': 'Electronics', 'image': 'https://picsum.photos/seed/laptop/300/400'},
-    {'name': 'Yoga Mat', 'price': '\$34.50', 'rating': 4.7, 'category': 'Sports', 'image': 'https://picsum.photos/seed/yoga/300/400'},
-    {'name': 'Kitchen Blender', 'price': '\$59.99', 'rating': 4.3, 'category': 'Home', 'image': 'https://picsum.photos/seed/blender/300/400'},
-    {'name': 'Coffee Beans', 'price': '\$24.99', 'rating': 4.8, 'category': 'Food', 'image': 'https://picsum.photos/seed/coffee/300/400'},
+    {'name': 'Wireless Headphones', 'price': 'TSh 325,000', 'rating': 4.8, 'category': 'Electronics', 'image': 'https://picsum.photos/seed/headphones/300/400'},
+    {'name': 'Running Shoes', 'price': 'TSh 224,000', 'rating': 4.6, 'category': 'Sports', 'image': 'https://picsum.photos/seed/shoes/300/400'},
+    {'name': 'Smart Watch', 'price': 'TSh 622,500', 'rating': 4.9, 'category': 'Electronics', 'image': 'https://picsum.photos/seed/watch/300/400'},
+    {'name': 'Designer Bag', 'price': 'TSh 150,000', 'rating': 4.4, 'category': 'Fashion', 'image': 'https://picsum.photos/seed/bag/300/400'},
+    {'name': 'Laptop Stand', 'price': 'TSh 115,000', 'rating': 4.5, 'category': 'Electronics', 'image': 'https://picsum.photos/seed/laptop/300/400'},
+    {'name': 'Yoga Mat', 'price': 'TSh 86,000', 'rating': 4.7, 'category': 'Sports', 'image': 'https://picsum.photos/seed/yoga/300/400'},
+    {'name': 'Kitchen Blender', 'price': 'TSh 150,000', 'rating': 4.3, 'category': 'Home', 'image': 'https://picsum.photos/seed/blender/300/400'},
+    {'name': 'Coffee Beans', 'price': 'TSh 62,500', 'rating': 4.8, 'category': 'Food', 'image': 'https://picsum.photos/seed/coffee/300/400'},
   ];
 
   @override
