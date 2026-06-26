@@ -96,8 +96,10 @@ class _OnboardingPageState extends State<OnboardingPage>
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
+      backgroundColor: colorScheme.surface,
       body: Stack(
         children: [
           Column(
@@ -109,7 +111,7 @@ class _OnboardingPageState extends State<OnboardingPage>
                   onPageChanged: _onPageChanged,
                   itemCount: _pages.length,
                   itemBuilder: (context, index) =>
-                      _buildTopSection(_pages[index], colorScheme),
+                      _buildTopSection(_pages[index], colorScheme, isDark),
                 ),
               ),
               Transform.translate(
@@ -170,7 +172,7 @@ class _OnboardingPageState extends State<OnboardingPage>
     );
   }
 
-  Widget _buildBottomSection(ColorScheme colorScheme) {
+  Widget _buildBottomSection(ColorScheme colorScheme, bool isDark) {
     final isLast = _currentPage == _pages.length - 1;
 
     return ClipPath(
@@ -180,7 +182,9 @@ class _OnboardingPageState extends State<OnboardingPage>
           color: colorScheme.surface,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.08),
+              color: isDark
+                  ? Colors.black.withValues(alpha: 0.25)
+                  : Colors.black.withValues(alpha: 0.08),
               blurRadius: 20,
               offset: const Offset(0, -5),
             ),
