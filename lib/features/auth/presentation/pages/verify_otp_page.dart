@@ -94,30 +94,11 @@ class _VerifyOtpPageState extends State<VerifyOtpPage>
                     ),
                   ),
                   const SizedBox(height: 32),
-                  Container(
-                    width: 96,
-                    height: 96,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          colorScheme.primary,
-                          colorScheme.primary.withValues(alpha: 0.6),
-                        ],
-                      ),
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: colorScheme.primary.withValues(alpha: 0.3),
-                          blurRadius: 24,
-                          offset: const Offset(0, 8),
-                        ),
-                      ],
-                    ),
-                    child: const Icon(
-                      Icons.sms_rounded,
-                      color: Colors.white,
-                      size: 42,
-                    ),
+                  SvgPicture.asset(
+                    'assets/logo/full_named_logo.svg',
+                    width: 180,
+                    height: 110,
+                    fit: BoxFit.contain,
                   ),
                   const SizedBox(height: 28),
                   Text(
