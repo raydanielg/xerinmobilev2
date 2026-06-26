@@ -432,8 +432,9 @@ class _AnimatedArrowState extends State<AnimatedArrow>
           child: child,
         );
       },
-      child: const Icon(
+      child: Icon(
         Icons.arrow_forward_rounded,
+        color: widget.color,
         size: 24,
       ),
     );
