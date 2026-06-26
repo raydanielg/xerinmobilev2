@@ -23,19 +23,19 @@ class _OnboardingPageState extends State<OnboardingPage>
 
   final List<_OnboardingItem> _pages = const [
     _OnboardingItem(
-      svg: 'assets/images/business_growth.svg',
-      title: 'Grow Your Business',
+      svg: 'assets/images/store_front.svg',
+      title: 'Discover Our Store',
       description:
-          'Expand your reach and boost sales with our powerful marketplace platform designed for success.',
+          'Browse through thousands of products from top brands. Find everything you need in one place.',
     ),
     _OnboardingItem(
-      svg: 'assets/images/shopping_delivery.svg',
+      svg: 'assets/images/fast_delivery.svg',
       title: 'Fast & Free Delivery',
       description:
           'Get your orders delivered right to your doorstep with free shipping on all orders above \$50.',
     ),
     _OnboardingItem(
-      svg: 'assets/images/secure_payment.svg',
+      svg: 'assets/images/payment_shield.svg',
       title: 'Secure Payments',
       description:
           'Shop with confidence using our secure payment system. Your data and transactions are always protected.',
