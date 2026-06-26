@@ -34,6 +34,8 @@ class AuthTextField extends StatefulWidget {
     this.maxLines = 1,
     this.onChanged,
     this.prefix,
+    this.prefixIconConstraints,
+    this.contentPadding,
   });
 
   @override
