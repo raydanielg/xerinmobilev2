@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../config/constants/app_constants.dart';
+import '../widgets/auth_logo.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -73,12 +73,7 @@ class _SignInPageState extends State<SignInPage>
                 child: Column(
                   children: [
                     const SizedBox(height: 40),
-                    SvgPicture.asset(
-                      'assets/logo/full_named_logo.svg',
-                      width: 200,
-                      height: 130,
-                      fit: BoxFit.contain,
-                    ),
+                    const AuthLogo(width: 200, height: 130),
                     const SizedBox(height: 28),
                     Text(
                       'Welcome Back!',

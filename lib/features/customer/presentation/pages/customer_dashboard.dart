@@ -244,10 +244,10 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: _categories.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 8),
+        separatorBuilder: (_, _) => const SizedBox(width: 8),
         itemBuilder: (context, index) {
           final cat = _categories[index];
-          return Container(
+          return SizedBox(
             width: 68,
             child: Column(
               children: [
@@ -285,7 +285,7 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: _featured.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 14),
+        separatorBuilder: (_, _) => const SizedBox(width: 14),
         itemBuilder: (context, index) {
           final product = _featured[index];
           return Container(
