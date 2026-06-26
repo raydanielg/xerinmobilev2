@@ -22,7 +22,6 @@ class _SignInPageState extends State<SignInPage>
   bool _obscurePass = true;
   bool _remember = false;
   bool _isLoading = false;
-  String _role = 'customer'; // 'customer' or 'seller'
 
   late final AnimationController _animCtrl;
   late final Animation<Offset> _slideAnim;
@@ -65,12 +64,7 @@ class _SignInPageState extends State<SignInPage>
 
     setState(() => _isLoading = false);
 
-    // Navigate based on role
-    if (_role == 'seller') {
-      context.go(AppConstants.sellerDashboardRoute);
-    } else {
-      context.go(AppConstants.homeRoute);
-    }
+    context.go(AppConstants.homeRoute);
   }
 
   @override
@@ -197,54 +191,7 @@ class _SignInPageState extends State<SignInPage>
                         ),
                       ],
                     ),
-                    const SizedBox(height: 20),
-                    Container(
-                      padding: const EdgeInsets.all(14),
-                      decoration: BoxDecoration(
-                        color: colorScheme.surface.withValues(alpha: 0.5),
-                        borderRadius: BorderRadius.circular(14),
-                        border: Border.all(
-                          color: colorScheme.onSurface.withValues(alpha: 0.12),
-                        ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Sign in as',
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                              color: colorScheme.onSurface
-                                  .withValues(alpha: 0.7),
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: _roleOption(
-                                  value: 'customer',
-                                  label: 'Customer',
-                                  icon: Icons.shopping_bag_outlined,
-                                  colorScheme: colorScheme,
-                                ),
-                              ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: _roleOption(
-                                  value: 'seller',
-                                  label: 'Seller',
-                                  icon: Icons.storefront_outlined,
-                                  colorScheme: colorScheme,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 32),
                     SizedBox(
                       width: double.infinity,
                       height: 54,
@@ -281,88 +228,12 @@ class _SignInPageState extends State<SignInPage>
                               ),
                       ),
                     ),
-                    const SizedBox(height: 36),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Don't have an account? ",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: colorScheme.onSurface
-                                .withValues(alpha: 0.5),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () =>
-                              context.go(AppConstants.registerRoute),
-                          child: Text(
-                            'Sign Up',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: colorScheme.primary,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
                     const SizedBox(height: 24),
                   ],
                 ),
               ),
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _roleOption({
-    required String value,
-    required String label,
-    required IconData icon,
-    required ColorScheme colorScheme,
-  }) {
-    final isSelected = _role == value;
-
-    return GestureDetector(
-      onTap: () => setState(() => _role = value),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? colorScheme.primary.withValues(alpha: 0.1)
-              : colorScheme.surface,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: isSelected
-                ? colorScheme.primary
-                : colorScheme.onSurface.withValues(alpha: 0.12),
-            width: isSelected ? 1.5 : 1,
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              size: 18,
-              color: isSelected ? colorScheme.primary : colorScheme.onSurface
-                  .withValues(alpha: 0.5),
-            ),
-            const SizedBox(width: 8),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                color: isSelected
-                    ? colorScheme.primary
-                    : colorScheme.onSurface.withValues(alpha: 0.7),
-              ),
-            ),
-          ],
         ),
       ),
     );
