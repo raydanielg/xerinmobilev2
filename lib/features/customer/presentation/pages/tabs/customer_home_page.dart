@@ -615,7 +615,9 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
           p['category'] == _selectedCategory;
       final matchesRegion = _selectedRegion == null ||
           p['region'] == _selectedRegion;
-      return matchesQuery && matchesCategory && matchesRegion;
+      final matchesPrice = _selectedPriceRange == null ||
+          _matchesPriceRange(p['price'] as String);
+      return matchesQuery && matchesCategory && matchesRegion && matchesPrice;
     }).toList();
 
     if (results.isEmpty) {
