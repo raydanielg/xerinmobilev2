@@ -1059,7 +1059,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
 
   Widget _buildCategories(ColorScheme colorScheme) {
     return SizedBox(
-      height: 94,
+      height: 82,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: _categories.length,
@@ -1072,13 +1072,13 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
               extra: {'category': cat.label},
             ),
             child: SizedBox(
-              width: 72,
+              width: 64,
               child: Column(
                 children: [
                   Container(
-                    width: 56,
-                    height: 56,
-                    padding: const EdgeInsets.all(3),
+                    width: 46,
+                    height: 46,
+                    padding: const EdgeInsets.all(2.5),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       gradient: LinearGradient(
@@ -1091,22 +1091,19 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: colorScheme.primary.withValues(alpha: 0.2),
-                          blurRadius: 8,
-                          offset: const Offset(0, 3),
+                          color: colorScheme.primary.withValues(alpha: 0.15),
+                          blurRadius: 6,
+                          offset: const Offset(0, 2),
                         ),
                       ],
                     ),
                     child: Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.white,
-                          width: 2,
-                        ),
                       ),
                       child: Container(
+                        margin: const EdgeInsets.all(2),
                         decoration: BoxDecoration(
                           color: colorScheme.primary.withValues(alpha: 0.08),
                           shape: BoxShape.circle,
@@ -1114,19 +1111,19 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                         child: Icon(
                           cat.icon,
                           color: colorScheme.primary,
-                          size: 24,
+                          size: 20,
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 6),
                   Text(
                     cat.label,
                     textAlign: TextAlign.center,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      fontSize: 11,
+                      fontSize: 10,
                       fontWeight: FontWeight.w600,
                       color: colorScheme.onSurface.withValues(alpha: 0.7),
                     ),
