@@ -227,49 +227,35 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
     final hasBadge = badge.isNotEmpty;
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        width: 46,
-        height: 46,
-        decoration: BoxDecoration(
-          color: colorScheme.primary.withValues(alpha: 0.08),
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(
-            color: colorScheme.primary.withValues(alpha: 0.12),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: colorScheme.primary.withValues(alpha: 0.08),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
+      child: SizedBox(
+        width: 34,
+        height: 34,
         child: Stack(
           clipBehavior: Clip.none,
           children: [
             Center(
               child: Icon(
                 icon,
-                color: colorScheme.onSurface.withValues(alpha: 0.65),
-                size: 22,
+                color: colorScheme.onSurface.withValues(alpha: 0.75),
+                size: 26,
               ),
             ),
             if (hasBadge)
               Positioned(
-                top: 4,
-                right: 6,
+                top: -2,
+                right: -2,
                 child: Container(
-                  padding: const EdgeInsets.all(4),
+                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                   decoration: BoxDecoration(
                     color: const Color(0xFFE53935),
-                    shape: BoxShape.circle,
+                    borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       color: colorScheme.surface,
                       width: 1.5,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: const Color(0xFFE53935).withValues(alpha: 0.4),
+                        color: const Color(0xFFE53935).withValues(alpha: 0.5),
                         blurRadius: 6,
                         offset: const Offset(0, 2),
                       ),
@@ -279,8 +265,9 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                     badge,
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 8,
+                      fontSize: 9,
                       fontWeight: FontWeight.bold,
+                      height: 1,
                     ),
                   ),
                 ),
