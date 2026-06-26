@@ -314,7 +314,7 @@ class _RegisterPageState extends State<RegisterPage>
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(4),
                             ),
-            activeTrackColor: colorScheme.primary,
+            activeThumbColor: colorScheme.primary,
                             materialTapTargetSize:
                                 MaterialTapTargetSize.shrinkWrap,
                           ),
