@@ -1291,7 +1291,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                   children: [
                     ClipRRect(
                       borderRadius:
-                          const BorderRadius.vertical(top: Radius.circular(14)),
+                          const BorderRadius.vertical(top: Radius.circular(10)),
                       child: Image.network(
                         product['image'] as String,
                         height: 130,
