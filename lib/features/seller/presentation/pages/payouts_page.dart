@@ -301,7 +301,7 @@ class _PayoutsPageState extends State<PayoutsPage>
                           ),
                         ),
                       );
-                    }).toList(),
+                    }),
                   ],
                 ),
               ),
