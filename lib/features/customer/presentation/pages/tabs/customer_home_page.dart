@@ -747,196 +747,281 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
   }
 
   void _showFilterSheet(BuildContext context, ColorScheme colorScheme) {
-    showModalBottomSheet(
+    final priceRanges = const [
+      'All',
+      '0 - 100k',
+      '100k - 250k',
+      '250k - 500k',
+      '500k+',
+    ];
+
+    showGeneralDialog(
       context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (context) {
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierColor: Colors.black.withValues(alpha: 0.3),
+      transitionDuration: const Duration(milliseconds: 300),
+      pageBuilder: (_, _, _) {
         return StatefulBuilder(
           builder: (context, setModalState) {
-            return Container(
-              margin: const EdgeInsets.all(16),
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: colorScheme.surface,
-                borderRadius: BorderRadius.circular(24),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.1),
-                    blurRadius: 24,
-                    offset: const Offset(0, 8),
+            return Align(
+              alignment: Alignment.centerRight,
+              child: Material(
+                color: Colors.transparent,
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.88,
+                  height: double.infinity,
+                  padding: const EdgeInsets.only(
+                    top: 16,
+                    left: 20,
+                    right: 20,
+                    bottom: 20,
                   ),
-                ],
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Filter Products',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: colorScheme.onSurface,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Container(
-                          padding: const EdgeInsets.all(6),
-                          decoration: BoxDecoration(
-                            color: colorScheme.onSurface.withValues(alpha: 0.06),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            Icons.close_rounded,
-                            size: 18,
-                            color: colorScheme.onSurface.withValues(alpha: 0.5),
-                          ),
-                        ),
+                  decoration: BoxDecoration(
+                    color: colorScheme.surface,
+                    borderRadius: const BorderRadius.horizontal(
+                      left: Radius.circular(28),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.15),
+                        blurRadius: 24,
+                        offset: const Offset(-4, 0),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
-                  Text(
-                    'Category',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      color: colorScheme.onSurface,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: _categories.map((cat) {
-                      final isSelected = _selectedCategory == cat.label;
-                      return ChoiceChip(
-                        label: Text(cat.label),
-                        selected: isSelected,
-                        onSelected: (selected) {
-                          setModalState(() {
-                            _selectedCategory = selected ? cat.label : null;
-                          });
-                        },
-                        selectedColor: colorScheme.primary.withValues(alpha: 0.15),
-                        backgroundColor: colorScheme.onSurface.withValues(alpha: 0.05),
-                        labelStyle: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: isSelected ? colorScheme.primary : colorScheme.onSurface,
+                  child: SafeArea(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: colorScheme.primary.withValues(alpha: 0.08),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Icon(Icons.tune_rounded,
+                                      color: colorScheme.primary, size: 22),
+                                ),
+                                const SizedBox(width: 12),
+                                Text(
+                                  'Filter Products',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: colorScheme.onSurface,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            GestureDetector(
+                              onTap: () => Navigator.pop(context),
+                              child: Container(
+                                padding: const EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                  color: colorScheme.onSurface.withValues(alpha: 0.06),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  Icons.close_rounded,
+                                  size: 20,
+                                  color: colorScheme.onSurface.withValues(alpha: 0.5),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          side: BorderSide(
-                            color: isSelected
-                                ? colorScheme.primary
-                                : colorScheme.onSurface.withValues(alpha: 0.08),
+                        const SizedBox(height: 24),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _buildFilterSection(
+                                  'Category',
+                                  _categories.map((cat) => cat.label).toList(),
+                                  _selectedCategory,
+                                  (value) => setModalState(() {
+                                    _selectedCategory =
+                                        _selectedCategory == value ? null : value;
+                                  }),
+                                  colorScheme,
+                                ),
+                                const SizedBox(height: 24),
+                                _buildFilterSection(
+                                  'Region / Location',
+                                  _regions,
+                                  _selectedRegion,
+                                  (value) => setModalState(() {
+                                    _selectedRegion =
+                                        _selectedRegion == value ? null : value;
+                                  }),
+                                  colorScheme,
+                                ),
+                                const SizedBox(height: 24),
+                                _buildFilterSection(
+                                  'Price Range (TZS)',
+                                  priceRanges,
+                                  _selectedPriceRange,
+                                  (value) => setModalState(() {
+                                    _selectedPriceRange =
+                                        _selectedPriceRange == value ? null : value;
+                                  }),
+                                  colorScheme,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      );
-                    }).toList(),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    'Region / Location',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      color: colorScheme.onSurface,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: _regions.map((region) {
-                      final isSelected = _selectedRegion == region;
-                      return ChoiceChip(
-                        label: Text(region),
-                        selected: isSelected,
-                        onSelected: (selected) {
-                          setModalState(() {
-                            _selectedRegion = selected ? region : null;
-                          });
-                        },
-                        selectedColor: colorScheme.primary.withValues(alpha: 0.15),
-                        backgroundColor: colorScheme.onSurface.withValues(alpha: 0.05),
-                        labelStyle: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: isSelected ? colorScheme.primary : colorScheme.onSurface,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          side: BorderSide(
-                            color: isSelected
-                                ? colorScheme.primary
-                                : colorScheme.onSurface.withValues(alpha: 0.08),
+                        const SizedBox(height: 16),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 54,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              setState(() {
+                                _searchQuery = _searchCtrl.text.trim().toLowerCase();
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: colorScheme.primary,
+                              foregroundColor: colorScheme.onPrimary,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              elevation: 0,
+                            ),
+                            child: const Text(
+                              'Apply Filters',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                           ),
                         ),
-                      );
-                    }).toList(),
-                  ),
-                  const SizedBox(height: 24),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 54,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        setState(() {
-                          _searchQuery = _searchCtrl.text.trim().toLowerCase();
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: colorScheme.primary,
-                        foregroundColor: colorScheme.onPrimary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
+                        const SizedBox(height: 10),
+                        SizedBox(
+                          width: double.infinity,
+                          child: TextButton(
+                            onPressed: () {
+                              setModalState(() {
+                                _selectedCategory = null;
+                                _selectedRegion = null;
+                                _selectedPriceRange = null;
+                              });
+                            },
+                            style: TextButton.styleFrom(
+                              foregroundColor:
+                                  colorScheme.onSurface.withValues(alpha: 0.6),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                            ),
+                            child: const Text(
+                              'Clear Filters',
+                              style: TextStyle(fontWeight: FontWeight.w600),
+                            ),
+                          ),
                         ),
-                        elevation: 0,
-                      ),
-                      child: const Text(
-                        'Apply Filters',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 12),
-                  SizedBox(
-                    width: double.infinity,
-                    child: TextButton(
-                      onPressed: () {
-                        setModalState(() {
-                          _selectedCategory = null;
-                          _selectedRegion = null;
-                        });
-                      },
-                      style: TextButton.styleFrom(
-                        foregroundColor: colorScheme.onSurface.withValues(alpha: 0.6),
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                      ),
-                      child: const Text(
-                        'Clear Filters',
-                        style: TextStyle(fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             );
           },
         );
       },
+      transitionBuilder: (_, animation, _, child) {
+        return SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(1, 0),
+            end: Offset.zero,
+          ).animate(CurvedAnimation(
+            parent: animation,
+            curve: Curves.easeOutCubic,
+          )),
+          child: child,
+        );
+      },
     );
+  }
+
+  Widget _buildFilterSection(
+    String title,
+    List<String> options,
+    String? selectedValue,
+    ValueChanged<String> onSelected,
+    ColorScheme colorScheme,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w700,
+            color: colorScheme.onSurface,
+          ),
+        ),
+        const SizedBox(height: 12),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: options.map((option) {
+            final isSelected = selectedValue == option;
+            return ChoiceChip(
+              label: Text(option),
+              selected: isSelected,
+              onSelected: (_) => onSelected(option),
+              selectedColor: colorScheme.primary.withValues(alpha: 0.15),
+              backgroundColor: colorScheme.onSurface.withValues(alpha: 0.05),
+              labelStyle: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: isSelected ? colorScheme.primary : colorScheme.onSurface,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+                side: BorderSide(
+                  color: isSelected
+                      ? colorScheme.primary
+                      : colorScheme.onSurface.withValues(alpha: 0.08),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+
+  bool _matchesPriceRange(String price) {
+    if (_selectedPriceRange == null || _selectedPriceRange == 'All') return true;
+    final priceValue = double.tryParse(
+          price.replaceAll('\$', '').replaceAll(',', ''),
+        ) ??
+        0;
+    final tzs = priceValue * 2500;
+
+    switch (_selectedPriceRange) {
+      case '0 - 100k':
+        return tzs >= 0 && tzs <= 100000;
+      case '100k - 250k':
+        return tzs > 100000 && tzs <= 250000;
+      case '250k - 500k':
+        return tzs > 250000 && tzs <= 500000;
+      case '500k+':
+        return tzs > 500000;
+      default:
+        return true;
+    }
   }
 
   Widget _buildSectionTitle(
