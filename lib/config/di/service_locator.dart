@@ -16,6 +16,8 @@ Future<void> initServiceLocator() async {
 
   sl.registerLazySingleton<Logger>(() => Logger());
 
+  sl.registerLazySingleton<AppThemeCubit>(() => AppThemeCubit(sharedPreferences));
+
   sl.registerLazySingleton<Dio>(
     () => Dio(
       BaseOptions(
