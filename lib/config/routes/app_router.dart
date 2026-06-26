@@ -12,9 +12,14 @@ import '../../features/customer/presentation/pages/customer_dashboard.dart';
 import '../../features/customer/presentation/pages/explore_products_page.dart';
 import '../../features/customer/presentation/pages/product_detail_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
+import '../../features/seller/presentation/pages/payouts_page.dart';
+import '../../features/seller/presentation/pages/reports_page.dart';
 import '../../features/seller/presentation/pages/seller_dashboard.dart';
 import '../../features/seller/presentation/pages/seller_details_page.dart';
 import '../../features/seller/presentation/pages/seller_onboarding_page.dart';
+import '../../features/seller/presentation/pages/seller_support_page.dart';
+import '../../features/seller/presentation/pages/shipping_options_page.dart';
+import '../../features/seller/presentation/pages/shop_details_page.dart';
 import '../../features/splash/presentation/pages/splash_page.dart';
 import '../constants/app_constants.dart';
 
@@ -92,6 +97,26 @@ class AppRouter {
       GoRoute(
         path: AppConstants.sellerDetailsRoute,
         builder: (context, state) => const SellerDetailsPage(),
+      ),
+      GoRoute(
+        path: AppConstants.sellerShopDetailsRoute,
+        builder: (context, state) => const ShopDetailsPage(),
+      ),
+      GoRoute(
+        path: AppConstants.sellerShippingOptionsRoute,
+        builder: (context, state) => const ShippingOptionsPage(),
+      ),
+      GoRoute(
+        path: AppConstants.sellerPayoutsRoute,
+        builder: (context, state) => const PayoutsPage(),
+      ),
+      GoRoute(
+        path: AppConstants.sellerReportsRoute,
+        builder: (context, state) => const ReportsPage(),
+      ),
+      GoRoute(
+        path: AppConstants.sellerSupportRoute,
+        builder: (context, state) => const SellerSupportPage(),
       ),
       GoRoute(
         path: AppConstants.registrationSuccessRoute,
