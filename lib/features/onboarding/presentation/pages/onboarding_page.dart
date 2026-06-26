@@ -110,19 +110,39 @@ class _OnboardingPageState extends State<OnboardingPage>
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      body: Column(
+      body: Stack(
         children: [
-          Expanded(
-            flex: 5,
-            child: PageView.builder(
-              controller: _pageController,
-              onPageChanged: _onPageChanged,
-              itemCount: _pages.length,
-              itemBuilder: (context, index) =>
-                  _buildTopSection(_pages[index], colorScheme),
-            ),
+          Column(
+            children: [
+              Expanded(
+                flex: 5,
+                child: PageView.builder(
+                  controller: _pageController,
+                  onPageChanged: _onPageChanged,
+                  itemCount: _pages.length,
+                  itemBuilder: (context, index) =>
+                      _buildTopSection(_pages[index], colorScheme),
+                ),
+              ),
+              _buildBottomSection(colorScheme),
+            ],
           ),
-          _buildBottomSection(colorScheme),
+          if (_currentPage < _pages.length - 1)
+            Positioned(
+              top: MediaQuery.of(context).padding.top + 16,
+              right: 16,
+              child: TextButton(
+                onPressed: _onSkip,
+                child: Text(
+                  'Skip',
+                  style: TextStyle(
+                    color: colorScheme.onSurface.withValues(alpha: 0.6),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );
