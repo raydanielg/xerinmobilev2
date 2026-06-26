@@ -104,6 +104,13 @@ class _RegisterPageState extends State<RegisterPage>
                       ),
                     ),
                     const SizedBox(height: 24),
+                    SvgPicture.asset(
+                      'assets/logo/full_named_logo.svg',
+                      width: 180,
+                      height: 110,
+                      fit: BoxFit.contain,
+                    ),
+                    const SizedBox(height: 20),
                     Text(
                       'Create Account',
                       style: TextStyle(
