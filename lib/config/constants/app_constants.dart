@@ -13,6 +13,7 @@ abstract class AppConstants {
   static const String homeRoute = '/';
   static const String sellerDashboardRoute = '/seller-dashboard';
   static const String sellerOnboardingRoute = '/seller-onboarding';
+  static const String sellerDetailsRoute = '/seller-details';
   static const String registrationSuccessRoute = '/registration-success';
 
   // Timeouts
