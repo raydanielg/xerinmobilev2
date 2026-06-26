@@ -167,10 +167,11 @@ class _OnboardingPageState extends State<OnboardingPage>
         child: AnimatedBuilder(
           animation: _svgAnim,
           builder: (context, child) {
+            final animValue = _svgAnim.value.clamp(0.0, 1.0);
             return Transform.scale(
-              scale: 0.7 + (0.3 * _svgAnim.value),
+              scale: 0.7 + (0.3 * animValue),
               child: Opacity(
-                opacity: _svgAnim.value,
+                opacity: animValue,
                 child: child,
               ),
             );
