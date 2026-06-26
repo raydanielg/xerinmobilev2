@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 340">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F47524;stop-opacity:0.12"/>
+      <stop offset="100%" style="stop-color:#F47524;stop-opacity:0.04"/>
+    </linearGradient>
+    <linearGradient id="boxGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#F47524;stop-opacity:0.85"/>
+      <stop offset="100%" style="stop-color:#F47524;stop-opacity:0.5"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="200" cy="160" r="130" fill="url(#bg2)"/>
+
+  <!-- Shopping bag -->
+  <path d="M160,130 L165,105 Q168,95 178,95 L222,95 Q232,95 235,105 L240,130 Z"
+    fill="none" stroke="#434951" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Bag handles -->
+  <path d="M175,95 Q180,70 190,68 Q200,65 210,68 Q220,70 225,95"
+    fill="none" stroke="#434951" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Items in bag -->
+  <rect x="178" y="115" width="44" height="6" rx="3" fill="#F47524" opacity="0.6"/>
+  <rect x="182" y="128" width="36" height="6" rx="3" fill="#F47524" opacity="0.4"/>
+  <rect x="176" y="141" width="48" height="6" rx="3" fill="#F47524" opacity="0.5"/>
+
+  <!-- Delivery box on right -->
+  <rect x="230" y="145" width="45" height="40" rx="5" fill="url(#boxGrad)"/>
+  <line x1="230" y1="155" x2="275" y2="155" stroke="white" stroke-width="2.5" opacity="0.3"/>
+  <line x1="230" y1="170" x2="275" y2="170" stroke="white" stroke-width="2.5" opacity="0.2"/>
+  <line x1="243" y1="145" x2="243" y2="185" stroke="white" stroke-width="2" opacity="0.25"/>
+
+  <!-- Delivery person -->
+  <!-- Cap -->
+  <path d="M275,82 Q275,68 290,68 Q305,68 305,82" fill="#F47524"/>
+  <rect x="272" y="80" width="36" height="5" rx="2.5" fill="#F47524"/>
+  <!-- Head -->
+  <circle cx="290" cy="100" r="16" fill="#434951"/>
+  <!-- Body -->
+  <path d="M275,130 L275,113 Q275,105 290,105 L305,105 Q305,113 305,130 Z" fill="#F47524"/>
+  <!-- Left arm holding box -->
+  <path d="M275,118 L260,128" stroke="#434951" stroke-width="6" stroke-linecap="round"/>
+  <!-- Right arm -->
+  <path d="M305,118 L318,128" stroke="#434951" stroke-width="6" stroke-linecap="round"/>
+  <!-- Legs -->
+  <rect x="280" y="130" width="8" height="28" rx="4" fill="#434951"/>
+  <rect x="297" y="130" width="8" height="28" rx="4" fill="#434951"/>
+
+  <!-- Motion lines -->
+  <line x1="318" y1="100" x2="335" y2="100" stroke="#F47524" stroke-width="2" opacity="0.3" stroke-linecap="round"/>
+  <line x1="320" y1="112" x2="332" y2="112" stroke="#F47524" stroke-width="2" opacity="0.2" stroke-linecap="round"/>
+  <line x1="318" y1="124" x2="330" y2="124" stroke="#F47524" stroke-width="2" opacity="0.15" stroke-linecap="round"/>
+
+  <!-- Floor line -->
+  <line x1="90" y1="270" x2="310" y2="270" stroke="#F47524" stroke-width="2" opacity="0.3" stroke-dasharray="4,4"/>
+</svg>

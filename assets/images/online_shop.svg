@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 340">
+  <defs>
+    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F47524;stop-opacity:0.12"/>
+      <stop offset="100%" style="stop-color:#F47524;stop-opacity:0.04"/>
+    </linearGradient>
+    <linearGradient id="phoneGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#434951"/>
+      <stop offset="100%" style="stop-color:#434951;stop-opacity:0.8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="200" cy="160" r="130" fill="url(#bg4)"/>
+
+  <!-- Phone body -->
+  <rect x="155" y="80" width="90" height="175" rx="14" fill="url(#phoneGrad)"/>
+  <!-- Screen -->
+  <rect x="163" y="94" width="74" height="145" rx="4" fill="white" opacity="0.92"/>
+  <!-- Notch -->
+  <rect x="185" y="88" width="30" height="4" rx="2" fill="#F47524"/>
+
+  <!-- App grid on screen -->
+  <rect x="172" y="108" width="20" height="20" rx="4" fill="#F47524" opacity="0.2"/>
+  <rect x="200" y="108" width="20" height="20" rx="4" fill="#F47524" opacity="0.15"/>
+  <rect x="172" y="134" width="20" height="20" rx="4" fill="#F47524" opacity="0.25"/>
+  <rect x="200" y="134" width="20" height="20" rx="4" fill="#F47524" opacity="0.15"/>
+  <rect x="172" y="160" width="20" height="20" rx="4" fill="#F47524" opacity="0.2"/>
+  <rect x="200" y="160" width="20" height="20" rx="4" fill="#F47524" opacity="0.25"/>
+
+  <!-- Store icon on screen -->
+  <rect x="172" y="196" width="48" height="32" rx="6" fill="#F47524" opacity="0.12"/>
+  <text x="196" y="216" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#F47524" font-weight="bold">SHOP</text>
+
+  <!-- Shopping bag icon next to phone -->
+  <path d="M260,150 L263,135 Q265,128 272,128 L300,128 Q307,128 309,135 L312,150 Z"
+    fill="none" stroke="#434951" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M268,128 Q272,112 282,110 Q290,108 298,112 Q304,115 304,128"
+    fill="none" stroke="#434951" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="270" y="142" width="34" height="4" rx="2" fill="#F47524" opacity="0.5"/>
+  <rect x="273" y="152" width="28" height="4" rx="2" fill="#F47524" opacity="0.35"/>
+  <rect x="268" y="162" width="38" height="4" rx="2" fill="#F47524" opacity="0.45"/>
+
+  <!-- Floating elements -->
+  <circle cx="140" cy="120" r="8" fill="#F47524" opacity="0.1"/>
+  <circle cx="280" cy="100" r="5" fill="#F47524" opacity="0.08"/>
+  <circle cx="135" cy="200" r="6" fill="#F47524" opacity="0.12"/>
+  <circle cx="295" cy="240" r="4" fill="#F47524" opacity="0.08"/>
+
+  <!-- Floor line -->
+  <line x1="100" y1="270" x2="300" y2="270" stroke="#F47524" stroke-width="2" opacity="0.3" stroke-dasharray="4,4"/>
+</svg>
