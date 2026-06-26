@@ -130,36 +130,38 @@ class _VerifyOtpPageState extends State<VerifyOtpPage>
                       final isFocused = _focusNodes[index].hasFocus;
                       final hasValue = _otpCtls[index].text.isNotEmpty;
                       return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 7),
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: AnimatedContainer(
                           duration: const Duration(milliseconds: 200),
-                          width: 68,
-                          height: 76,
+                          width: 72,
+                          height: 80,
                           decoration: BoxDecoration(
                             color: hasValue
                                 ? colorScheme.primary.withValues(alpha: 0.08)
                                 : colorScheme.surface,
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(18),
                             border: Border.all(
                               color: isFocused
                                   ? colorScheme.primary
                                   : hasValue
                                       ? colorScheme.primary
-                                          .withValues(alpha: 0.3)
+                                          .withValues(alpha: 0.35)
                                       : colorScheme.onSurface
                                           .withValues(alpha: 0.1),
-                              width: isFocused ? 2 : 1.5,
+                              width: isFocused ? 2.5 : 1.5,
                             ),
-                            boxShadow: isFocused
-                                ? [
-                                    BoxShadow(
-                                      color: colorScheme.primary
-                                          .withValues(alpha: 0.12),
-                                      blurRadius: 12,
-                                      offset: const Offset(0, 4),
-                                    ),
-                                  ]
-                                : null,
+                            boxShadow: [
+                              BoxShadow(
+                                color: isFocused
+                                    ? colorScheme.primary
+                                        .withValues(alpha: 0.2)
+                                    : colorScheme.onSurface
+                                        .withValues(alpha: 0.04),
+                                blurRadius: isFocused ? 18 : 6,
+                                offset: const Offset(0, 4),
+                                spreadRadius: isFocused ? 1 : 0,
+                              ),
+                            ],
                           ),
                           child: TextFormField(
                             controller: _otpCtls[index],
@@ -168,15 +170,22 @@ class _VerifyOtpPageState extends State<VerifyOtpPage>
                             textAlign: TextAlign.center,
                             maxLength: 1,
                             style: TextStyle(
-                              fontSize: 26,
+                              fontSize: 28,
                               fontWeight: FontWeight.bold,
                               color: hasValue
                                   ? colorScheme.primary
                                   : colorScheme.onSurface,
                               letterSpacing: 0,
                             ),
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               counterText: '',
+                              hintText: '0',
+                              hintStyle: TextStyle(
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                                color: colorScheme.onSurface
+                                    .withValues(alpha: 0.2),
+                              ),
                               border: InputBorder.none,
                               contentPadding: EdgeInsets.zero,
                               enabledBorder: InputBorder.none,
