@@ -78,6 +78,10 @@ class AppRouter {
         },
       ),
       GoRoute(
+        path: AppConstants.exploreProductsRoute,
+        builder: (context, state) => const ExploreProductsPage(),
+      ),
+      GoRoute(
         path: AppConstants.sellerDashboardRoute,
         builder: (context, state) => const SellerDashboard(),
       ),

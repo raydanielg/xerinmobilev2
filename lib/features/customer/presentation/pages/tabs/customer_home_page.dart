@@ -126,7 +126,12 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
               const SizedBox(height: 14),
               _buildCategories(colorScheme),
               const SizedBox(height: 24),
-              _buildSectionTitle('Featured', 'See all', colorScheme),
+              _buildSectionTitle(
+                'Featured',
+                'See all',
+                colorScheme,
+                onActionTap: () => context.go(AppConstants.exploreProductsRoute),
+              ),
               const SizedBox(height: 14),
               _buildFeaturedProducts(colorScheme),
               const SizedBox(height: 24),
