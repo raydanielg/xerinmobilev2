@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../../../common/presentation/widgets/modern_bottom_nav.dart';
+import 'tabs/customer_cart_page.dart';
+import 'tabs/customer_explore_page.dart';
+import 'tabs/customer_home_page.dart';
+import 'tabs/customer_profile_page.dart';
+import 'tabs/customer_wishlist_page.dart';
+
 class CustomerDashboard extends StatefulWidget {
   const CustomerDashboard({super.key});
 
