@@ -17,7 +17,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
   final _phoneNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
   bool _isSubmitted = false;
-  static const String _countryCode = '+255';
 
   late final AnimationController _animCtrl;
   late final Animation<Offset> _slideAnim;
@@ -119,9 +118,17 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                     ),
                     const SizedBox(height: 40),
                     if (!_isSubmitted)
-                      _buildPhoneInputField(
+                      _buildInputField(
                         controller: _phoneCtrl,
                         focusNode: _phoneNode,
+                        label: 'Phone Number',
+                        hint: '+255 7XX XXX XXX',
+                        icon: Icons.phone_outlined,
+                        validator: (v) =>
+                            v == null || v.isEmpty
+                                ? 'Enter your phone number'
+                                : null,
+                        keyboardType: TextInputType.phone,
                       )
                     else
                       Container(
@@ -140,7 +147,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                             ),
                             const SizedBox(height: 16),
                             Text(
-                              'Reset link sent!',
+                              'Code sent!',
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -149,7 +156,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              'Check your email for instructions to reset your password.',
+                              'Check your SMS for the verification code to reset your password.',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 14,
@@ -177,7 +184,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                             elevation: 0,
                           ),
                           child: const Text(
-                            'Send Reset Link',
+                            'Send Verification Code',
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
