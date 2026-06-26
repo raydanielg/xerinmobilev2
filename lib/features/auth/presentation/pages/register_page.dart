@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../config/constants/app_constants.dart';
+import '../widgets/auth_logo.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -104,12 +104,7 @@ class _RegisterPageState extends State<RegisterPage>
                       ),
                     ),
                     const SizedBox(height: 24),
-                    SvgPicture.asset(
-                      'assets/logo/full_named_logo.svg',
-                      width: 180,
-                      height: 110,
-                      fit: BoxFit.contain,
-                    ),
+                    const AuthLogo(width: 180, height: 110),
                     const SizedBox(height: 20),
                     Text(
                       'Create Account',
