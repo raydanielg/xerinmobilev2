@@ -94,12 +94,7 @@ class _VerifyOtpPageState extends State<VerifyOtpPage>
                     ),
                   ),
                   const SizedBox(height: 32),
-                  SvgPicture.asset(
-                    'assets/logo/full_named_logo.svg',
-                    width: 180,
-                    height: 110,
-                    fit: BoxFit.contain,
-                  ),
+                  const AuthLogo(width: 180, height: 110),
                   const SizedBox(height: 28),
                   Text(
                     'Verify OTP',
