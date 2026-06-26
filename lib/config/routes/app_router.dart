@@ -50,6 +50,19 @@ class AppRouter {
         builder: (context, state) => const CustomerDashboard(),
       ),
       GoRoute(
+        path: AppConstants.categoriesRoute,
+        builder: (context, state) => const CategoriesPage(),
+      ),
+      GoRoute(
+        path: AppConstants.categoryProductsRoute,
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return CategoryProductsPage(
+            category: extra?['category'] as String? ?? 'All',
+          );
+        },
+      ),
+      GoRoute(
         path: AppConstants.sellerDashboardRoute,
         builder: (context, state) => const SellerDashboard(),
       ),
