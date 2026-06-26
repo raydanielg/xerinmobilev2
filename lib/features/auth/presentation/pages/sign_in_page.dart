@@ -162,7 +162,8 @@ class _SignInPageState extends State<SignInPage>
                           ],
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () =>
+                              context.go(AppConstants.forgotPasswordRoute),
                           style: TextButton.styleFrom(
                             padding: EdgeInsets.zero,
                             minimumSize: Size.zero,
