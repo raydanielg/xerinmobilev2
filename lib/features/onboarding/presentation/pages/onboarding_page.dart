@@ -256,26 +256,17 @@ class _OnboardingPageState extends State<OnboardingPage>
                     width: 60,
                     height: 60,
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          colorScheme.primary,
-                          colorScheme.primary.withValues(alpha: 0.8),
-                        ],
-                      ),
+                      color: colorScheme.primary,
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: colorScheme.primary.withValues(alpha: 0.4),
-                          blurRadius: 20,
-                          offset: const Offset(0, 8),
+                          color: colorScheme.primary.withValues(alpha: 0.15),
+                          blurRadius: 8,
+                          offset: const Offset(0, 4),
                         ),
                       ],
                     ),
-                    child: const Icon(
-                      Icons.arrow_forward_rounded,
-                      color: Colors.white,
-                      size: 24,
-                    ),
+                    child: AnimatedArrow(color: colorScheme.onPrimary),
                   ),
                 )
               else
