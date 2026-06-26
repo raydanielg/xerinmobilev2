@@ -1,6 +1,6 @@
 /// General app constants.
 abstract class AppConstants {
-  static const String appName = 'Xerin';
+  static const String appName = 'XerinMarket';
   static const String appVersion = '1.0.0';
 
   // Routes

@@ -26,5 +26,8 @@ Future<void> initServiceLocator() async {
     ),
   );
 
-  // TODO: Register data sources, repositories, and use cases here.
+  // Use cases
+  // sl.registerLazySingleton<GetProductsUseCase>(
+  //   () => GetProductsUseCase(sl()),
+  // );
 }

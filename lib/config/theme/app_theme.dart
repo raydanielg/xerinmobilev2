@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-/// App light and dark themes.
 abstract class AppTheme {
-  static const Color _primary = Color(0xFF6C63FF);
-  static const Color _secondary = Color(0xFF00BFA6);
+  static const Color _primary = Color(0xFFF47524);
+  static const Color _secondary = Color(0xFF434951);
   static const Color _error = Color(0xFFE53935);
   static const Color _darkBackground = Color(0xFF121212);
 
@@ -23,7 +22,7 @@ abstract class AppTheme {
       centerTitle: true,
       elevation: 0,
     ),
-    cardTheme: const CardTheme(
+    cardTheme: const CardThemeData(
       elevation: 2,
       margin: EdgeInsets.zero,
     ),
@@ -59,7 +58,7 @@ abstract class AppTheme {
       centerTitle: true,
       elevation: 0,
     ),
-    cardTheme: const CardTheme(
+    cardTheme: const CardThemeData(
       elevation: 2,
       margin: EdgeInsets.zero,
     ),
