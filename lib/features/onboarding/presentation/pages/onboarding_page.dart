@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../config/constants/app_constants.dart';
+import '../bloc/onboarding_cubit.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -23,28 +23,22 @@ class _OnboardingPageState extends State<OnboardingPage>
 
   final List<_OnboardingItem> _pages = const [
     _OnboardingItem(
-      svg: 'assets/images/store_front.svg',
-      title: 'Discover Our Store',
+      image: 'assets/onboarding/1stonbaoidng .jpg',
+      title: 'Karibu Xerin',
       description:
-          'Browse through thousands of products from top brands. Find everything you need in one place.',
+          'Pata bidhaa bora na bei nafuu. Tembelea maduka yote kutoka kifaa chako.',
     ),
     _OnboardingItem(
-      svg: 'assets/images/fast_delivery.svg',
-      title: 'Fast & Free Delivery',
+      image: 'assets/onboarding/deliveryobaording.jpg',
+      title: 'Usafiri Haraka',
       description:
-          'Get your orders delivered right to your doorstep with free shipping on all orders above \$50.',
+          'Pokea oda zako haraka zaidi. Tunaenda kwa wateja wote kwa muda mfupi.',
     ),
     _OnboardingItem(
-      svg: 'assets/images/payment_shield.svg',
-      title: 'Secure Payments',
+      image: 'assets/onboarding/securepayemtbns.jpg',
+      title: 'Malipo Salama',
       description:
-          'Shop with confidence using our secure payment system. Your data and transactions are always protected.',
-    ),
-    _OnboardingItem(
-      svg: 'assets/images/online_shop.svg',
-      title: 'Shop Anytime Anywhere',
-      description:
-          'Browse thousands of products from your device. Enjoy a seamless shopping experience on the go.',
+          'Lipa kwa usalama kamili. Data na malipo yako yanatazamwa vizuri.',
     ),
   ];
 
@@ -194,8 +188,8 @@ class _OnboardingPageState extends State<OnboardingPage>
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
-            child: SvgPicture.asset(
-              item.svg,
+            child: Image.asset(
+              item.image,
               fit: BoxFit.contain,
               width: 360,
               height: 320,
@@ -445,12 +439,12 @@ class _OnboardingPageState extends State<OnboardingPage>
 }
 
 class _OnboardingItem {
-  final String svg;
+  final String image;
   final String title;
   final String description;
 
   const _OnboardingItem({
-    required this.svg,
+    required this.image,
     required this.title,
     required this.description,
   });
