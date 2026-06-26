@@ -143,23 +143,21 @@ class _OnboardingPageState extends State<OnboardingPage>
     return Stack(
       fit: StackFit.expand,
       children: [
-        // Image fills the entire top section
         Image.asset(
           item.image,
           fit: BoxFit.cover,
           width: double.infinity,
           height: double.infinity,
         ),
-        // Soft gradient overlay for smooth transition to bottom
         Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Colors.black.withOpacity(0.05),
+                Colors.black.withValues(alpha: 0.05),
                 Colors.transparent,
-                Colors.black.withOpacity(0.15),
+                Colors.black.withValues(alpha: 0.15),
               ],
             ),
           ),
@@ -178,7 +176,7 @@ class _OnboardingPageState extends State<OnboardingPage>
           color: colorScheme.surface,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.08),
+              color: Colors.black.withValues(alpha: 0.08),
               blurRadius: 20,
               offset: const Offset(0, -5),
             ),
@@ -188,155 +186,156 @@ class _OnboardingPageState extends State<OnboardingPage>
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-          SlideTransition(
-            position: _slideAnim,
-            child: FadeTransition(
-              opacity: _fadeAnim,
-              child: Column(
-                children: [
-                  Text(
-                    _pages[_currentPage].title,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                      color: colorScheme.onSurface,
-                      height: 1.3,
-                    ),
-                  ),
-                  const SizedBox(height: 14),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: Text(
-                      _pages[_currentPage].description,
+            SlideTransition(
+              position: _slideAnim,
+              child: FadeTransition(
+                opacity: _fadeAnim,
+                child: Column(
+                  children: [
+                    Text(
+                      _pages[_currentPage].title,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 15,
-                        color: colorScheme.onSurface.withValues(alpha: 0.55),
-                        height: 1.6,
-                        letterSpacing: 0.2,
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                        color: colorScheme.onSurface,
+                        height: 1.3,
                       ),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 14),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Text(
+                        _pages[_currentPage].description,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: colorScheme.onSurface.withValues(alpha: 0.55),
+                          height: 1.6,
+                          letterSpacing: 0.2,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(
-              _pages.length,
-              (index) => _buildDot(index, colorScheme),
+            const SizedBox(height: 36),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+                _pages.length,
+                (index) => _buildDot(index, colorScheme),
+              ),
             ),
-          ),
-          const SizedBox(height: 36),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              if (_currentPage > 0)
-                GestureDetector(
-                  onTap: _onBack,
-                  child: Container(
-                    width: 52,
-                    height: 52,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: colorScheme.surface,
-                      border: Border.all(
-                        color: colorScheme.primary.withValues(alpha: 0.25),
-                        width: 1.5,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.04),
-                          blurRadius: 8,
-                          offset: const Offset(0, 2),
+            const SizedBox(height: 36),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                if (_currentPage > 0)
+                  GestureDetector(
+                    onTap: _onBack,
+                    child: Container(
+                      width: 52,
+                      height: 52,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: colorScheme.surface,
+                        border: Border.all(
+                          color: colorScheme.primary.withValues(alpha: 0.25),
+                          width: 1.5,
                         ),
-                      ],
-                    ),
-                    child: Icon(
-                      Icons.arrow_back_rounded,
-                      color: colorScheme.primary,
-                      size: 22,
-                    ),
-                  ),
-                )
-              else
-                const SizedBox(width: 52),
-              if (!isLast)
-                GestureDetector(
-                  onTap: _onNext,
-                  child: Container(
-                    width: 60,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      color: colorScheme.primary,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: colorScheme.primary.withValues(alpha: 0.15),
-                          blurRadius: 8,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: AnimatedArrow(color: colorScheme.onPrimary),
-                  ),
-                )
-              else
-                GestureDetector(
-                  onTap: _onGetStarted,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 32,
-                      vertical: 16,
-                    ),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          colorScheme.primary,
-                          colorScheme.primary.withValues(alpha: 0.8),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.04),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
+                          ),
                         ],
                       ),
-                      borderRadius: BorderRadius.circular(30),
-                      boxShadow: [
-                        BoxShadow(
-                          color: colorScheme.primary.withValues(alpha: 0.4),
-                          blurRadius: 20,
-                          offset: const Offset(0, 8),
-                        ),
-                      ],
+                      child: Icon(
+                        Icons.arrow_back_rounded,
+                        color: colorScheme.primary,
+                        size: 22,
+                      ),
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text(
-                          'Get Started',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
+                  )
+                else
+                  const SizedBox(width: 52),
+                if (!isLast)
+                  GestureDetector(
+                    onTap: _onNext,
+                    child: Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        color: colorScheme.primary,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: colorScheme.primary.withValues(alpha: 0.15),
+                            blurRadius: 8,
+                            offset: const Offset(0, 4),
                           ),
+                        ],
+                      ),
+                      child: AnimatedArrow(color: colorScheme.onPrimary),
+                    ),
+                  )
+                else
+                  GestureDetector(
+                    onTap: _onGetStarted,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 32,
+                        vertical: 16,
+                      ),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            colorScheme.primary,
+                            colorScheme.primary.withValues(alpha: 0.8),
+                          ],
                         ),
-                        const SizedBox(width: 10),
-                        const Icon(
-                          Icons.arrow_forward_rounded,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                      ],
+                        borderRadius: BorderRadius.circular(30),
+                        boxShadow: [
+                          BoxShadow(
+                            color: colorScheme.primary.withValues(alpha: 0.4),
+                            blurRadius: 20,
+                            offset: const Offset(0, 8),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text(
+                            'Get Started',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          const Icon(
+                            Icons.arrow_forward_rounded,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
-Widget _buildDot(int index, ColorScheme colorScheme) {
+  Widget _buildDot(int index, ColorScheme colorScheme) {
     final isActive = index == _currentPage;
 
     return AnimatedContainer(
@@ -376,52 +375,15 @@ class _OnboardingItem {
   });
 }
 
-class _CurveClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    final path = Path()
-      ..lineTo(0, size.height - 50)
-      ..cubicTo(
-        size.width * 0.15,
-        size.height - 10,
-        size.width * 0.35,
-        size.height + 10,
-        size.width * 0.5,
-        size.height - 15,
-      )
-      ..cubicTo(
-        size.width * 0.65,
-        size.height - 40,
-        size.width * 0.85,
-        size.height - 20,
-        size.width,
-        size.height - 55,
-      )
-      ..lineTo(size.width, 0)
-      ..close();
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
-}
-
 class _UpwardCurveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final path = Path()
       ..lineTo(0, 40)
-      ..quadraticBezierTo(
-        size.width * 0.5,
-        0,
-        size.width,
-        40,
-      )
+      ..quadraticBezierTo(size.width * 0.5, 0, size.width, 40)
       ..lineTo(size.width, size.height)
       ..lineTo(0, size.height)
       ..close();
-
     return path;
   }
 
@@ -470,9 +432,8 @@ class _AnimatedArrowState extends State<AnimatedArrow>
           child: child,
         );
       },
-      child: Icon(
+      child: const Icon(
         Icons.arrow_forward_rounded,
-        color: widget.color,
         size: 24,
       ),
     );
