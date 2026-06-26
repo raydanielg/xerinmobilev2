@@ -151,9 +151,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                         keyboardType: TextInputType.phone,
                         maxLength: 9,
                         prefix: Container(
-                          margin: const EdgeInsets.only(left: 8, right: 4),
+                          margin: const EdgeInsets.only(left: 4, right: 4),
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 6),
+                              horizontal: 6, vertical: 6),
                           decoration: BoxDecoration(
                             color: colorScheme.primary.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(8),
