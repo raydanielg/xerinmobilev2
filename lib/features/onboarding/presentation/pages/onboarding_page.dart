@@ -136,7 +136,7 @@ class _OnboardingPageState extends State<OnboardingPage>
                 child: Text(
                   'Skip',
                   style: TextStyle(
-                    color: colorScheme.onSurface.withValues(alpha: 0.6),
+                    color: colorScheme.onSurface.withOpacity(0.6),
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                   ),
@@ -158,8 +158,8 @@ class _OnboardingPageState extends State<OnboardingPage>
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              colorScheme.primary.withValues(alpha: 0.18),
-              colorScheme.primary.withValues(alpha: 0.05),
+              colorScheme.primary.withOpacity(0.18),
+              colorScheme.primary.withOpacity(0.05),
               colorScheme.surface,
             ],
           ),
@@ -221,7 +221,7 @@ class _OnboardingPageState extends State<OnboardingPage>
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 15,
-                        color: colorScheme.onSurface.withValues(alpha: 0.55),
+                        color: colorScheme.onSurface.withOpacity(0.55),
                         height: 1.6,
                         letterSpacing: 0.2,
                       ),
@@ -253,12 +253,12 @@ class _OnboardingPageState extends State<OnboardingPage>
                       shape: BoxShape.circle,
                       color: colorScheme.surface,
                       border: Border.all(
-                        color: colorScheme.primary.withValues(alpha: 0.25),
+                        color: colorScheme.primary.withOpacity(0.25),
                         width: 1.5,
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.04),
+                          color: Colors.black.withOpacity(0.04),
                           blurRadius: 8,
                           offset: const Offset(0, 2),
                         ),
@@ -367,13 +367,13 @@ class _OnboardingPageState extends State<OnboardingPage>
             ? LinearGradient(
                 colors: [
                   colorScheme.primary,
-                  colorScheme.primary.withValues(alpha: 0.6),
+                  colorScheme.primary.withOpacity(0.6),
                 ],
               )
             : LinearGradient(
                 colors: [
-                  colorScheme.primary.withValues(alpha: 0.2),
-                  colorScheme.primary.withValues(alpha: 0.2),
+                  colorScheme.primary.withOpacity(0.2),
+                  colorScheme.primary.withOpacity(0.2),
                 ],
               ),
         borderRadius: BorderRadius.circular(4),
@@ -392,7 +392,7 @@ class _OnboardingPageState extends State<OnboardingPage>
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.06),
+              color: Colors.black.withOpacity(0.06),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -411,7 +411,7 @@ class _OnboardingPageState extends State<OnboardingPage>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: colorScheme.primary.withValues(alpha: 0.1),
+        color: colorScheme.primary.withOpacity(0.1),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
