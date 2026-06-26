@@ -196,7 +196,7 @@ class _CustomerCartPageState extends State<CustomerCartPage> {
                           ),
                         ),
                         Text(
-                          '\$${total.toStringAsFixed(2)}',
+                          'TSh ${_formatTzs(total)}',
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
