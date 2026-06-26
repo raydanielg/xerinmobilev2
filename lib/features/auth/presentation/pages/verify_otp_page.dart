@@ -74,9 +74,10 @@ class _VerifyOtpPageState extends State<VerifyOtpPage>
             position: _slideAnim,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 28),
-              child: Column(
-                children: [
-                  const SizedBox(height: 16),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 16),
                   GestureDetector(
                     onTap: () {
                       if (context.canPop()) {
