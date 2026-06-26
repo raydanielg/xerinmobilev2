@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../config/constants/app_constants.dart';
-import '../bloc/onboarding_cubit.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -16,10 +15,9 @@ class _OnboardingPageState extends State<OnboardingPage>
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
-  late final AnimationController _svgCtrl;
-  late final Animation<double> _svgAnim;
-  late final AnimationController _textCtrl;
-  late final Animation<Offset> _textAnim;
+  late final AnimationController _animCtrl;
+  late final Animation<Offset> _slideAnim;
+  late final Animation<double> _fadeAnim;
 
   final List<_OnboardingItem> _pages = const [
     _OnboardingItem(
@@ -45,38 +43,28 @@ class _OnboardingPageState extends State<OnboardingPage>
   @override
   void initState() {
     super.initState();
-    _svgCtrl = AnimationController(
+    _animCtrl = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 900),
+      duration: const Duration(milliseconds: 700),
     );
-    _svgAnim = CurvedAnimation(parent: _svgCtrl, curve: Curves.elasticOut);
-    _textCtrl = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 600),
-    );
-    _textAnim = Tween<Offset>(
-      begin: const Offset(0, 0.25),
+    _slideAnim = Tween<Offset>(
+      begin: const Offset(0, 0.3),
       end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _textCtrl, curve: Curves.easeOutCubic));
-    _playAnimations();
+    ).animate(CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic));
+    _fadeAnim = CurvedAnimation(parent: _animCtrl, curve: Curves.easeOut);
+    _animCtrl.forward();
   }
 
   @override
   void dispose() {
-    _svgCtrl.dispose();
-    _textCtrl.dispose();
+    _animCtrl.dispose();
     _pageController.dispose();
     super.dispose();
   }
 
-  void _playAnimations() {
-    _svgCtrl.forward(from: 0);
-    _textCtrl.forward(from: 0);
-  }
-
   void _onPageChanged(int index) {
     setState(() => _currentPage = index);
-    _playAnimations();
+    _animCtrl.forward(from: 0);
   }
 
   void _onNext() {
@@ -136,7 +124,7 @@ class _OnboardingPageState extends State<OnboardingPage>
                 child: Text(
                   'Skip',
                   style: TextStyle(
-                    color: colorScheme.onSurface.withOpacity(0.6),
+                    color: colorScheme.onSurface.withValues(alpha: 0.6),
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                   ),
@@ -158,20 +146,20 @@ class _OnboardingPageState extends State<OnboardingPage>
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              colorScheme.primary.withOpacity(0.18),
-              colorScheme.primary.withOpacity(0.05),
+              colorScheme.primary.withValues(alpha: 0.18),
+              colorScheme.primary.withValues(alpha: 0.05),
               colorScheme.surface,
             ],
           ),
         ),
         child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
-            child: Image.asset(
-              item.image,
-              fit: BoxFit.contain,
-              width: 360,
-              height: 320,
-            ),
+          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
+          child: Image.asset(
+            item.image,
+            fit: BoxFit.contain,
+            width: 360,
+            height: 320,
+          ),
         ),
       ),
     );
@@ -186,9 +174,9 @@ class _OnboardingPageState extends State<OnboardingPage>
         mainAxisSize: MainAxisSize.min,
         children: [
           SlideTransition(
-            position: _textAnim,
+            position: _slideAnim,
             child: FadeTransition(
-              opacity: _textCtrl,
+              opacity: _fadeAnim,
               child: Column(
                 children: [
                   Text(
@@ -209,7 +197,7 @@ class _OnboardingPageState extends State<OnboardingPage>
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 15,
-                        color: colorScheme.onSurface.withOpacity(0.55),
+                        color: colorScheme.onSurface.withValues(alpha: 0.55),
                         height: 1.6,
                         letterSpacing: 0.2,
                       ),
@@ -241,12 +229,12 @@ class _OnboardingPageState extends State<OnboardingPage>
                       shape: BoxShape.circle,
                       color: colorScheme.surface,
                       border: Border.all(
-                        color: colorScheme.primary.withOpacity(0.25),
+                        color: colorScheme.primary.withValues(alpha: 0.25),
                         width: 1.5,
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.04),
+                          color: Colors.black.withValues(alpha: 0.04),
                           blurRadius: 8,
                           offset: const Offset(0, 2),
                         ),
@@ -271,13 +259,13 @@ class _OnboardingPageState extends State<OnboardingPage>
                       gradient: LinearGradient(
                         colors: [
                           colorScheme.primary,
-                          colorScheme.primary.withOpacity(0.8),
+                          colorScheme.primary.withValues(alpha: 0.8),
                         ],
                       ),
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: colorScheme.primary.withOpacity(0.4),
+                          color: colorScheme.primary.withValues(alpha: 0.4),
                           blurRadius: 20,
                           offset: const Offset(0, 8),
                         ),
@@ -302,13 +290,13 @@ class _OnboardingPageState extends State<OnboardingPage>
                       gradient: LinearGradient(
                         colors: [
                           colorScheme.primary,
-                          colorScheme.primary.withOpacity(0.8),
+                          colorScheme.primary.withValues(alpha: 0.8),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(30),
                       boxShadow: [
                         BoxShadow(
-                          color: colorScheme.primary.withOpacity(0.4),
+                          color: colorScheme.primary.withValues(alpha: 0.4),
                           blurRadius: 20,
                           offset: const Offset(0, 8),
                         ),
@@ -355,61 +343,16 @@ class _OnboardingPageState extends State<OnboardingPage>
             ? LinearGradient(
                 colors: [
                   colorScheme.primary,
-                  colorScheme.primary.withOpacity(0.6),
+                  colorScheme.primary.withValues(alpha: 0.6),
                 ],
               )
             : LinearGradient(
                 colors: [
-                  colorScheme.primary.withOpacity(0.2),
-                  colorScheme.primary.withOpacity(0.2),
+                  colorScheme.primary.withValues(alpha: 0.2),
+                  colorScheme.primary.withValues(alpha: 0.2),
                 ],
               ),
         borderRadius: BorderRadius.circular(4),
-      ),
-    );
-  }
-
-  Widget _buildBackButton(ColorScheme colorScheme) {
-    return GestureDetector(
-      onTap: _onBack,
-      child: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          color: colorScheme.surface,
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.06),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Icon(
-          Icons.arrow_back_rounded,
-          color: colorScheme.primary,
-          size: 20,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPageCounter(ColorScheme colorScheme) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: colorScheme.primary.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Text(
-        '${(_currentPage + 1).toString().padLeft(2, '0')} / ${_pages.length.toString().padLeft(2, '0')}',
-        style: TextStyle(
-          color: colorScheme.primary,
-          fontSize: 13,
-          fontWeight: FontWeight.w600,
-          letterSpacing: 1,
-        ),
       ),
     );
   }
