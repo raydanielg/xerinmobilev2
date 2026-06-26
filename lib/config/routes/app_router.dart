@@ -3,11 +3,13 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/auth/presentation/pages/forgot_password_page.dart';
 import '../../features/auth/presentation/pages/register_page.dart';
+import '../../features/auth/presentation/pages/registration_success_page.dart';
 import '../../features/auth/presentation/pages/sign_in_page.dart';
 import '../../features/auth/presentation/pages/verify_otp_page.dart';
 import '../../features/customer/presentation/pages/customer_dashboard.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../../features/seller/presentation/pages/seller_dashboard.dart';
+import '../../features/seller/presentation/pages/seller_onboarding_page.dart';
 import '../../features/splash/presentation/pages/splash_page.dart';
 import '../constants/app_constants.dart';
 
@@ -47,6 +49,17 @@ class AppRouter {
       GoRoute(
         path: AppConstants.sellerDashboardRoute,
         builder: (context, state) => const SellerDashboard(),
+      ),
+      GoRoute(
+        path: AppConstants.sellerOnboardingRoute,
+        builder: (context, state) => const SellerOnboardingPage(),
+      ),
+      GoRoute(
+        path: AppConstants.registrationSuccessRoute,
+        builder: (context, state) => const RegistrationSuccessPage(
+          isSeller: true,
+          shopName: 'XerinMart Store',
+        ),
       ),
     ],
     errorBuilder: (context, state) => Scaffold(

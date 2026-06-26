@@ -12,6 +12,8 @@ abstract class AppConstants {
   static const String forgotPasswordRoute = '/forgot-password';
   static const String homeRoute = '/';
   static const String sellerDashboardRoute = '/seller-dashboard';
+  static const String sellerOnboardingRoute = '/seller-onboarding';
+  static const String registrationSuccessRoute = '/registration-success';
 
   // Timeouts
   static const int connectionTimeoutSeconds = 30;

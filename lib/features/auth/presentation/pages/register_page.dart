@@ -123,7 +123,13 @@ class _RegisterPageState extends State<RegisterPage>
                   children: [
                     const SizedBox(height: 16),
                     GestureDetector(
-                      onTap: () => context.pop(),
+                      onTap: () {
+                        if (context.canPop()) {
+                          context.pop();
+                        } else {
+                          context.go(AppConstants.signInRoute);
+                        }
+                      },
                       child: Container(
                         width: 44,
                         height: 44,
@@ -308,7 +314,7 @@ class _RegisterPageState extends State<RegisterPage>
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(4),
                             ),
-                            activeColor: colorScheme.primary,
+            activeTrackColor: colorScheme.primary,
                             materialTapTargetSize:
                                 MaterialTapTargetSize.shrinkWrap,
                           ),
@@ -532,7 +538,7 @@ class _RegisterPageState extends State<RegisterPage>
           ),
           const SizedBox(height: 16),
           DropdownButtonFormField<String>(
-            value: _shopCategory,
+            initialValue: _shopCategory,
             items: _categories.map((cat) {
               return DropdownMenuItem(value: cat, child: Text(cat));
             }).toList(),

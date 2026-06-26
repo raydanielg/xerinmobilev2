@@ -78,7 +78,13 @@ class _VerifyOtpPageState extends State<VerifyOtpPage>
                 children: [
                   const SizedBox(height: 16),
                   GestureDetector(
-                    onTap: () => context.pop(),
+                    onTap: () {
+                      if (context.canPop()) {
+                        context.pop();
+                      } else {
+                        context.go(AppConstants.registerRoute);
+                      }
+                    },
                     child: Container(
                       width: 44,
                       height: 44,
