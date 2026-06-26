@@ -171,23 +171,21 @@ class _OnboardingPageState extends State<OnboardingPage>
   Widget _buildBottomSection(ColorScheme colorScheme) {
     final isLast = _currentPage == _pages.length - 1;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(40),
-          topRight: Radius.circular(40),
+    return ClipPath(
+      clipper: _UpwardCurveClipper(),
+      child: Container(
+        decoration: BoxDecoration(
+          color: colorScheme.surface,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.08),
+              blurRadius: 20,
+              offset: const Offset(0, -5),
+            ),
+          ],
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            blurRadius: 20,
-            offset: const Offset(0, -5),
-          ),
-        ],
-      ),
-      padding: const EdgeInsets.fromLTRB(32, 32, 32, 32),
-      child: Column(
+        padding: const EdgeInsets.fromLTRB(32, 60, 32, 32),
+        child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           SlideTransition(
