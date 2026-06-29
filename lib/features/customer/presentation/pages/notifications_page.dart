@@ -30,7 +30,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
   void _markAllRead() {
     setState(() {
       for (final n in _notifications) {
-        n is NotificationModel;
+        // n is NotificationModel;
       }
     });
     ScaffoldMessenger.of(context).showSnackBar(

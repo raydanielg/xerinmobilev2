@@ -54,7 +54,8 @@ class SettingsPage extends StatelessWidget {
                     trailing: Switch(
                       value: isDark,
                       onChanged: (_) => context.read<AppThemeCubit>().toggleTheme(),
-                      activeColor: colorScheme.primary,
+                      activeTrackColor: colorScheme.primary.withValues(alpha: 0.5),
+                      activeThumbColor: colorScheme.primary,
                     ),
                     colorScheme: colorScheme,
                   );

@@ -20,9 +20,7 @@ class CustomerExplorePage extends StatefulWidget {
 
 class _CustomerExplorePageState extends State<CustomerExplorePage> {
   final _searchCtrl = TextEditingController();
-  late final ProductsCubit _productsCubit;
   String _searchQuery = '';
-  String _selectedCategory = 'All';
 
   static IconData _categoryIcon(String name) {
     final n = name.toLowerCase();
@@ -63,9 +61,7 @@ class _CustomerExplorePageState extends State<CustomerExplorePage> {
           final categories = state is ProductsLoaded ? state.categories : <CategoryModel>[];
           final products = state is ProductsLoaded ? state.products : <ProductModel>[];
           final trending = state is ProductsLoaded ? state.trending : <ProductModel>[];
-          final isLoading = state is ProductsLoading;
-          final homeState = context.read<HomeCubit>().state;
-          final user = homeState is HomeLoaded ? homeState.user : null;
+        final isLoading = state is ProductsLoading;
 
           return SafeArea(
           child: SingleChildScrollView(
@@ -92,7 +88,7 @@ class _CustomerExplorePageState extends State<CustomerExplorePage> {
                       children: [
                         _iconBtn(Icons.notifications_outlined, colorScheme, () => context.push(AppConstants.notificationsRoute)),
                         const SizedBox(width: 8),
-                        _iconBtn(Icons.favorite_outline_rounded, colorScheme, () => null),
+                        _iconBtn(Icons.favorite_outline_rounded, colorScheme, () {}),
                       ],
                     ),
                   ],
