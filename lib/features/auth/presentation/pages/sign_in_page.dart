@@ -63,10 +63,11 @@ class _SignInPageState extends State<SignInPage>
   }
 
   void _onStateChange(BuildContext context, AuthState state) {
-    if (state is AuthLoginSuccess) {
+    if (state is AuthLoginSuccess || state is AuthGuest) {
+      final message = state is AuthLoginSuccess ? 'Signed in successfully!' : 'Welcome, Guest!';
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Signed in successfully!'),
+        SnackBar(
+          content: Text(message),
           backgroundColor: Colors.green,
           behavior: SnackBarBehavior.floating,
         ),
@@ -246,6 +247,22 @@ class _SignInPageState extends State<SignInPage>
                                   letterSpacing: 0.3,
                                 ),
                               ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: OutlinedButton.icon(
+                        onPressed: isLoading ? null : () => context.read<AuthCubit>().continueAsGuest(),
+                        icon: Icon(Icons.person_outline_rounded, color: colorScheme.primary, size: 20),
+                        label: const Text('Continue as Guest', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: colorScheme.primary,
+                          side: BorderSide(color: colorScheme.primary.withValues(alpha: 0.3), width: 1.5),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                          elevation: 0,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 24),

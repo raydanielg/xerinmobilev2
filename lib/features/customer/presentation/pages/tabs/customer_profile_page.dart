@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../config/constants/app_constants.dart';
 import '../../../../auth/presentation/cubit/auth_cubit.dart';
+import '../../../../config/di/service_locator.dart';
+import '../../../../core/storage/token_storage.dart';
 import '../../cubit/home_cubit.dart';
 import '../../cubit/home_state.dart';
 
@@ -79,6 +81,10 @@ class CustomerProfilePage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
+            if (sl<TokenStorage>().isGuestMode)
+              _buildGuestBanner(colorScheme),
+            if (sl<TokenStorage>().isGuestMode)
+              const SizedBox(height: 24),
             Container(
               decoration: BoxDecoration(
                 color: colorScheme.surface,
