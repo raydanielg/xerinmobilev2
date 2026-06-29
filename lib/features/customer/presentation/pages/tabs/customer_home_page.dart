@@ -783,6 +783,10 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
   }
 
   void _showFilterSheet(BuildContext context, ColorScheme colorScheme) {
+    final homeState = context.read<HomeCubit>().state;
+    final categoryNames = homeState is HomeLoaded
+        ? homeState.categories.map((c) => c.name).toList()
+        : <String>[];
     final priceRanges = const [
       'All',
       '0 - 100k',
@@ -880,7 +884,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                               children: [
                                 _buildFilterSection(
                                   'Category',
-                                  _categories.map((cat) => cat.label).toList(),
+                                  categoryNames,
                                   _selectedCategory,
                                   (value) => setModalState(() {
                                     _selectedCategory =
@@ -919,15 +923,11 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                           width: double.infinity,
                           height: 54,
                           child: ElevatedButton(
-                            onPressed: () async {
+                            onPressed: () {
                               Navigator.pop(modalContext);
-                              _showFilterLoadingDialog(context, colorScheme);
-                              await Future.delayed(const Duration(seconds: 2));
-                              if (!context.mounted) return;
-                              Navigator.pop(context);
-                              setState(() {
-                                _searchQuery = _searchCtrl.text.trim().toLowerCase();
-                              });
+                              final q = _searchCtrl.text.trim();
+                              setState(() => _searchQuery = q.toLowerCase());
+                              context.read<HomeCubit>().searchProducts(q);
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: colorScheme.primary,
