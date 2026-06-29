@@ -1,6 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
-class CustomerWishlistPage extends StatelessWidget {
+import '../../../../../config/constants/app_constants.dart';
+import '../../../../../config/di/service_locator.dart';
+import '../../data/models/wishlist_item_model.dart';
+import '../../cubit/wishlist_cubit.dart';
+import '../../cubit/wishlist_state.dart';
+
+class CustomerWishlistPage extends StatefulWidget {
+  const CustomerWishlistPage({super.key});
+
+  @override
+  State<CustomerWishlistPage> createState() => _CustomerWishlistPageState();
+}
+
+class _CustomerWishlistPageState extends State<CustomerWishlistPage> {
+  late final WishlistCubit _wishlistCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _wishlistCubit = sl<WishlistCubit>()..loadWishlist();
+  }
+
+  @override
+  void dispose() {
+    _wishlistCubit.close();
+    super.dispose();
+  }
+
   const CustomerWishlistPage({super.key});
 
   @override
