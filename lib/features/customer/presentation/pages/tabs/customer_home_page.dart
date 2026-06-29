@@ -121,7 +121,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
     );
   }
 
-  Widget _buildHeader(ColorScheme colorScheme) {
+  Widget _buildHeader(ColorScheme colorScheme, {required String userName}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -180,7 +180,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Good morning 👋',
+                  _greeting(),
                   style: TextStyle(
                     fontSize: 13,
                     color: colorScheme.onSurface.withValues(alpha: 0.45),
@@ -189,7 +189,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'John Doe',
+                  userName,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -552,7 +552,11 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
             child: TextField(
               controller: _searchCtrl,
               focusNode: _searchNode,
-              onChanged: (v) => setState(() => _searchQuery = v.trim().toLowerCase()),
+              onChanged: (v) {
+                final q = v.trim();
+                setState(() => _searchQuery = q.toLowerCase());
+                context.read<HomeCubit>().searchProducts(q);
+              },
               decoration: InputDecoration(
                 hintText: 'Search products...',
                 hintStyle: TextStyle(
