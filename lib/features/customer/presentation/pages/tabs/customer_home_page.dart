@@ -1188,19 +1188,65 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
     );
   }
 
-  Widget _buildCategories(ColorScheme colorScheme) {
+  Widget _buildCategories(
+    ColorScheme colorScheme,
+    List<CategoryModel> categories,
+    bool isLoading,
+  ) {
+    if (isLoading) {
+      return SizedBox(
+        height: 82,
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          itemCount: 6,
+          separatorBuilder: (_, __) => const SizedBox(width: 10),
+          itemBuilder: (_, __) => SizedBox(
+            width: 64,
+            child: Column(
+              children: [
+                Container(
+                  width: 46,
+                  height: 46,
+                  decoration: BoxDecoration(
+                    color: colorScheme.onSurface.withValues(alpha: 0.06),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Container(
+                  width: 40,
+                  height: 10,
+                  decoration: BoxDecoration(
+                    color: colorScheme.onSurface.withValues(alpha: 0.06),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    if (categories.isEmpty) {
+      return const SizedBox(
+        height: 82,
+        child: Center(child: Text('No categories', style: TextStyle(fontSize: 13))),
+      );
+    }
+
     return SizedBox(
       height: 82,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        itemCount: _categories.length,
-        separatorBuilder: (_, _) => const SizedBox(width: 10),
+        itemCount: categories.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 10),
         itemBuilder: (context, index) {
-          final cat = _categories[index];
+          final cat = categories[index];
           return GestureDetector(
             onTap: () => context.go(
               AppConstants.categoryProductsRoute,
-              extra: {'category': cat.label},
+              extra: {'category': cat.name, 'categoryId': cat.id},
             ),
             child: SizedBox(
               width: 64,
@@ -1240,7 +1286,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
-                          cat.icon,
+                          _categoryIcon(cat.name),
                           color: colorScheme.primary,
                           size: 20,
                         ),
@@ -1249,7 +1295,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    cat.label,
+                    cat.name,
                     textAlign: TextAlign.center,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
