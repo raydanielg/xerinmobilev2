@@ -8,6 +8,8 @@ import '../../core/storage/token_storage.dart';
 import '../../core/theme/app_theme_cubit.dart';
 import '../../features/auth/data/datasources/auth_remote_datasource.dart';
 import '../../features/auth/presentation/cubit/auth_cubit.dart';
+import '../../features/customer/data/datasources/product_remote_datasource.dart';
+import '../../features/customer/presentation/cubit/home_cubit.dart';
 import '../constants/api_constants.dart';
 
 final GetIt sl = GetIt.instance;
@@ -56,6 +58,17 @@ Future<void> initServiceLocator() async {
     () => AuthCubit(
       dataSource: sl(),
       tokenStorage: sl(),
+      logger: sl(),
+    ),
+  );
+
+  // Customer / Products
+  sl.registerLazySingleton<ProductRemoteDataSource>(
+      () => ProductRemoteDataSource(sl()));
+  sl.registerFactory<HomeCubit>(
+    () => HomeCubit(
+      productDataSource: sl(),
+      authDataSource: sl(),
       logger: sl(),
     ),
   );

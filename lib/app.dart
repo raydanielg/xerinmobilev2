@@ -6,6 +6,7 @@ import 'config/routes/app_router.dart';
 import 'config/theme/app_theme.dart';
 import 'core/theme/app_theme_cubit.dart';
 import 'features/auth/presentation/cubit/auth_cubit.dart';
+import 'features/customer/presentation/cubit/home_cubit.dart';
 
 /// Root app widget.
 class XerinApp extends StatelessWidget {
@@ -17,6 +18,7 @@ class XerinApp extends StatelessWidget {
       providers: [
         BlocProvider.value(value: sl<AppThemeCubit>()),
         BlocProvider(create: (_) => sl<AuthCubit>()),
+        BlocProvider(create: (_) => sl<HomeCubit>()..loadHome()),
       ],
       child: BlocBuilder<AppThemeCubit, AppThemeState>(
         builder: (context, state) {
