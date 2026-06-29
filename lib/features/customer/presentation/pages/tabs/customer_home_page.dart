@@ -113,7 +113,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                   const SizedBox(height: 24),
                   _buildSectionTitle('Recent Orders', '', colorScheme),
                   const SizedBox(height: 14),
-                  _buildRecentOrders(colorScheme),
+                  _buildRecentOrders(colorScheme, orders),
                   const SizedBox(height: 24),
                 ],
               ],
