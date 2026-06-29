@@ -13,14 +13,17 @@ import 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   final ProductRemoteDataSource _productDs;
+  final CustomerRemoteDataSource _customerDs;
   final AuthRemoteDataSource _authDs;
   final Logger _logger;
 
   HomeCubit({
     required ProductRemoteDataSource productDataSource,
+    required CustomerRemoteDataSource customerDataSource,
     required AuthRemoteDataSource authDataSource,
     required Logger logger,
   })  : _productDs = productDataSource,
+        _customerDs = customerDataSource,
         _authDs = authDataSource,
         _logger = logger,
         super(const HomeInitial());
