@@ -2,6 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
 
 import '../../data/datasources/product_remote_datasource.dart';
+import '../../data/models/category_model.dart';
+import '../../data/models/product_model.dart';
 import 'products_state.dart';
 
 class ProductsCubit extends Cubit<ProductsState> {
@@ -67,18 +69,17 @@ class ProductsCubit extends Cubit<ProductsState> {
   Future<void> loadAll({int productLimit = 50}) async {
     emit(const ProductsLoading());
     try {
-      final results = await Future.wait([
-        _productDs.getCategories().catchError((_) => []),
-        _productDs.getProducts(limit: productLimit, isActive: true).catchError((_) => []),
-      ]);
-      final categories = (results[0] as List).cast<dynamic>();
-      final products = (results[1] as List).cast<dynamic>();
+      final catFuture = _productDs.getCategories().then<dynamic>((v) => v).catchError((_) => null);
+      final prodFuture = _productDs.getProducts(limit: productLimit, isActive: true).then<dynamic>((v) => v).catchError((_) => null);
+      final results = await Future.wait([catFuture, prodFuture]);
+      final categories = results[0] is List ? (results[0] as List).whereType<CategoryModel>().toList() : <CategoryModel>[];
+      final products = results[1] is List ? (results[1] as List).whereType<ProductModel>().toList() : <ProductModel>[];
       _logger.i(
         '✅ Products page loaded — categories: ${categories.length}, products: ${products.length}',
       );
       emit(ProductsLoaded(
-        categories: categories.cast(),
-        products: products.cast(),
+        categories: categories,
+        products: products,
       ));
     } catch (e) {
       _logger.e('❌ Products page load error: $e');

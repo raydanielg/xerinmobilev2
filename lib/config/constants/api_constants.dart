@@ -46,6 +46,17 @@ abstract class ApiConstants {
   static String categoryById(String id) => '/products/categories/$id';
   static String brandById(String id) => '/products/brands/$id';
 
+  // Order endpoints
+  static const String orders = '/orders';
+  static String orderById(String id) => '/orders/$id';
+
+  // Payment method endpoints
+  static const String paymentMethods = '/payment-methods';
+  static String paymentMethodById(String id) => '/payment-methods/$id';
+
+  // Notification endpoints
+  static const String notifications = '/notifications';
+
   // Common headers
   static const String contentType = 'application/json';
   static const String authorizationHeader = 'Authorization';

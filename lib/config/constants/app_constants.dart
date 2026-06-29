@@ -26,6 +26,15 @@ abstract class AppConstants {
   static const String sellerKycRoute = '/seller/kyc';
   static const String registrationSuccessRoute = '/registration-success';
 
+  // Customer profile routes
+  static const String profileInfoRoute = '/profile-info';
+  static const String addressesRoute = '/addresses';
+  static const String paymentMethodsRoute = '/payment-methods';
+  static const String orderHistoryRoute = '/order-history';
+  static const String notificationsRoute = '/notifications';
+  static const String settingsRoute = '/settings';
+  static const String helpSupportRoute = '/help-support';
+
   // Timeouts
   static const int connectionTimeoutSeconds = 30;
   static const int receiveTimeoutSeconds = 30;

@@ -6,11 +6,18 @@ import '../../features/auth/presentation/pages/register_page.dart';
 import '../../features/auth/presentation/pages/registration_success_page.dart';
 import '../../features/auth/presentation/pages/sign_in_page.dart';
 import '../../features/auth/presentation/pages/verify_otp_page.dart';
+import '../../features/customer/presentation/pages/addresses_page.dart';
 import '../../features/customer/presentation/pages/categories_page.dart';
 import '../../features/customer/presentation/pages/category_products_page.dart';
 import '../../features/customer/presentation/pages/customer_dashboard.dart';
 import '../../features/customer/presentation/pages/explore_products_page.dart';
+import '../../features/customer/presentation/pages/help_support_page.dart';
+import '../../features/customer/presentation/pages/notifications_page.dart';
+import '../../features/customer/presentation/pages/order_history_page.dart';
+import '../../features/customer/presentation/pages/payment_methods_page.dart';
 import '../../features/customer/presentation/pages/product_detail_page.dart';
+import '../../features/customer/presentation/pages/profile_info_page.dart';
+import '../../features/customer/presentation/pages/settings_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../../features/seller/presentation/pages/kyc_page.dart';
 import '../../features/seller/presentation/pages/payouts_page.dart';
@@ -137,6 +144,35 @@ class AppRouter {
             shopName: extra?['shopName'] as String? ?? 'XerinMart Store',
           );
         },
+      ),
+      // Customer profile sub-pages
+      GoRoute(
+        path: AppConstants.profileInfoRoute,
+        builder: (context, state) => const ProfileInfoPage(),
+      ),
+      GoRoute(
+        path: AppConstants.addressesRoute,
+        builder: (context, state) => const AddressesPage(),
+      ),
+      GoRoute(
+        path: AppConstants.paymentMethodsRoute,
+        builder: (context, state) => const PaymentMethodsPage(),
+      ),
+      GoRoute(
+        path: AppConstants.orderHistoryRoute,
+        builder: (context, state) => const OrderHistoryPage(),
+      ),
+      GoRoute(
+        path: AppConstants.notificationsRoute,
+        builder: (context, state) => const NotificationsPage(),
+      ),
+      GoRoute(
+        path: AppConstants.settingsRoute,
+        builder: (context, state) => const SettingsPage(),
+      ),
+      GoRoute(
+        path: AppConstants.helpSupportRoute,
+        builder: (context, state) => const HelpSupportPage(),
       ),
     ],
     errorBuilder: (context, state) => Scaffold(
