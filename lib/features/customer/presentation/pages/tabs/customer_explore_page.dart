@@ -22,7 +22,7 @@ class CustomerExplorePage extends StatefulWidget {
 class _CustomerExplorePageState extends State<CustomerExplorePage> {
   final _searchCtrl = TextEditingController();
   String _searchQuery = '';
-  final ProductsCubit _productsCubit = sl<ProductsCubit>();
+  late ProductsCubit _productsCubit;
 
   static IconData _categoryIcon(String name) {
     final n = name.toLowerCase();
