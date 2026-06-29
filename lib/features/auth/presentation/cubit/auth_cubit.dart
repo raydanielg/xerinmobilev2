@@ -139,6 +139,12 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  Future<void> continueAsGuest() async {
+    await _tokenStorage.setGuestMode(true);
+    _logger.i('✅ Continued as guest');
+    emit(const AuthGuest());
+  }
+
   Future<void> logout() async {
     final refreshToken = _tokenStorage.refreshToken;
     if (refreshToken == null) {
