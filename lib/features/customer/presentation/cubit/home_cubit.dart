@@ -22,37 +22,28 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> loadHome() async {
     emit(const HomeLoading());
-    try {
-      final results = await Future.wait([
-        _authDs.getMyProfile().catchError((_) => null),
-        _productDs.getCategories().catchError((_) => <dynamic>[]),
-        _productDs
-            .getProducts(perPage: 10)
-            .catchError((_) => <dynamic>[]),
-      ]);
 
-      final user = results[0];
-      final categories = results[1];
-      final featured = results[2];
+    final userFuture = _authDs.getMyProfile().then<dynamic>((v) => v).catchError((_) => null);
+    final catFuture = _productDs.getCategories().then<dynamic>((v) => v).catchError((_) => null);
+    final prodFuture = _productDs.getProducts(perPage: 10).then<dynamic>((v) => v).catchError((_) => null);
 
-      _logger.i(
-        '✅ Home loaded — user: ${user?.fullName ?? "guest"}, '
-        'categories: ${(categories as List).length}, '
-        'featured: ${(featured as List).length}',
-      );
+    final results = await Future.wait([userFuture, catFuture, prodFuture]);
 
-      emit(HomeLoaded(
-        user: results[0],
-        categories: (results[1] as List).cast(),
-        featuredProducts: (results[2] as List).cast(),
-      ));
-    } on ServerException catch (e) {
-      _logger.e('❌ Home load error: ${e.message}');
-      emit(HomeError(message: e.message));
-    } catch (e) {
-      _logger.e('❌ Home load unexpected error: $e');
-      emit(HomeError(message: 'Failed to load home data'));
-    }
+    final user = results[0] is UserModel ? results[0] as UserModel : null;
+    final categories = results[1] is List ? (results[1] as List).whereType<CategoryModel>().toList() : <CategoryModel>[];
+    final featured = results[2] is List ? (results[2] as List).whereType<ProductModel>().toList() : <ProductModel>[];
+
+    _logger.i(
+      '✅ Home loaded — user: ${user?.fullName ?? "guest"}, '
+      'categories: ${categories.length}, '
+      'featured: ${featured.length}',
+    );
+
+    emit(HomeLoaded(
+      user: user,
+      categories: categories,
+      featuredProducts: featured,
+    ));
   }
 
   Future<void> searchProducts(String query) async {
