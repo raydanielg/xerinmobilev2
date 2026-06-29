@@ -33,11 +33,67 @@ class _CustomerWishlistPageState extends State<CustomerWishlistPage> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    if (sl<TokenStorage>().isGuestMode) {
+      return SafeArea(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(28),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.favorite_outline_rounded, size: 72, color: colorScheme.primary.withValues(alpha: 0.25)),
+                const SizedBox(height: 20),
+                Text('Save your favorites',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: colorScheme.onSurface),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                Text('Sign in to view and manage your wishlist.',
+                  style: TextStyle(fontSize: 14, color: colorScheme.onSurface.withValues(alpha: 0.5)),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 24),
+                SizedBox(
+                  width: double.infinity,
+                  height: 52,
+                  child: ElevatedButton(
+                    onPressed: () => context.go(AppConstants.signInRoute),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: colorScheme.primary,
+                      foregroundColor: colorScheme.onPrimary,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      elevation: 0,
+                    ),
+                    child: const Text('Sign In', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: OutlinedButton(
+                    onPressed: () => context.go(AppConstants.registerRoute),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: colorScheme.primary,
+                      side: BorderSide(color: colorScheme.primary.withValues(alpha: 0.3)),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    ),
+                    child: const Text('Create Account', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
     return BlocProvider.value(
       value: _wishlistCubit,
       child: BlocBuilder<WishlistCubit, WishlistState>(
         builder: (context, state) {
-          final colorScheme = Theme.of(context).colorScheme;
           return SafeArea(
             child: CustomScrollView(
               slivers: [
