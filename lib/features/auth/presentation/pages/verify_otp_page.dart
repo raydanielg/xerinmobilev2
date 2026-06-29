@@ -1,11 +1,18 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../config/constants/app_constants.dart';
+import '../cubit/auth_cubit.dart';
+import '../cubit/auth_state.dart';
 import '../widgets/auth_logo.dart';
 
 class VerifyOtpPage extends StatefulWidget {
-  const VerifyOtpPage({super.key});
+  final String phone;
+
+  const VerifyOtpPage({super.key, required this.phone});
 
   @override
   State<VerifyOtpPage> createState() => _VerifyOtpPageState();
@@ -14,12 +21,15 @@ class VerifyOtpPage extends StatefulWidget {
 class _VerifyOtpPageState extends State<VerifyOtpPage>
     with SingleTickerProviderStateMixin {
   final List<TextEditingController> _otpCtls =
-      List.generate(4, (_) => TextEditingController());
-  final List<FocusNode> _focusNodes = List.generate(4, (_) => FocusNode());
+      List.generate(6, (_) => TextEditingController());
+  final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
 
   late final AnimationController _animCtrl;
   late final Animation<Offset> _slideAnim;
   late final Animation<double> _fadeAnim;
+
+  int _secondsLeft = 60;
+  Timer? _timer;
 
   @override
   void initState() {
@@ -35,10 +45,24 @@ class _VerifyOtpPageState extends State<VerifyOtpPage>
     _fadeAnim = CurvedAnimation(parent: _animCtrl, curve: Curves.easeOut);
     _animCtrl.forward();
     _focusNodes[0].requestFocus();
+    _startCountdown();
+  }
+
+  void _startCountdown() {
+    _timer?.cancel();
+    setState(() => _secondsLeft = 60);
+    _timer = Timer.periodic(const Duration(seconds: 1), (t) {
+      if (_secondsLeft == 0) {
+        t.cancel();
+      } else {
+        setState(() => _secondsLeft--);
+      }
+    });
   }
 
   @override
   void dispose() {
+    _timer?.cancel();
     for (final c in _otpCtls) {
       c.dispose();
     }
@@ -50,15 +74,61 @@ class _VerifyOtpPageState extends State<VerifyOtpPage>
   }
 
   void _onOtpChange(int index, String value) {
-    if (value.isNotEmpty && index < 3) {
+    if (value.isNotEmpty && index < 5) {
       _focusNodes[index + 1].requestFocus();
+    } else if (value.isEmpty && index > 0) {
+      _focusNodes[index - 1].requestFocus();
     }
   }
 
   void _onVerify() {
     final otp = _otpCtls.map((c) => c.text).join();
-    if (otp.length == 4) {
+    if (otp.length == 6) {
+      context.read<AuthCubit>().verifyOtp(
+            phone: widget.phone,
+            otpCode: otp,
+          );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please enter the 6-digit OTP code'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+  }
+
+  void _onResend() {
+    if (_secondsLeft > 0) return;
+    context.read<AuthCubit>().sendOtp(phone: widget.phone);
+  }
+
+  void _onStateChange(BuildContext context, AuthState state) {
+    if (state is AuthOtpVerified) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Phone verified successfully!'),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
       context.go(AppConstants.homeRoute);
+    } else if (state is AuthOtpSent) {
+      _startCountdown();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('OTP resent to ${state.phone}'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    } else if (state is AuthError) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(state.message),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
     }
   }
 
@@ -66,7 +136,9 @@ class _VerifyOtpPageState extends State<VerifyOtpPage>
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Scaffold(
+    return BlocListener<AuthCubit, AuthState>(
+      listener: _onStateChange,
+      child: Scaffold(
       body: SafeArea(
         child: FadeTransition(
           opacity: _fadeAnim,
@@ -75,7 +147,10 @@ class _VerifyOtpPageState extends State<VerifyOtpPage>
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 28),
               child: SingleChildScrollView(
-                child: Column(
+                child: BlocBuilder<AuthCubit, AuthState>(
+                  builder: (context, state) {
+                    final isLoading = state is AuthLoading;
+                    return Column(
                   children: [
                     const SizedBox(height: 16),
                   GestureDetector(
@@ -114,7 +189,7 @@ class _VerifyOtpPageState extends State<VerifyOtpPage>
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    'Enter the 4-digit code sent to your phone',
+                    'Enter the 6-digit code sent to ${widget.phone}',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 15,
@@ -126,7 +201,7 @@ class _VerifyOtpPageState extends State<VerifyOtpPage>
                   const SizedBox(height: 44),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(4, (index) {
+                    children: List.generate(6, (index) {
                       final isFocused = _focusNodes[index].hasFocus;
                       final hasValue = _otpCtls[index].text.isNotEmpty;
                       return Padding(
@@ -195,7 +270,7 @@ class _VerifyOtpPageState extends State<VerifyOtpPage>
                     width: double.infinity,
                     height: 54,
                     child: ElevatedButton(
-                      onPressed: _onVerify,
+                      onPressed: isLoading ? null : _onVerify,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: colorScheme.primary,
                         foregroundColor: colorScheme.onPrimary,
@@ -204,14 +279,23 @@ class _VerifyOtpPageState extends State<VerifyOtpPage>
                         ),
                         elevation: 0,
                       ),
-                      child: const Text(
-                        'Verify & Continue',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 0.3,
-                        ),
-                      ),
+                      child: isLoading
+                          ? const SizedBox(
+                              width: 22,
+                              height: 22,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.5,
+                                color: Colors.white,
+                              ),
+                            )
+                          : const Text(
+                              'Verify & Continue',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 0.3,
+                              ),
+                            ),
                     ),
                   ),
                   const SizedBox(height: 32),
@@ -227,13 +311,16 @@ class _VerifyOtpPageState extends State<VerifyOtpPage>
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: _secondsLeft == 0 ? _onResend : null,
                         child: Text(
                           'Resend',
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
-                            color: colorScheme.primary,
+                            color: _secondsLeft == 0
+                                ? colorScheme.primary
+                                : colorScheme.onSurface
+                                    .withValues(alpha: 0.3),
                           ),
                         ),
                       ),
@@ -248,7 +335,9 @@ class _VerifyOtpPageState extends State<VerifyOtpPage>
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
-                      '00:30',
+                      _secondsLeft > 0
+                          ? '00:${_secondsLeft.toString().padLeft(2, '0')}'
+                          : 'Ready to resend',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -259,6 +348,9 @@ class _VerifyOtpPageState extends State<VerifyOtpPage>
                   ),
                   const SizedBox(height: 24),
                 ],
+              );
+                  },
+                ),
               ),
             ),
           ),
