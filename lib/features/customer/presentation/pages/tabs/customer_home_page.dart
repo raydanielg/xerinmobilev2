@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../config/constants/app_constants.dart';
+import '../../../data/models/category_model.dart';
+import '../../../data/models/product_model.dart';
+import '../../cubit/home_cubit.dart';
+import '../../cubit/home_state.dart';
 
 class CustomerHomePage extends StatefulWidget {
   const CustomerHomePage({super.key});
@@ -19,71 +24,25 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
   String? _selectedRegion;
   String? _selectedPriceRange;
 
-  final List<_CategoryItem> _categories = const [
-    _CategoryItem(icon: Icons.devices_rounded, label: 'Electronics'),
-    _CategoryItem(icon: Icons.checkroom_rounded, label: 'Fashion'),
-    _CategoryItem(icon: Icons.home_rounded, label: 'Home'),
-    _CategoryItem(icon: Icons.directions_car_rounded, label: 'Auto'),
-    _CategoryItem(icon: Icons.sports_soccer_rounded, label: 'Sports'),
-    _CategoryItem(icon: Icons.book_rounded, label: 'Books'),
-    _CategoryItem(icon: Icons.health_and_safety_rounded, label: 'Health'),
-    _CategoryItem(icon: Icons.more_horiz_rounded, label: 'More'),
-  ];
+  static IconData _categoryIcon(String name) {
+    final n = name.toLowerCase();
+    if (n.contains('electron')) return Icons.devices_rounded;
+    if (n.contains('fashion') || n.contains('cloth') || n.contains('wear')) return Icons.checkroom_rounded;
+    if (n.contains('home') || n.contains('furniture')) return Icons.home_rounded;
+    if (n.contains('auto') || n.contains('car') || n.contains('vehicle')) return Icons.directions_car_rounded;
+    if (n.contains('sport') || n.contains('fitness')) return Icons.sports_soccer_rounded;
+    if (n.contains('book') || n.contains('media')) return Icons.book_rounded;
+    if (n.contains('health') || n.contains('beauty')) return Icons.health_and_safety_rounded;
+    if (n.contains('food') || n.contains('beverage')) return Icons.restaurant_rounded;
+    return Icons.category_rounded;
+  }
 
-  final List<Map<String, dynamic>> _featured = const [
-    {
-      'name': 'Wireless Headphones',
-      'price': 'TSh 325,000',
-      'rating': 4.8,
-      'image': 'https://picsum.photos/seed/headphones/300/400',
-      'category': 'Electronics',
-    },
-    {
-      'name': 'Running Shoes',
-      'price': 'TSh 224,000',
-      'rating': 4.6,
-      'image': 'https://picsum.photos/seed/shoes/300/400',
-      'category': 'Sports',
-    },
-    {
-      'name': 'Smart Watch',
-      'price': 'TSh 622,500',
-      'rating': 4.9,
-      'image': 'https://picsum.photos/seed/watch/300/400',
-      'category': 'Electronics',
-    },
-    {
-      'name': 'Designer Bag',
-      'price': 'TSh 150,000',
-      'rating': 4.4,
-      'image': 'https://picsum.photos/seed/bag/300/400',
-      'category': 'Fashion',
-    },
-  ];
-
-  final List<Map<String, dynamic>> _allProducts = const [
-    {'name': 'Wireless Headphones', 'price': 'TSh 325,000', 'category': 'Electronics', 'region': 'Dar es Salaam', 'icon': Icons.headphones_rounded},
-    {'name': 'Smart Watch Series 5', 'price': 'TSh 622,500', 'category': 'Electronics', 'region': 'Arusha', 'icon': Icons.watch_rounded},
-    {'name': 'Running Shoes Pro', 'price': 'TSh 224,000', 'category': 'Sports', 'region': 'Mwanza', 'icon': Icons.directions_run_rounded},
-    {'name': 'Laptop Stand', 'price': 'TSh 115,000', 'category': 'Electronics', 'region': 'Dar es Salaam', 'icon': Icons.laptop_rounded},
-    {'name': 'Organic Coffee Beans', 'price': 'TSh 62,500', 'category': 'Food', 'region': 'Kilimanjaro', 'icon': Icons.coffee_rounded},
-    {'name': 'Cotton T-Shirt', 'price': 'TSh 50,000', 'category': 'Fashion', 'region': 'Dar es Salaam', 'icon': Icons.checkroom_rounded},
-    {'name': 'Bluetooth Speaker', 'price': 'TSh 200,000', 'category': 'Electronics', 'region': 'Arusha', 'icon': Icons.speaker_rounded},
-    {'name': 'Yoga Mat', 'price': 'TSh 86,000', 'category': 'Sports', 'region': 'Mwanza', 'icon': Icons.self_improvement_rounded},
-    {'name': 'Kitchen Blender', 'price': 'TSh 150,000', 'category': 'Home', 'region': 'Dar es Salaam', 'icon': Icons.blender_rounded},
-    {'name': 'Car Phone Holder', 'price': 'TSh 40,000', 'category': 'Auto', 'region': 'Arusha', 'icon': Icons.directions_car_rounded},
-    {'name': 'Novel Book', 'price': 'TSh 32,500', 'category': 'Books', 'region': 'Mwanza', 'icon': Icons.book_rounded},
-    {'name': 'Sunscreen Lotion', 'price': 'TSh 46,000', 'category': 'Health', 'region': 'Dar es Salaam', 'icon': Icons.health_and_safety_rounded},
-  ];
-
-  final List<String> _regions = const [
-    'Dar es Salaam',
-    'Arusha',
-    'Mwanza',
-    'Kilimanjaro',
-    'Dodoma',
-    'Zanzibar',
-  ];
+  static String _greeting() {
+    final hour = DateTime.now().hour;
+    if (hour < 12) return 'Good morning 👋';
+    if (hour < 17) return 'Good afternoon 👋';
+    return 'Good evening 👋';
+  }
 
   @override
   void initState() {
