@@ -17,12 +17,19 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    _navigateToOnboarding();
+    _navigateAfterSplash();
   }
 
-  Future<void> _navigateToOnboarding() async {
+  Future<void> _navigateAfterSplash() async {
     await Future.delayed(const Duration(seconds: 2));
-    if (mounted) {
+    if (!mounted) return;
+
+    final tokenStorage = GetIt.instance<TokenStorage>();
+    final isLoggedIn = tokenStorage.hasTokens;
+
+    if (isLoggedIn) {
+      context.go(AppConstants.homeRoute);
+    } else {
       context.go(AppConstants.onboardingRoute);
     }
   }
