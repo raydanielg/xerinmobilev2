@@ -10,6 +10,7 @@ import '../../features/customer/presentation/pages/addresses_page.dart';
 import '../../features/customer/presentation/pages/categories_page.dart';
 import '../../features/customer/presentation/pages/category_products_page.dart';
 import '../../features/customer/presentation/pages/customer_dashboard.dart';
+import '../../features/customer/data/models/product_model.dart';
 import '../../features/customer/presentation/pages/explore_products_page.dart';
 import '../../features/customer/presentation/pages/help_support_page.dart';
 import '../../features/customer/presentation/pages/notifications_page.dart';
@@ -86,12 +87,19 @@ class AppRouter {
         path: AppConstants.productDetailRoute,
         builder: (context, state) {
           final extra = state.extra as Map<String, dynamic>?;
+          final product = extra?['product'] as ProductModel?;
           return ProductDetailPage(
-            name: extra?['name'] as String? ?? 'Product',
-            price: extra?['price'] as String? ?? '\$0.00',
-            image: extra?['image'] as String? ?? '',
+            product: product ??
+                ProductModel(
+                  id: '0',
+                  sellerId: '',
+                  categoryId: '',
+                  sku: '',
+                  name: 'Product',
+                  slug: 'product',
+                  price: 0.0,
+                ),
             category: extra?['category'] as String? ?? 'All',
-            rating: (extra?['rating'] as num?)?.toDouble() ?? 4.5,
           );
         },
       ),
