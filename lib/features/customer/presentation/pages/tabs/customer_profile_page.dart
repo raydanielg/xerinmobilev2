@@ -110,9 +110,33 @@ class CustomerProfilePage extends StatelessWidget {
                       color: colorScheme.onSurface.withValues(alpha: 0.3),
                     ),
                     onTap: () {
-                        if ((item['label'] as String) == 'Logout') {
-                          context.read<AuthCubit>().logout();
-                          context.go(AppConstants.signInRoute);
+                        final label = item['label'] as String;
+                        switch (label) {
+                          case 'Logout':
+                            context.read<AuthCubit>().logout();
+                            context.go(AppConstants.signInRoute);
+                            break;
+                          case 'Personal Info':
+                            context.push(AppConstants.profileInfoRoute);
+                            break;
+                          case 'Addresses':
+                            context.push(AppConstants.addressesRoute);
+                            break;
+                          case 'Payment Methods':
+                            context.push(AppConstants.paymentMethodsRoute);
+                            break;
+                          case 'Order History':
+                            context.push(AppConstants.orderHistoryRoute);
+                            break;
+                          case 'Notifications':
+                            context.push(AppConstants.notificationsRoute);
+                            break;
+                          case 'Settings':
+                            context.push(AppConstants.settingsRoute);
+                            break;
+                          case 'Help & Support':
+                            context.push(AppConstants.helpSupportRoute);
+                            break;
                         }
                       },
                   );
