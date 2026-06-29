@@ -113,8 +113,7 @@ class CustomerProfilePage extends StatelessWidget {
                         final label = item['label'] as String;
                         switch (label) {
                           case 'Logout':
-                            context.read<AuthCubit>().logout();
-                            context.go(AppConstants.signInRoute);
+                            _showLogoutConfirmation(context);
                             break;
                           case 'Personal Info':
                             context.push(AppConstants.profileInfoRoute);
@@ -149,6 +148,91 @@ class CustomerProfilePage extends StatelessWidget {
       ),
     );
       },
+    );
+  }
+
+  void _showLogoutConfirmation(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        contentPadding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 72,
+              height: 72,
+              decoration: BoxDecoration(
+                color: const Color(0xFFE53935).withValues(alpha: 0.1),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.logout_rounded,
+                color: Color(0xFFE53935),
+                size: 32,
+              ),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              'Logout?',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: colorScheme.onSurface,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Are you sure you want to log out of your account?',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14,
+                color: colorScheme.onSurface.withValues(alpha: 0.6),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: Text(
+              'Cancel',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+                color: colorScheme.onSurface.withValues(alpha: 0.6),
+              ),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              Navigator.of(dialogContext).pop();
+              await context.read<AuthCubit>().logout();
+              if (context.mounted) {
+                context.go(AppConstants.signInRoute);
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFE53935),
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              elevation: 0,
+            ),
+            child: const Text(
+              'Logout',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+        actionsPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+      ),
     );
   }
 }
