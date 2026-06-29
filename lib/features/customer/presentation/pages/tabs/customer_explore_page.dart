@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../../config/constants/app_constants.dart';
+import '../../data/models/product_model.dart';
+import '../../cubit/home_cubit.dart';
+import '../../cubit/home_state.dart';
 
 class CustomerExplorePage extends StatelessWidget {
   const CustomerExplorePage({super.key});
@@ -31,7 +38,7 @@ class CustomerExplorePage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            _buildSearchBar(colorScheme),
+            _buildSearchBar(colorScheme, context),
             const SizedBox(height: 24),
             _buildSectionTitle('Popular Deals', colorScheme),
             const SizedBox(height: 16),
@@ -47,7 +54,7 @@ class CustomerExplorePage extends StatelessWidget {
     );
   }
 
-  Widget _buildSearchBar(ColorScheme colorScheme) {
+  Widget _buildSearchBar(ColorScheme colorScheme, BuildContext context) {
     return Container(
       height: 50,
       decoration: BoxDecoration(
@@ -62,6 +69,13 @@ class CustomerExplorePage extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: TextField(
+              onSubmitted: (value) {
+                final query = value.trim();
+                if (query.isNotEmpty) {
+                  context.read<HomeCubit>().searchProducts(query);
+                  context.go(AppConstants.homeRoute);
+                }
+              },
               decoration: InputDecoration(
                 hintText: 'Search products, brands...',
                 hintStyle: TextStyle(
