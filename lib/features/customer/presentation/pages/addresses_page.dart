@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../config/constants/app_constants.dart';
-import '../../../../config/di/service_locator.dart';
-import '../../../../core/network/api_client.dart';
-import '../../data/datasources/customer_remote_datasource.dart';
 import '../../data/models/address_model.dart';
 
 class AddressesPage extends StatefulWidget {
@@ -26,16 +22,14 @@ class _AddressesPageState extends State<AddressesPage> {
 
   Future<void> _loadAddresses() async {
     setState(() => _isLoading = true);
-    try {
-      final ds = CustomerRemoteDataSource(sl<ApiClient>());
-    } catch (_) {
-      // Show sample data for now
-      if (mounted) {
-        setState(() {
-          _addresses.addAll(_sampleAddresses);
-          _isLoading = false;
-        });
-      }
+    await Future.delayed(const Duration(milliseconds: 400));
+    if (mounted) {
+      setState(() {
+        _addresses.addAll(_sampleAddresses);
+        _isLoading = false;
+      });
+    }
+  }
     }
   }
 
