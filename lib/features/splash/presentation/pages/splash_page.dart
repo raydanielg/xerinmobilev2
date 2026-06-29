@@ -28,9 +28,10 @@ class _SplashPageState extends State<SplashPage> {
     final tokenStorage = GetIt.instance<TokenStorage>();
     final prefs = GetIt.instance<SharedPreferences>();
     final isLoggedIn = tokenStorage.hasTokens;
+    final isGuest = tokenStorage.isGuestMode;
     final hasSeenOnboarding = prefs.getBool('has_seen_onboarding') ?? false;
 
-    if (isLoggedIn) {
+    if (isLoggedIn || isGuest) {
       context.go(AppConstants.homeRoute);
     } else if (hasSeenOnboarding) {
       context.go(AppConstants.signInRoute);
