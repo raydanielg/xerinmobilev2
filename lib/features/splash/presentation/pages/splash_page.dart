@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../config/constants/app_constants.dart';
 import '../../../../core/storage/token_storage.dart';
@@ -25,10 +26,14 @@ class _SplashPageState extends State<SplashPage> {
     if (!mounted) return;
 
     final tokenStorage = GetIt.instance<TokenStorage>();
+    final prefs = GetIt.instance<SharedPreferences>();
     final isLoggedIn = tokenStorage.hasTokens;
+    final hasSeenOnboarding = prefs.getBool('has_seen_onboarding') ?? false;
 
     if (isLoggedIn) {
       context.go(AppConstants.homeRoute);
+    } else if (hasSeenOnboarding) {
+      context.go(AppConstants.signInRoute);
     } else {
       context.go(AppConstants.onboardingRoute);
     }
