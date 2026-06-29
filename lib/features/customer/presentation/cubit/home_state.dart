@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../features/auth/data/models/user_model.dart';
 import '../../data/models/category_model.dart';
+import '../../data/models/order_model.dart';
 import '../../data/models/product_model.dart';
 
 abstract class HomeState extends Equatable {
