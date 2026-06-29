@@ -242,13 +242,6 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                       color: colorScheme.surface,
                       width: 1.5,
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color(0xFFE53935).withValues(alpha: 0.5),
-                        blurRadius: 6,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
                   ),
                   child: Text(
                     badge,
