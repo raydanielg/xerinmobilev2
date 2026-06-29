@@ -51,6 +51,7 @@ class _CustomerExplorePageState extends State<CustomerExplorePage> {
           final categories = state is ProductsLoaded ? state.categories : <CategoryModel>[];
           final products = state is ProductsLoaded ? state.products : <ProductModel>[];
           final trending = state is ProductsLoaded ? state.trending : <ProductModel>[];
+          final flashSaleProducts = products.where((p) => p.salePrice != null).take(5).toList();
           final isLoading = state is ProductsLoading;
 
           return SafeArea(
@@ -86,7 +87,7 @@ class _CustomerExplorePageState extends State<CustomerExplorePage> {
                   const SizedBox(height: 20),
                   _buildSearchBar(colorScheme, context),
                   const SizedBox(height: 24),
-                  _buildBanner(colorScheme),
+                  _buildFlashSale(colorScheme, flashSaleProducts, isLoading, context),
                   const SizedBox(height: 24),
                   _buildSectionTitle('Categories', colorScheme),
                   const SizedBox(height: 16),
