@@ -154,23 +154,10 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                   shape: BoxShape.circle,
                 ),
                 padding: const EdgeInsets.all(2),
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        colorScheme.primary,
-                        colorScheme.primary.withValues(alpha: 0.7),
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
-                    Icons.person_rounded,
-                    color: Colors.white,
-                    size: 24,
-                  ),
+                child: CircleAvatar(
+                  radius: 22,
+                  backgroundColor: colorScheme.primary.withValues(alpha: 0.08),
+                  backgroundImage: const AssetImage('assets/images/avatar.png'),
                 ),
               ),
             ),
