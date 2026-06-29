@@ -34,19 +34,21 @@ class ProductRemoteDataSource {
   }
 
   Future<List<ProductModel>> getProducts({
-    int page = 1,
-    int perPage = 20,
+    int skip = 0,
+    int limit = 20,
     String? categoryId,
     String? search,
     String? sortBy,
+    bool? isActive,
   }) async {
     try {
       final queryParams = <String, dynamic>{
-        'page': page,
-        'per_page': perPage,
+        'skip': skip,
+        'limit': limit,
         if (categoryId != null) 'category_id': categoryId,
         if (search != null && search.isNotEmpty) 'search': search,
         if (sortBy != null) 'sort_by': sortBy,
+        if (isActive != null) 'is_active': isActive,
       };
       final response = await _client.get(
         ApiConstants.products,
@@ -75,6 +77,30 @@ class ProductRemoteDataSource {
     try {
       final response = await _client.get(ApiConstants.productById(id));
       return ProductModel.fromJson(response.data as Map<String, dynamic>);
+    } on DioException catch (e) {
+      throw ServerException(_client.getErrorMessage(e));
+    }
+  }
+
+  Future<List<String>> getProductImages(String id) async {
+    try {
+      final response = await _client.get(ApiConstants.productImages(id));
+      final data = response.data;
+      List<dynamic> list;
+      if (data is List) {
+        list = data;
+      } else if (data is Map && data['items'] != null) {
+        list = data['items'] as List;
+      } else if (data is Map && data['data'] != null) {
+        list = data['data'] as List;
+      } else {
+        list = [];
+      }
+      return list.map((e) {
+        if (e is String) return e;
+        if (e is Map) return (e['image_url'] ?? e['url'] ?? '') as String;
+        return '';
+      }).where((url) => url.isNotEmpty).toList();
     } on DioException catch (e) {
       throw ServerException(_client.getErrorMessage(e));
     }

@@ -28,7 +28,7 @@ class HomeCubit extends Cubit<HomeState> {
 
     final userFuture = _authDs.getMyProfile().then<dynamic>((v) => v).catchError((_) => null);
     final catFuture = _productDs.getCategories().then<dynamic>((v) => v).catchError((_) => null);
-    final prodFuture = _productDs.getProducts(perPage: 10).then<dynamic>((v) => v).catchError((_) => null);
+    final prodFuture = _productDs.getProducts(limit: 10).then<dynamic>((v) => v).catchError((_) => null);
 
     final results = await Future.wait([userFuture, catFuture, prodFuture]);
 
