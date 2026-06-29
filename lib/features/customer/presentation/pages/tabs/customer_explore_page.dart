@@ -66,7 +66,7 @@ class _CustomerExplorePageState extends State<CustomerExplorePage> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Piata',
+                          Text('Explore',
                             style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: colorScheme.onSurface),
                           ),
                           Text('Discover amazing deals',
