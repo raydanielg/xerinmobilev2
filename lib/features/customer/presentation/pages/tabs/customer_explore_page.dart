@@ -119,7 +119,8 @@ class _CustomerExplorePageState extends State<CustomerExplorePage> {
           ),
         );
       },
-    );
+    ),
+  );
   }
 
   Widget _iconBtn(IconData icon, ColorScheme cs, VoidCallback? onTap) {
