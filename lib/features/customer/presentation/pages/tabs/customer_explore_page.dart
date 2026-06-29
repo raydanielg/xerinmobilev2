@@ -12,17 +12,8 @@ import '../../cubit/products_cubit.dart';
 import '../../cubit/products_state.dart';
 import '../../../../../config/di/service_locator.dart';
 
-class CustomerExplorePage extends StatefulWidget {
+class CustomerExplorePage extends StatelessWidget {
   const CustomerExplorePage({super.key});
-
-  @override
-  State<CustomerExplorePage> createState() => _CustomerExplorePageState();
-}
-
-class _CustomerExplorePageState extends State<CustomerExplorePage> {
-  final _searchCtrl = TextEditingController();
-  String _searchQuery = '';
-  late ProductsCubit _productsCubit;
 
   static IconData _categoryIcon(String name) {
     final n = name.toLowerCase();
@@ -40,24 +31,11 @@ class _CustomerExplorePageState extends State<CustomerExplorePage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    _productsCubit = sl<ProductsCubit>()..loadAll();
-  }
-
-  @override
-  void dispose() {
-    _productsCubit.close();
-    _searchCtrl.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return BlocProvider.value(
-      value: _productsCubit,
+    return BlocProvider(
+      create: (_) => sl<ProductsCubit>()..loadAll(),
       child: BlocBuilder<ProductsCubit, ProductsState>(
         builder: (context, state) {
           final categories = state is ProductsLoaded ? state.categories : <CategoryModel>[];
