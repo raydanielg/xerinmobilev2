@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../config/constants/app_constants.dart';
-import '../../data/models/product_model.dart';
+import '../../../data/models/product_model.dart';
 import '../../cubit/home_cubit.dart';
 import '../../cubit/home_state.dart';
 
