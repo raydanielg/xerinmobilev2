@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../config/constants/app_constants.dart';
 import '../../../../config/di/service_locator.dart';
@@ -88,12 +89,19 @@ class _OnboardingPageState extends State<OnboardingPage>
     }
   }
 
-  void _onSkip() {
-    context.go(AppConstants.signInRoute);
+  Future<void> _onSkip() async {
+    await _markOnboardingSeen();
+    if (mounted) context.go(AppConstants.signInRoute);
   }
 
-  void _onGetStarted() {
-    context.go(AppConstants.signInRoute);
+  Future<void> _onGetStarted() async {
+    await _markOnboardingSeen();
+    if (mounted) context.go(AppConstants.signInRoute);
+  }
+
+  Future<void> _markOnboardingSeen() async {
+    final prefs = sl<SharedPreferences>();
+    await prefs.setBool('has_seen_onboarding', true);
   }
 
   @override
