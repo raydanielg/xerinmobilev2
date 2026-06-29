@@ -1,0 +1,61 @@
+import 'package:equatable/equatable.dart';
+
+import '../../../../features/auth/data/models/user_model.dart';
+import '../../data/models/category_model.dart';
+import '../../data/models/product_model.dart';
+
+abstract class HomeState extends Equatable {
+  const HomeState();
+  @override
+  List<Object?> get props => [];
+}
+
+class HomeInitial extends HomeState {
+  const HomeInitial();
+}
+
+class HomeLoading extends HomeState {
+  const HomeLoading();
+}
+
+class HomeLoaded extends HomeState {
+  final UserModel? user;
+  final List<CategoryModel> categories;
+  final List<ProductModel> featuredProducts;
+  final List<ProductModel> searchResults;
+  final bool isSearching;
+
+  const HomeLoaded({
+    this.user,
+    this.categories = const [],
+    this.featuredProducts = const [],
+    this.searchResults = const [],
+    this.isSearching = false,
+  });
+
+  HomeLoaded copyWith({
+    UserModel? user,
+    List<CategoryModel>? categories,
+    List<ProductModel>? featuredProducts,
+    List<ProductModel>? searchResults,
+    bool? isSearching,
+  }) =>
+      HomeLoaded(
+        user: user ?? this.user,
+        categories: categories ?? this.categories,
+        featuredProducts: featuredProducts ?? this.featuredProducts,
+        searchResults: searchResults ?? this.searchResults,
+        isSearching: isSearching ?? this.isSearching,
+      );
+
+  @override
+  List<Object?> get props =>
+      [user, categories, featuredProducts, searchResults, isSearching];
+}
+
+class HomeError extends HomeState {
+  final String message;
+  const HomeError({required this.message});
+  @override
+  List<Object?> get props => [message];
+}
