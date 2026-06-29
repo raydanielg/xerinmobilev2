@@ -34,23 +34,27 @@ class HomeCubit extends Cubit<HomeState> {
     final userFuture = _authDs.getMyProfile().then<dynamic>((v) => v).catchError((_) => null);
     final catFuture = _productDs.getCategories().then<dynamic>((v) => v).catchError((_) => null);
     final prodFuture = _productDs.getProducts(limit: 10).then<dynamic>((v) => v).catchError((_) => null);
+    final orderFuture = _customerDs.getOrders(limit: 10).then<dynamic>((v) => v).catchError((_) => null);
 
-    final results = await Future.wait([userFuture, catFuture, prodFuture]);
+    final results = await Future.wait([userFuture, catFuture, prodFuture, orderFuture]);
 
     final user = results[0] is UserModel ? results[0] as UserModel : null;
     final categories = results[1] is List ? (results[1] as List).whereType<CategoryModel>().toList() : <CategoryModel>[];
     final featured = results[2] is List ? (results[2] as List).whereType<ProductModel>().toList() : <ProductModel>[];
+    final orders = results[3] is List ? (results[3] as List).whereType<OrderModel>().toList() : <OrderModel>[];
 
     _logger.i(
       '✅ Home loaded — user: ${user?.fullName ?? "guest"}, '
       'categories: ${categories.length}, '
-      'featured: ${featured.length}',
+      'featured: ${featured.length}, '
+      'orders: ${orders.length}',
     );
 
     emit(HomeLoaded(
       user: user,
       categories: categories,
       featuredProducts: featured,
+      orders: orders,
     ));
   }
 

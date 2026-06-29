@@ -72,6 +72,7 @@ Future<void> initServiceLocator() async {
   sl.registerFactory<HomeCubit>(
     () => HomeCubit(
       productDataSource: sl(),
+      customerDataSource: sl(),
       authDataSource: sl(),
       logger: sl(),
     ),
