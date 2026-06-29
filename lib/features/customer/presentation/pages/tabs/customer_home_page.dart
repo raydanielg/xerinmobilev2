@@ -613,18 +613,19 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
     );
   }
 
-  Widget _buildSearchResults(ColorScheme colorScheme) {
-    final results = _allProducts.where((p) {
-      final matchesQuery = _searchQuery.isEmpty ||
-          (p['name'] as String).toLowerCase().contains(_searchQuery);
-      final matchesCategory = _selectedCategory == null ||
-          p['category'] == _selectedCategory;
-      final matchesRegion = _selectedRegion == null ||
-          p['region'] == _selectedRegion;
-      final matchesPrice = _selectedPriceRange == null ||
-          _matchesPriceRange(p['price'] as String);
-      return matchesQuery && matchesCategory && matchesRegion && matchesPrice;
-    }).toList();
+  Widget _buildSearchResults(
+    ColorScheme colorScheme,
+    List<ProductModel> results,
+    bool isLoading,
+  ) {
+    if (isLoading) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 40),
+          child: CircularProgressIndicator(color: colorScheme.primary),
+        ),
+      );
+    }
 
     if (results.isEmpty) {
       return Container(
@@ -686,69 +687,98 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
         const SizedBox(height: 14),
         Column(
           children: results.map((product) {
-            return Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: colorScheme.surface,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: colorScheme.onSurface.withValues(alpha: 0.06),
-                ),
+            return GestureDetector(
+              onTap: () => context.go(
+                AppConstants.productDetailRoute,
+                extra: {
+                  'name': product.name,
+                  'price': product.formattedPrice,
+                  'image': product.thumbnailUrl ?? '',
+                  'category': product.categoryName ?? '',
+                  'rating': product.rating,
+                },
               ),
-              child: Row(
-                children: [
-                  Container(
-                    width: 48,
-                    height: 48,
-                    decoration: BoxDecoration(
-                      color: colorScheme.primary.withValues(alpha: 0.08),
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: Icon(
-                      product['icon'] as IconData,
-                      color: colorScheme.primary,
-                      size: 24,
-                    ),
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 10),
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: colorScheme.surface,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: colorScheme.onSurface.withValues(alpha: 0.06),
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          product['name'] as String,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: colorScheme.onSurface,
+                ),
+                child: Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: product.thumbnailUrl != null
+                          ? Image.network(
+                              product.thumbnailUrl!,
+                              width: 52,
+                              height: 52,
+                              fit: BoxFit.cover,
+                              errorBuilder: (_, __, ___) => _productPlaceholder(colorScheme, product.categoryName),
+                            )
+                          : _productPlaceholder(colorScheme, product.categoryName),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            product.name,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: colorScheme.onSurface,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          '${product['category']} • ${product['region']}',
-                          style: TextStyle(
-                            fontSize: 11,
-                            color: colorScheme.onSurface.withValues(alpha: 0.45),
+                          const SizedBox(height: 2),
+                          Text(
+                            product.categoryName ?? '',
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: colorScheme.onSurface.withValues(alpha: 0.45),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  Text(
-                    product['price'] as String,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: colorScheme.primary,
+                    Text(
+                      product.formattedPrice,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        color: colorScheme.primary,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           }).toList(),
         ),
       ],
+    );
+  }
+
+  Widget _productPlaceholder(ColorScheme colorScheme, String? category) {
+    return Container(
+      width: 52,
+      height: 52,
+      decoration: BoxDecoration(
+        color: colorScheme.primary.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Icon(
+        _categoryIcon(category ?? ''),
+        color: colorScheme.primary,
+        size: 24,
+      ),
     );
   }
 
