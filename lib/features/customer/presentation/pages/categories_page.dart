@@ -1,22 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../config/constants/app_constants.dart';
+import '../../../../config/di/service_locator.dart';
+import '../cubit/products_cubit.dart';
+import '../cubit/products_state.dart';
+import '../../data/models/category_model.dart';
 
-class CategoriesPage extends StatelessWidget {
+class CategoriesPage extends StatefulWidget {
   const CategoriesPage({super.key});
 
-  final List<_CategoryItem> _categories = const [
-    _CategoryItem(icon: Icons.devices_rounded, label: 'Electronics', color: Color(0xFF3B82F6)),
-    _CategoryItem(icon: Icons.checkroom_rounded, label: 'Fashion', color: Color(0xFFEC4899)),
-    _CategoryItem(icon: Icons.home_rounded, label: 'Home', color: Color(0xFFF59E0B)),
-    _CategoryItem(icon: Icons.directions_car_rounded, label: 'Auto', color: Color(0xFF6366F1)),
-    _CategoryItem(icon: Icons.sports_soccer_rounded, label: 'Sports', color: Color(0xFF22C55E)),
-    _CategoryItem(icon: Icons.book_rounded, label: 'Books', color: Color(0xFF8B5CF6)),
-    _CategoryItem(icon: Icons.health_and_safety_rounded, label: 'Health', color: Color(0xFF14B8A6)),
-    _CategoryItem(icon: Icons.restaurant_rounded, label: 'Food', color: Color(0xFFF97316)),
-    _CategoryItem(icon: Icons.more_horiz_rounded, label: 'More', color: Color(0xFF64748B)),
-  ];
+  @override
+  State<CategoriesPage> createState() => _CategoriesPageState();
+}
+
+class _CategoriesPageState extends State<CategoriesPage> {
+  late final ProductsCubit _cubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _cubit = sl<ProductsCubit>()..loadCategories();
+  }
+
+  @override
+  void dispose() {
+    _cubit.close();
+    super.dispose();
+  }
+
+  static IconData _categoryIcon(String name) {
+    final n = name.toLowerCase();
+    if (n.contains('electron')) return Icons.devices_rounded;
+    if (n.contains('fashion') || n.contains('cloth') || n.contains('wear')) return Icons.checkroom_rounded;
+    if (n.contains('home') || n.contains('furniture')) return Icons.home_rounded;
+    if (n.contains('auto') || n.contains('car') || n.contains('vehicle')) return Icons.directions_car_rounded;
+    if (n.contains('sport') || n.contains('fitness')) return Icons.sports_soccer_rounded;
+    if (n.contains('book') || n.contains('media')) return Icons.book_rounded;
+    if (n.contains('health') || n.contains('beauty')) return Icons.health_and_safety_rounded;
+    if (n.contains('food') || n.contains('beverage') || n.contains('grocery')) return Icons.restaurant_rounded;
+    return Icons.category_rounded;
+  }
+
+  static Color _categoryColor(String name) {
+    final n = name.toLowerCase();
+    if (n.contains('electron')) return const Color(0xFF3B82F6);
+    if (n.contains('fashion')) return const Color(0xFFEC4899);
+    if (n.contains('home')) return const Color(0xFFF59E0B);
+    if (n.contains('auto')) return const Color(0xFF6366F1);
+    if (n.contains('sport')) return const Color(0xFF22C55E);
+    if (n.contains('book')) return const Color(0xFF8B5CF6);
+    if (n.contains('health')) return const Color(0xFF14B8A6);
+    if (n.contains('food')) return const Color(0xFFF97316);
+    return const Color(0xFF64748B);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,22 +62,24 @@ class CategoriesPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: colorScheme.surface,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      if (context.canPop()) {
-                        context.pop();
-                      } else {
-                        context.go(AppConstants.homeRoute);
-                      }
-                    },
+      body: BlocProvider.value(
+        value: _cubit,
+        child: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        if (context.canPop()) {
+                          context.pop();
+                        } else {
+                          context.go(AppConstants.homeRoute);
+                        }
+                      },
                     child: Container(
                       width: 44,
                       height: 44,
