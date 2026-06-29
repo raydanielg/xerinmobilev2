@@ -10,6 +10,7 @@ import '../../cubit/home_cubit.dart';
 import '../../cubit/home_state.dart';
 import '../../cubit/products_cubit.dart';
 import '../../cubit/products_state.dart';
+import '../../../../../config/di/service_locator.dart';
 
 class CustomerExplorePage extends StatefulWidget {
   const CustomerExplorePage({super.key});
@@ -21,6 +22,7 @@ class CustomerExplorePage extends StatefulWidget {
 class _CustomerExplorePageState extends State<CustomerExplorePage> {
   final _searchCtrl = TextEditingController();
   String _searchQuery = '';
+  final ProductsCubit _productsCubit = sl<ProductsCubit>();
 
   static IconData _categoryIcon(String name) {
     final n = name.toLowerCase();
