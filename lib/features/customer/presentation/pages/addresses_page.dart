@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../config/constants/app_constants.dart';
+import '../../../../config/di/service_locator.dart';
 import '../../data/datasources/customer_remote_datasource.dart';
 import '../../data/models/address_model.dart';
 
@@ -25,8 +26,7 @@ class _AddressesPageState extends State<AddressesPage> {
   Future<void> _loadAddresses() async {
     setState(() => _isLoading = true);
     try {
-      final ds = CustomerRemoteDataSource(// ignore: use_setstate_to_update
-          context.read());
+      final ds = CustomerRemoteDataSource(sl<ApiClient>());
     } catch (_) {
       // Show sample data for now
       if (mounted) {
