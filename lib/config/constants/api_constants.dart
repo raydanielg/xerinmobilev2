@@ -57,6 +57,11 @@ abstract class ApiConstants {
   // Notification endpoints
   static const String notifications = '/notifications';
 
+  // Wishlist endpoints
+  static const String wishlist = '/wishlists';
+  static String wishlistById(String id) => '/wishlists/$id';
+  static String toggleWishlistItem(String productId) => '/wishlists/toggle/$productId';
+
   // Common headers
   static const String contentType = 'application/json';
   static const String authorizationHeader = 'Authorization';
