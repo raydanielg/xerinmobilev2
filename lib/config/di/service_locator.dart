@@ -10,6 +10,7 @@ import '../../features/auth/data/datasources/auth_remote_datasource.dart';
 import '../../features/auth/presentation/cubit/auth_cubit.dart';
 import '../../features/customer/data/datasources/product_remote_datasource.dart';
 import '../../features/customer/presentation/cubit/home_cubit.dart';
+import '../../features/customer/presentation/cubit/products_cubit.dart';
 import '../constants/api_constants.dart';
 
 final GetIt sl = GetIt.instance;
@@ -69,6 +70,12 @@ Future<void> initServiceLocator() async {
     () => HomeCubit(
       productDataSource: sl(),
       authDataSource: sl(),
+      logger: sl(),
+    ),
+  );
+  sl.registerFactory<ProductsCubit>(
+    () => ProductsCubit(
+      productDataSource: sl(),
       logger: sl(),
     ),
   );
