@@ -150,7 +150,7 @@ class _HelpSupportPageState extends State<HelpSupportPage>
                     const SizedBox(height: 10),
                     _buildContactOption(Icons.chat_rounded, 'Live Chat', 'Available now', const Color(0xFFF59E0B), colorScheme),
                     const SizedBox(height: 10),
-                    _buildContactOption(Icons.whatsapp_rounded, 'WhatsApp', '+255 712 345 678', const Color(0xFF22C55E), colorScheme),
+                    _buildContactOption(Icons.chat_bubble_rounded, 'WhatsApp', '+255 712 345 678', const Color(0xFF22C55E), colorScheme),
                     const SizedBox(height: 24),
                     Text('Frequently Asked Questions',
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: colorScheme.onSurface),
