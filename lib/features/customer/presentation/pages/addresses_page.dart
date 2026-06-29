@@ -30,8 +30,6 @@ class _AddressesPageState extends State<AddressesPage> {
       });
     }
   }
-    }
-  }
 
   Future<void> _deleteAddress(AddressModel address) async {
     final confirm = await showDialog<bool>(
