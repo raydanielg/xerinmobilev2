@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../config/constants/app_constants.dart';
+import '../../../../core/errors/exceptions.dart';
+import '../../../../config/di/service_locator.dart';
 import '../../../auth/data/datasources/auth_remote_datasource.dart';
-import '../../../auth/data/models/user_model.dart';
-import '../../../auth/presentation/cubit/auth_cubit.dart';
-import '../../../auth/presentation/cubit/auth_state.dart';
 import '../../presentation/cubit/home_cubit.dart';
 import '../../presentation/cubit/home_state.dart';
 
@@ -49,27 +47,29 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _isLoading = true);
     try {
-      final ds = context.read<AuthCubit>();
-      await ds.login(
-        email: _emailCtrl.text.trim(),
-        password: '', 
+      final ds = sl<AuthRemoteDataSource>();
+      await ds.updateProfile(
+        firstName: _firstNameCtrl.text.trim(),
+        lastName: _lastNameCtrl.text.trim(),
+        phone: _phoneCtrl.text.trim(),
       );
       if (mounted) {
+        context.read<HomeCubit>().loadHome();
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Profile updated successfully'),
-            backgroundColor: Color(0xFF22C55E),
-          ),
+          const SnackBar(content: Text('Profile updated successfully'), backgroundColor: Color(0xFF22C55E)),
         );
         context.pop();
+      }
+    } on ServerException catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.message), backgroundColor: const Color(0xFFE53935)),
+        );
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Failed to update: $e'),
-            backgroundColor: const Color(0xFFE53935),
-          ),
+          SnackBar(content: Text('Failed to update: $e'), backgroundColor: const Color(0xFFE53935)),
         );
       }
     } finally {
