@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../config/constants/app_constants.dart';
 import '../../../../config/di/service_locator.dart';
+import '../../../../core/network/api_client.dart';
 import '../../data/datasources/customer_remote_datasource.dart';
 import '../../data/models/address_model.dart';
 
