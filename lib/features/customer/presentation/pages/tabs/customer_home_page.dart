@@ -1139,9 +1139,26 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
     }
 
     if (categories.isEmpty) {
-      return const SizedBox(
-        height: 82,
-        child: Center(child: Text('No categories', style: TextStyle(fontSize: 13))),
+      return SizedBox(
+        height: 120,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/images/nocategories.png',
+              height: 70,
+              fit: BoxFit.contain,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'No categories available',
+              style: TextStyle(
+                fontSize: 13,
+                color: colorScheme.onSurface.withValues(alpha: 0.5),
+              ),
+            ),
+          ],
+        ),
       );
     }
 
