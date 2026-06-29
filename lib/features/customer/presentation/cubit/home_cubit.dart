@@ -58,7 +58,7 @@ class HomeCubit extends Cubit<HomeState> {
     }
     emit(current.copyWith(isSearching: true));
     try {
-      final results = await _productDs.getProducts(search: query, perPage: 30);
+      final results = await _productDs.getProducts(search: query, limit: 30);
       _logger.i('🔍 Search "$query" → ${results.length} results');
       if (isClosed) return;
       final refreshed = state is HomeLoaded ? state as HomeLoaded : current;
@@ -79,7 +79,7 @@ class HomeCubit extends Cubit<HomeState> {
     emit(current.copyWith(isSearching: true));
     try {
       final results = await _productDs.getProducts(
-          categoryId: categoryId, perPage: 30);
+          categoryId: categoryId, limit: 30);
       _logger.i('📂 Category $categoryId → ${results.length} products');
       if (isClosed) return;
       final refreshed = state is HomeLoaded ? state as HomeLoaded : current;
