@@ -274,7 +274,7 @@ class _ExploreProductsPageState extends State<ExploreProductsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    product['category'] as String,
+                    category,
                     style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w600,
@@ -283,7 +283,7 @@ class _ExploreProductsPageState extends State<ExploreProductsPage> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    product['name'] as String,
+                    product.name,
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
@@ -296,7 +296,7 @@ class _ExploreProductsPageState extends State<ExploreProductsPage> {
                   Row(
                     children: [
                       Text(
-                        product['price'] as String,
+                        product.formattedPrice,
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -313,7 +313,7 @@ class _ExploreProductsPageState extends State<ExploreProductsPage> {
                           ),
                           const SizedBox(width: 2),
                           Text(
-                            product['rating'].toStringAsFixed(1),
+                            product.rating.toStringAsFixed(1),
                             style: TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.w700,

@@ -2,22 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../config/constants/app_constants.dart';
+import '../../data/models/product_model.dart';
 import '../controllers/cart_controller.dart';
 
 class ProductDetailPage extends StatefulWidget {
-  final String name;
-  final String price;
-  final String image;
+  final ProductModel product;
   final String category;
-  final double rating;
 
   const ProductDetailPage({
     super.key,
-    required this.name,
-    required this.price,
-    required this.image,
+    required this.product,
     required this.category,
-    this.rating = 4.5,
   });
 
   @override
