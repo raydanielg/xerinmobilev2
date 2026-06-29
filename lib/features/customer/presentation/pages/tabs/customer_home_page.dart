@@ -105,7 +105,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                     onActionTap: () => context.go(AppConstants.exploreProductsRoute),
                   ),
                   const SizedBox(height: 14),
-                  _buildFeaturedProducts(colorScheme, featured, isLoadingData),
+                  _buildFeaturedProducts(colorScheme, featured, categories, isLoadingData),
                   const SizedBox(height: 24),
                   _buildSectionTitle('Recent Orders', '', colorScheme),
                   const SizedBox(height: 14),
@@ -1244,8 +1244,16 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
   Widget _buildFeaturedProducts(
     ColorScheme colorScheme,
     List<ProductModel> products,
+    List<CategoryModel> categories,
     bool isLoading,
   ) {
+    String categoryName(String categoryId) {
+      final match = categories.firstWhere(
+        (c) => c.id == categoryId,
+        orElse: () => const CategoryModel(id: '', name: 'General', slug: 'general'),
+      );
+      return match.name;
+    }
     if (isLoading) {
       return SizedBox(
         height: 220,
@@ -1283,11 +1291,8 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
             onTap: () => context.go(
               AppConstants.productDetailRoute,
               extra: {
-                'name': product.name,
-                'price': product.formattedPrice,
-                'image': product.thumbnailUrl ?? '',
-                'category': product.categoryName ?? '',
-                'rating': product.rating,
+                'product': product,
+                'category': categoryName(product.categoryId),
               },
             ),
             child: Container(
@@ -1342,12 +1347,13 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                                   );
                                 },
                                 errorBuilder: (_, __, ___) => _featuredPlaceholder(
-                                    colorScheme, product.categoryName),
+                                    colorScheme, categoryName(product.categoryId)),
                               )
                             : _featuredPlaceholder(
-                                colorScheme, product.categoryName),
+                                colorScheme, categoryName(product.categoryId)),
                       ),
-                      if ((product.categoryName ?? '').isNotEmpty)
+                      final catName = categoryName(product.categoryId);
+                      if (catName.isNotEmpty)
                         Positioned(
                           top: 8,
                           left: 8,
@@ -1359,7 +1365,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
-                              product.categoryName!,
+                              catName,
                               style: TextStyle(
                                 fontSize: 9,
                                 fontWeight: FontWeight.w700,
