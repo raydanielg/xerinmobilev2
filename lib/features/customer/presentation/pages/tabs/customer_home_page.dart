@@ -1260,11 +1260,8 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
             onTap: () => context.go(
               AppConstants.productDetailRoute,
               extra: {
-                'name': product.name,
-                'price': product.formattedPrice,
-                'image': product.thumbnailUrl ?? '',
-                'category': product.categoryName ?? '',
-                'rating': product.rating,
+                'product': product,
+                'category': product.categoryName ?? 'All',
               },
             ),
             child: Container(
