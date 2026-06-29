@@ -27,6 +27,10 @@ class AuthCubit extends Cubit<AuthState> {
         super(const AuthInitial());
 
   String? get pendingPhone => _pendingPhone;
+  String? get pendingFirstName => _pendingFirstName;
+  String? get pendingLastName => _pendingLastName;
+  String? get pendingEmail => _pendingEmail;
+  String? get pendingPassword => _pendingPassword;
 
   void storeRegistrationData({
     required String firstName,

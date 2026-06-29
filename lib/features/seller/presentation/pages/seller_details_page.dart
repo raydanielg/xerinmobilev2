@@ -71,14 +71,14 @@ class _SellerDetailsPageState extends State<SellerDetailsPage>
     if (!_formKey.currentState!.validate()) return;
     final cubit = context.read<AuthCubit>();
     cubit.registerSeller(
-      firstName: cubit.pendingPhone != null ? cubit.state.runtimeType.toString() : '',
-      lastName: '',
-      email: '',
+      firstName: cubit.pendingFirstName ?? '',
+      lastName: cubit.pendingLastName ?? '',
+      email: cubit.pendingEmail ?? '',
       phone: cubit.pendingPhone ?? '',
-      password: '',
+      password: cubit.pendingPassword ?? '',
       businessName: _shopNameCtrl.text.trim(),
       businessCategory: _shopCategory,
-      contactEmail: null,
+      contactEmail: cubit.pendingEmail,
       contactPhone: cubit.pendingPhone,
     );
   }
