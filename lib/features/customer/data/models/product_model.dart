@@ -1,30 +1,44 @@
 class ProductModel {
   final String id;
+  final String sellerId;
+  final String categoryId;
+  final String? brandId;
+  final String sku;
   final String name;
+  final String slug;
   final String? description;
   final double price;
+  final double? salePrice;
   final String currency;
-  final String? categoryId;
+  final String? weight;
+  final String status;
+  final String? rejectionReason;
+  final bool isActive;
+  final String? createdAt;
   final String? categoryName;
   final double rating;
-  final int reviewCount;
   final List<String> images;
-  final String? status;
-  final int stockQuantity;
 
   const ProductModel({
     required this.id,
+    required this.sellerId,
+    required this.categoryId,
+    this.brandId,
+    required this.sku,
     required this.name,
+    required this.slug,
     this.description,
     required this.price,
+    this.salePrice,
     this.currency = 'TZS',
-    this.categoryId,
+    this.weight,
+    this.status = 'active',
+    this.rejectionReason,
+    this.isActive = true,
+    this.createdAt,
     this.categoryName,
     this.rating = 0.0,
-    this.reviewCount = 0,
     this.images = const [],
-    this.status,
-    this.stockQuantity = 0,
   });
 
   String get formattedPrice {
@@ -35,7 +49,17 @@ class ProductModel {
     return '$currency $formatted';
   }
 
+  String get displayPrice => formattedPrice;
+
   String? get thumbnailUrl => images.isNotEmpty ? images.first : null;
+
+  static double _parsePrice(dynamic value) {
+    if (value is num) return value.toDouble();
+    if (value is String) {
+      return double.tryParse(value.replaceAll(',', '')) ?? 0.0;
+    }
+    return 0.0;
+  }
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     final rawImages = json['images'];
@@ -45,7 +69,7 @@ class ProductModel {
         if (img is String) {
           imageUrls.add(img);
         } else if (img is Map) {
-          final url = img['url'] ?? img['image_url'] ?? img['src'];
+          final url = img['image_url'] ?? img['url'] ?? img['src'];
           if (url is String) imageUrls.add(url);
         }
       }
@@ -53,17 +77,24 @@ class ProductModel {
 
     return ProductModel(
       id: json['id']?.toString() ?? '',
+      sellerId: json['seller_id']?.toString() ?? '',
+      categoryId: json['category_id']?.toString() ?? '',
+      brandId: json['brand_id']?.toString(),
+      sku: json['sku'] as String? ?? '',
       name: json['name'] as String,
+      slug: json['slug'] as String? ?? '',
       description: json['description'] as String?,
-      price: (json['price'] as num?)?.toDouble() ?? 0.0,
+      price: _parsePrice(json['price']),
+      salePrice: json['sale_price'] != null ? _parsePrice(json['sale_price']) : null,
       currency: json['currency'] as String? ?? 'TZS',
-      categoryId: json['category_id']?.toString(),
+      weight: json['weight'] as String?,
+      status: json['status'] as String? ?? 'active',
+      rejectionReason: json['rejection_reason'] as String?,
+      isActive: json['is_active'] as bool? ?? true,
+      createdAt: json['created_at'] as String?,
       categoryName: json['category_name'] as String?,
       rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
-      reviewCount: (json['review_count'] as int?) ?? 0,
       images: imageUrls,
-      status: json['status'] as String?,
-      stockQuantity: (json['stock_quantity'] as int?) ?? 0,
     );
   }
 }
