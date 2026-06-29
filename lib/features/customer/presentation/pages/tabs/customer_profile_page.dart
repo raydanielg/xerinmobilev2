@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../../config/constants/app_constants.dart';
+import '../../../../auth/presentation/cubit/auth_cubit.dart';
+import '../../cubit/home_cubit.dart';
+import '../../cubit/home_state.dart';
 
 class CustomerProfilePage extends StatelessWidget {
   const CustomerProfilePage({super.key});
@@ -17,6 +24,12 @@ class CustomerProfilePage extends StatelessWidget {
       {'icon': Icons.help_outline_rounded, 'label': 'Help & Support'},
       {'icon': Icons.logout_rounded, 'label': 'Logout', 'color': const Color(0xFFE53935)},
     ];
+
+    return BlocBuilder<HomeCubit, HomeState>(
+      builder: (context, homeState) {
+        final user = homeState is HomeLoaded ? homeState.user : null;
+        final displayName = user?.fullName ?? 'Guest';
+        final displayEmail = user?.email ?? '';
 
     return SafeArea(
       child: SingleChildScrollView(
@@ -53,21 +66,23 @@ class CustomerProfilePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'John Doe',
+                    displayName,
                     style: const TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'john.doe@example.com',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.white.withValues(alpha: 0.8),
+                  if (displayEmail.isNotEmpty) ...[  
+                    const SizedBox(height: 4),
+                    Text(
+                      displayEmail,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white.withValues(alpha: 0.8),
+                      ),
                     ),
-                  ),
+                  ],
                 ],
               ),
             ),
@@ -102,7 +117,12 @@ class CustomerProfilePage extends StatelessWidget {
                       size: 14,
                       color: colorScheme.onSurface.withValues(alpha: 0.3),
                     ),
-                    onTap: () {},
+                    onTap: () {
+                        if ((item['label'] as String) == 'Logout') {
+                          context.read<AuthCubit>().logout();
+                          context.go(AppConstants.signInRoute);
+                        }
+                      },
                   );
                 }).toList(),
               ),
@@ -111,6 +131,8 @@ class CustomerProfilePage extends StatelessWidget {
           ],
         ),
       ),
+    );
+      },
     );
   }
 }
