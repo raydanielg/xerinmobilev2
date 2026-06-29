@@ -80,6 +80,11 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final state = context.read<HomeCubit>().state;
+    final user = state is HomeLoaded ? state.user : null;
+    final initials = user?.fullName.isNotEmpty == true
+        ? user!.fullName.split(' ').map((e) => e.isNotEmpty ? e[0] : '').take(2).join().toUpperCase()
+        : '?';
 
     return Scaffold(
       backgroundColor: colorScheme.surface,
@@ -105,43 +110,119 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
                       ),
                     ),
                     const SizedBox(width: 16),
-                    Text('Personal Info',
+                    Text('Profile Information',
                       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: colorScheme.onSurface),
                     ),
                   ],
                 ),
-                const SizedBox(height: 32),
-                Center(
-                  child: Stack(
+                const SizedBox(height: 24),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [colorScheme.primary, colorScheme.primary.withValues(alpha: 0.75)],
+                      begin: Alignment.topLeft, end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(24),
+                    boxShadow: [BoxShadow(color: colorScheme.primary.withValues(alpha: 0.3), blurRadius: 20, offset: const Offset(0, 8))],
+                  ),
+                  child: Column(
                     children: [
-                      CircleAvatar(
-                        radius: 54,
-                        backgroundColor: colorScheme.primary.withValues(alpha: 0.1),
-                        backgroundImage: const AssetImage('assets/images/avatar.png'),
-                      ),
-                      Positioned(
-                        bottom: 0, right: 0,
-                        child: Container(
-                          width: 36, height: 36,
-                          decoration: BoxDecoration(
-                            color: colorScheme.primary,
-                            shape: BoxShape.circle,
-                            border: Border.all(color: colorScheme.surface, width: 3),
+                      Stack(
+                        children: [
+                          CircleAvatar(
+                            radius: 50,
+                            backgroundColor: Colors.white.withValues(alpha: 0.2),
+                            child: Text(initials,
+                              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white),
+                            ),
                           ),
-                          child: Icon(Icons.camera_alt_rounded, color: Colors.white, size: 18),
+                          Positioned(
+                            bottom: 0, right: 0,
+                            child: Container(
+                              width: 34, height: 34,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                                border: Border.all(color: colorScheme.primary, width: 2),
+                              ),
+                              child: Icon(Icons.camera_alt_rounded, color: colorScheme.primary, size: 16),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      Text(user?.fullName ?? 'Guest',
+                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                      ),
+                      if (user?.email.isNotEmpty == true) ...[
+                        const SizedBox(height: 4),
+                        Text(user!.email,
+                          style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: 0.85)),
+                        ),
+                      ],
+                      const SizedBox(height: 12),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: (user?.isVerified == true ? const Color(0xFF22C55E) : const Color(0xFFF59E0B)).withValues(alpha: 0.2),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: (user?.isVerified == true ? const Color(0xFF22C55E) : const Color(0xFFF59E0B)).withValues(alpha: 0.4),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              user?.isVerified == true ? Icons.verified_rounded : Icons.pending_outlined,
+                              size: 14,
+                              color: user?.isVerified == true ? const Color(0xFF22C55E) : const Color(0xFFF59E0B),
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              user?.isVerified == true ? 'Verified' : 'Not verified',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: user?.isVerified == true ? const Color(0xFF22C55E) : const Color(0xFFF59E0B),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 32),
-                _buildField('First Name', _firstNameCtrl, colorScheme),
-                const SizedBox(height: 16),
-                _buildField('Last Name', _lastNameCtrl, colorScheme),
-                const SizedBox(height: 16),
-                _buildField('Email', _emailCtrl, colorScheme, enabled: false),
-                const SizedBox(height: 16),
-                _buildField('Phone Number', _phoneCtrl, colorScheme, keyboardType: TextInputType.phone),
+                const SizedBox(height: 24),
+                _buildSectionTitle('Account Details', colorScheme),
+                const SizedBox(height: 12),
+                _buildInfoCard(colorScheme,
+                  child: Column(
+                    children: [
+                      _buildField('First Name', _firstNameCtrl, colorScheme, icon: Icons.person_outline_rounded),
+                      const SizedBox(height: 16),
+                      _buildField('Last Name', _lastNameCtrl, colorScheme, icon: Icons.person_outline_rounded),
+                      const SizedBox(height: 16),
+                      _buildField('Email', _emailCtrl, colorScheme, enabled: false, icon: Icons.email_outlined),
+                      const SizedBox(height: 16),
+                      _buildField('Phone Number', _phoneCtrl, colorScheme, keyboardType: TextInputType.phone, icon: Icons.phone_outlined),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
+                _buildSectionTitle('Account Status', colorScheme),
+                const SizedBox(height: 12),
+                _buildInfoCard(colorScheme,
+                  child: Column(
+                    children: [
+                      _buildStatusRow(Icons.badge_outlined, 'Account ID', user?.id ?? '—', colorScheme),
+                      _buildStatusRow(Icons.shield_outlined, 'Status', _capitalize(user?.status ?? '—'), colorScheme),
+                      _buildStatusRow(Icons.verified_user_outlined, 'Verification', user?.isVerified == true ? 'Verified' : 'Pending', colorScheme),
+                    ],
+                  ),
+                ),
                 const SizedBox(height: 32),
                 SizedBox(
                   width: double.infinity, height: 54,
@@ -158,6 +239,7 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
                         : const Text('Save Changes', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                   ),
                 ),
+                const SizedBox(height: 24),
               ],
             ),
           ),
@@ -166,7 +248,33 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
     );
   }
 
-  Widget _buildField(String label, TextEditingController controller, ColorScheme colorScheme, {bool enabled = true, TextInputType? keyboardType}) {
+  Widget _buildSectionTitle(String title, ColorScheme colorScheme) {
+    return Row(
+      children: [
+        Container(width: 4, height: 18, decoration: BoxDecoration(color: colorScheme.primary, borderRadius: BorderRadius.circular(2))),
+        const SizedBox(width: 8),
+        Text(title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: colorScheme.onSurface)),
+      ],
+    );
+  }
+
+  Widget _buildInfoCard(ColorScheme colorScheme, {required Widget child}) {
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: colorScheme.onSurface.withValues(alpha: 0.06)),
+      ),
+      child: child,
+    );
+  }
+
+  Widget _buildField(String label, TextEditingController controller, ColorScheme colorScheme, {
+    bool enabled = true,
+    TextInputType? keyboardType,
+    IconData? icon,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -178,20 +286,63 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
             borderRadius: BorderRadius.circular(14),
             border: Border.all(color: colorScheme.onSurface.withValues(alpha: 0.08)),
           ),
-          child: TextFormField(
-            controller: controller,
-            enabled: enabled,
-            keyboardType: keyboardType,
-            validator: (v) => (v == null || v.trim().isEmpty) && enabled ? 'Required' : null,
-            decoration: InputDecoration(
-              hintText: 'Enter $label',
-              border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-              hintStyle: TextStyle(color: colorScheme.onSurface.withValues(alpha: 0.3)),
-            ),
+          child: Row(
+            children: [
+              if (icon != null) ...[
+                Padding(
+                  padding: const EdgeInsets.only(left: 12),
+                  child: Icon(icon, size: 18, color: colorScheme.onSurface.withValues(alpha: 0.4)),
+                ),
+              ],
+              Expanded(
+                child: TextFormField(
+                  controller: controller,
+                  enabled: enabled,
+                  keyboardType: keyboardType,
+                  validator: (v) => (v == null || v.trim().isEmpty) && enabled ? 'Required' : null,
+                  decoration: InputDecoration(
+                    hintText: 'Enter $label',
+                    border: InputBorder.none,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                    hintStyle: TextStyle(color: colorScheme.onSurface.withValues(alpha: 0.3)),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],
     );
+  }
+
+  Widget _buildStatusRow(IconData icon, String label, String value, ColorScheme colorScheme) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Row(
+        children: [
+          Container(
+            width: 36, height: 36,
+            decoration: BoxDecoration(color: colorScheme.primary.withValues(alpha: 0.08), borderRadius: BorderRadius.circular(10)),
+            child: Icon(icon, size: 18, color: colorScheme.primary),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(label, style: TextStyle(fontSize: 12, color: colorScheme.onSurface.withValues(alpha: 0.5))),
+                const SizedBox(height: 2),
+                Text(value, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: colorScheme.onSurface)),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _capitalize(String value) {
+    if (value.isEmpty) return value;
+    return value[0].toUpperCase() + value.substring(1);
   }
 }
