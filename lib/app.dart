@@ -5,6 +5,7 @@ import 'config/di/service_locator.dart';
 import 'config/routes/app_router.dart';
 import 'config/theme/app_theme.dart';
 import 'core/theme/app_theme_cubit.dart';
+import 'features/auth/presentation/cubit/auth_cubit.dart';
 
 /// Root app widget.
 class XerinApp extends StatelessWidget {
@@ -12,8 +13,11 @@ class XerinApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: sl<AppThemeCubit>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: sl<AppThemeCubit>()),
+        BlocProvider(create: (_) => sl<AuthCubit>()),
+      ],
       child: BlocBuilder<AppThemeCubit, AppThemeState>(
         builder: (context, state) {
           return MaterialApp.router(

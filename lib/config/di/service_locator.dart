@@ -3,7 +3,11 @@ import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../core/network/api_client.dart';
+import '../../core/storage/token_storage.dart';
 import '../../core/theme/app_theme_cubit.dart';
+import '../../features/auth/data/datasources/auth_remote_datasource.dart';
+import '../../features/auth/presentation/cubit/auth_cubit.dart';
 import '../constants/api_constants.dart';
 
 final GetIt sl = GetIt.instance;
@@ -14,9 +18,20 @@ Future<void> initServiceLocator() async {
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 
-  sl.registerLazySingleton<Logger>(() => Logger());
+  sl.registerLazySingleton<Logger>(
+    () => Logger(
+      printer: PrettyPrinter(
+        methodCount: 0,
+        errorMethodCount: 5,
+        lineLength: 80,
+        colors: true,
+        printEmojis: true,
+      ),
+    ),
+  );
 
-  sl.registerLazySingleton<AppThemeCubit>(() => AppThemeCubit(sharedPreferences));
+  sl.registerLazySingleton<AppThemeCubit>(
+      () => AppThemeCubit(sharedPreferences));
 
   sl.registerLazySingleton<Dio>(
     () => Dio(
@@ -24,13 +39,24 @@ Future<void> initServiceLocator() async {
         baseUrl: ApiConstants.baseUrl,
         connectTimeout: const Duration(seconds: 30),
         receiveTimeout: const Duration(seconds: 30),
-        headers: {'Content-Type': 'application/json'},
+        headers: {'Content-Type': ApiConstants.contentType},
       ),
     ),
   );
 
-  // Use cases
-  // sl.registerLazySingleton<GetProductsUseCase>(
-  //   () => GetProductsUseCase(sl()),
-  // );
+  // Core
+  sl.registerLazySingleton<TokenStorage>(() => TokenStorage(sl()));
+  sl.registerLazySingleton<ApiClient>(
+      () => ApiClient(sl<Dio>(), sl<TokenStorage>(), sl<Logger>()));
+
+  // Auth
+  sl.registerLazySingleton<AuthRemoteDataSource>(
+      () => AuthRemoteDataSource(sl()));
+  sl.registerFactory<AuthCubit>(
+    () => AuthCubit(
+      dataSource: sl(),
+      tokenStorage: sl(),
+      logger: sl(),
+    ),
+  );
 }

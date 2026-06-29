@@ -1,15 +1,51 @@
 /// API-related constants.
 abstract class ApiConstants {
   // TODO: Replace with your production base URL.
-  static const String baseUrl = 'https://api.example.com';
-
-  static const String apiVersion = 'v1';
+  static const String baseUrl = 'http://localhost:8000';
 
   // Auth endpoints
-  static const String login = '/auth/login';
   static const String register = '/auth/register';
-  static const String refreshToken = '/auth/refresh';
+  static const String registerSeller = '/auth/register-seller';
+  static const String login = '/auth/login';
   static const String logout = '/auth/logout';
+  static const String refreshToken = '/auth/refresh-token';
+  static const String sendOtp = '/auth/send-otp';
+  static const String verifyOtp = '/auth/verify-otp';
+  static const String forgotPassword = '/auth/forgot-password';
+  static const String resetPassword = '/auth/reset-password';
+
+  // User endpoints
+  static const String myProfile = '/users/me';
+
+  // Address endpoints
+  static const String addresses = '/addresses';
+  static String addressById(String id) => '/addresses/$id';
+
+  // Seller endpoints
+  static const String sellerRegister = '/sellers/register';
+  static const String sellerProfile = '/sellers/me';
+  static const String sellerKycDocuments = '/sellers/kyc-documents';
+  static const String sellerPayoutAccounts = '/sellers/payout-accounts';
+  static String sellerPayoutAccountById(String id) =>
+      '/sellers/payout-accounts/$id';
+
+  // Product endpoints
+  static const String products = '/products';
+  static const String myProducts = '/products/my-products';
+  static const String productCategories = '/products/categories';
+  static const String productBrands = '/products/brands';
+  static String productById(String id) => '/products/$id';
+  static String productImages(String id) => '/products/$id/images';
+  static String productImageById(String productId, String imageId) =>
+      '/products/$productId/images/$imageId';
+  static String productVariants(String id) => '/products/$id/variants';
+  static String productVariantById(String productId, String variantId) =>
+      '/products/$productId/variants/$variantId';
+  static String productTags(String id) => '/products/$id/tags';
+  static String productTagById(String productId, String tagId) =>
+      '/products/$productId/tags/$tagId';
+  static String categoryById(String id) => '/products/categories/$id';
+  static String brandById(String id) => '/products/brands/$id';
 
   // Common headers
   static const String contentType = 'application/json';
