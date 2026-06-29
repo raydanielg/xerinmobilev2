@@ -157,7 +157,7 @@ class CustomerProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildGuestBanner(ColorScheme colorScheme) {
+  Widget _buildGuestBanner(BuildContext context, ColorScheme colorScheme) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
