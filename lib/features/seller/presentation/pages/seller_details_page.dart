@@ -308,8 +308,7 @@ class _SellerDetailsPageState extends State<SellerDetailsPage>
           ),
         ),
       ),
-    );
-      },
+    ),
     );
   }
 }
