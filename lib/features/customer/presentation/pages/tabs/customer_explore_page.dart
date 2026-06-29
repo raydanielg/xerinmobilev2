@@ -318,9 +318,8 @@ class _CustomerExplorePageState extends State<CustomerExplorePage> {
       children: items.map((product) {
         return GestureDetector(
           onTap: () => context.push(AppConstants.productDetailRoute, extra: {
-            'name': product.name, 'price': product.formattedPrice,
-            'image': product.thumbnailUrl ?? '', 'category': product.categoryName ?? '',
-            'rating': product.rating,
+            'product': product,
+            'category': product.categoryName ?? 'All',
           }),
           child: Container(
             margin: const EdgeInsets.only(bottom: 10),
@@ -444,9 +443,8 @@ class _CustomerExplorePageState extends State<CustomerExplorePage> {
         final product = products[index];
         return GestureDetector(
           onTap: () => context.push(AppConstants.productDetailRoute, extra: {
-            'name': product.name, 'price': product.formattedPrice,
-            'image': product.thumbnailUrl ?? '', 'category': product.categoryName ?? '',
-            'rating': product.rating,
+            'product': product,
+            'category': product.categoryName ?? 'All',
           }),
           child: Container(
             decoration: BoxDecoration(
