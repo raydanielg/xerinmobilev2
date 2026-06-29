@@ -1,3 +1,5 @@
+import 'product_model.dart';
+
 class WishlistItemModel {
   final String id;
   final String productId;
@@ -51,6 +53,26 @@ class WishlistItemModel {
   int? get discountPercent {
     if (!hasDiscount) return null;
     return ((1 - salePrice! / price) * 100).toInt();
+  }
+
+  ProductModel toProductModel() {
+    return ProductModel(
+      id: productId,
+      sellerId: '',
+      categoryId: '',
+      sku: '',
+      name: name,
+      slug: '',
+      description: description,
+      price: price,
+      salePrice: salePrice,
+      currency: currency,
+      status: inStock ? 'active' : 'inactive',
+      isActive: inStock,
+      categoryName: categoryName,
+      rating: rating,
+      images: imageUrl != null ? [imageUrl!] : const [],
+    );
   }
 
   factory WishlistItemModel.fromJson(Map<String, dynamic> json) {

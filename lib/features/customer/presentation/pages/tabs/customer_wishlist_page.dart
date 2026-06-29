@@ -277,7 +277,7 @@ class _CustomerWishlistPageState extends State<CustomerWishlistPage> {
       onTap: () => context.go(
         AppConstants.productDetailRoute,
         extra: {
-          'product': item,
+          'product': item.toProductModel(),
           'category': item.categoryName ?? 'All',
         },
       ),
