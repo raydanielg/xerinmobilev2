@@ -61,47 +61,63 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return SafeArea(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 16),
-            _buildHeader(colorScheme),
-            const SizedBox(height: 20),
-            _buildSearchBar(colorScheme),
-            const SizedBox(height: 24),
-            if (_searchQuery.isNotEmpty) ...[
-              _buildSearchResults(colorScheme),
-              const SizedBox(height: 24),
-            ] else ...[
-              _buildSectionTitle(
-                'Categories',
-                'See all',
-                colorScheme,
-                onActionTap: () => context.go(AppConstants.categoriesRoute),
-              ),
-              const SizedBox(height: 14),
-              _buildCategories(colorScheme),
-              const SizedBox(height: 24),
-              _buildSectionTitle(
-                'Featured',
-                'See all',
-                colorScheme,
-                onActionTap: () => context.go(AppConstants.exploreProductsRoute),
-              ),
-              const SizedBox(height: 14),
-              _buildFeaturedProducts(colorScheme),
-              const SizedBox(height: 24),
-              _buildSectionTitle('Recent Orders', '', colorScheme),
-              const SizedBox(height: 14),
-              _buildRecentOrders(colorScheme),
-              const SizedBox(height: 24),
-            ],
-          ],
-        ),
-      ),
+    return BlocBuilder<HomeCubit, HomeState>(
+      builder: (context, homeState) {
+        final user = homeState is HomeLoaded ? homeState.user : null;
+        final categories = homeState is HomeLoaded
+            ? homeState.categories
+            : <CategoryModel>[];
+        final featured = homeState is HomeLoaded
+            ? homeState.featuredProducts
+            : <ProductModel>[];
+        final searchResults = homeState is HomeLoaded
+            ? homeState.searchResults
+            : <ProductModel>[];
+        final isLoadingData = homeState is HomeLoading;
+
+        return SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 16),
+                _buildHeader(colorScheme, userName: user?.firstName ?? user?.fullName ?? 'Guest'),
+                const SizedBox(height: 20),
+                _buildSearchBar(colorScheme),
+                const SizedBox(height: 24),
+                if (_searchQuery.isNotEmpty) ...[
+                  _buildSearchResults(colorScheme, searchResults, isLoadingData),
+                  const SizedBox(height: 24),
+                ] else ...[
+                  _buildSectionTitle(
+                    'Categories',
+                    'See all',
+                    colorScheme,
+                    onActionTap: () => context.go(AppConstants.categoriesRoute),
+                  ),
+                  const SizedBox(height: 14),
+                  _buildCategories(colorScheme, categories, isLoadingData),
+                  const SizedBox(height: 24),
+                  _buildSectionTitle(
+                    'Featured',
+                    'See all',
+                    colorScheme,
+                    onActionTap: () => context.go(AppConstants.exploreProductsRoute),
+                  ),
+                  const SizedBox(height: 14),
+                  _buildFeaturedProducts(colorScheme, featured, isLoadingData),
+                  const SizedBox(height: 24),
+                  _buildSectionTitle('Recent Orders', '', colorScheme),
+                  const SizedBox(height: 14),
+                  _buildRecentOrders(colorScheme),
+                  const SizedBox(height: 24),
+                ],
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
