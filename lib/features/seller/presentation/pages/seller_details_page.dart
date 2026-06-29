@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../config/constants/app_constants.dart';
+import '../../../auth/presentation/cubit/auth_cubit.dart';
+import '../../../auth/presentation/cubit/auth_state.dart';
 import '../../../auth/presentation/widgets/auth_text_field.dart';
 
 class SellerDetailsPage extends StatefulWidget {
@@ -65,13 +68,45 @@ class _SellerDetailsPageState extends State<SellerDetailsPage>
   }
 
   void _onComplete() {
-    if (_formKey.currentState!.validate()) {
+    if (!_formKey.currentState!.validate()) return;
+    final cubit = context.read<AuthCubit>();
+    cubit.registerSeller(
+      firstName: cubit.pendingPhone != null ? cubit.state.runtimeType.toString() : '',
+      lastName: '',
+      email: '',
+      phone: cubit.pendingPhone ?? '',
+      password: '',
+      businessName: _shopNameCtrl.text.trim(),
+      businessCategory: _shopCategory,
+      contactEmail: null,
+      contactPhone: cubit.pendingPhone,
+    );
+  }
+
+  void _onStateChange(BuildContext context, AuthState state) {
+    if (state is AuthSellerRegisterSuccess) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+              'Shop "${state.seller.businessName}" registered successfully!'),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
       context.go(
         AppConstants.registrationSuccessRoute,
         extra: {
           'isSeller': true,
-          'shopName': _shopNameCtrl.text.trim(),
+          'shopName': state.seller.businessName,
         },
+      );
+    } else if (state is AuthError) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(state.message),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+        ),
       );
     }
   }
@@ -80,7 +115,9 @@ class _SellerDetailsPageState extends State<SellerDetailsPage>
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Scaffold(
+    return BlocListener<AuthCubit, AuthState>(
+      listener: _onStateChange,
+      child: Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 28),
@@ -224,28 +261,44 @@ class _SellerDetailsPageState extends State<SellerDetailsPage>
                           : null,
                     ),
                     const SizedBox(height: 32),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 54,
-                      child: ElevatedButton(
-                        onPressed: _onComplete,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: colorScheme.primary,
-                          foregroundColor: colorScheme.onPrimary,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
+                    BlocBuilder<AuthCubit, AuthState>(
+                      builder: (context, state) {
+                        final isLoading = state is AuthLoading;
+                        return SizedBox(
+                          width: double.infinity,
+                          height: 54,
+                          child: ElevatedButton(
+                            onPressed: isLoading ? null : _onComplete,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: colorScheme.primary,
+                              foregroundColor: colorScheme.onPrimary,
+                              disabledBackgroundColor:
+                                  colorScheme.primary.withValues(alpha: 0.6),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              elevation: 0,
+                            ),
+                            child: isLoading
+                                ? const SizedBox(
+                                    width: 22,
+                                    height: 22,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2.5,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : const Text(
+                                    'Complete Registration',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 0.3,
+                                    ),
+                                  ),
                           ),
-                          elevation: 0,
-                        ),
-                        child: const Text(
-                          'Complete',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.3,
-                          ),
-                        ),
-                      ),
+                        );
+                      },
                     ),
                     const SizedBox(height: 24),
                   ],
@@ -255,6 +308,8 @@ class _SellerDetailsPageState extends State<SellerDetailsPage>
           ),
         ),
       ),
+    );
+      },
     );
   }
 }
