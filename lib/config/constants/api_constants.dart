@@ -1,7 +1,6 @@
 /// API-related constants.
 abstract class ApiConstants {
-  // TODO: Replace with your production base URL.
-  static const String baseUrl = 'http://localhost:8000';
+  static const String baseUrl = 'http://187.124.32.94:8080';
 
   // Auth endpoints
   static const String register = '/auth/register';
