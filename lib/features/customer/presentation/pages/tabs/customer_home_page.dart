@@ -1447,22 +1447,50 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
     );
   }
 
-  Widget _buildRecentOrders(ColorScheme colorScheme) {
-    final orders = List.generate(3, (i) => {
-      'id': '#ORD-${2024000 + i}',
-      'name': 'Product Item ${i + 1}',
-      'status': ['Completed', 'Processing', 'Shipped'][i],
-      'price': '\$${(i + 2) * 12}.50',
-      'date': 'Jun ${20 + i}, 2026',
-    });
+  Widget _buildRecentOrders(ColorScheme colorScheme, List<OrderModel> orders) {
+    if (orders.isEmpty) {
+      return Container(
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: colorScheme.surface,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: colorScheme.onSurface.withValues(alpha: 0.06),
+          ),
+        ),
+        child: Column(
+          children: [
+            Icon(
+              Icons.inventory_2_outlined,
+              size: 48,
+              color: colorScheme.onSurface.withValues(alpha: 0.3),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              'No orders found',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+                color: colorScheme.onSurface,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              'Your recent orders will appear here',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 13,
+                color: colorScheme.onSurface.withValues(alpha: 0.5),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
 
     return Column(
-      children: orders.map((order) {
-        final statusColor = order['status'] == 'Completed'
-            ? const Color(0xFF22C55E)
-            : order['status'] == 'Processing'
-                ? const Color(0xFFF59E0B)
-                : colorScheme.primary;
+      children: orders.take(3).map((order) {
+        final statusColor = _orderStatusColor(order.status);
         return Container(
           margin: const EdgeInsets.only(bottom: 10),
           padding: const EdgeInsets.all(14),
@@ -1494,7 +1522,9 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      order['name'] as String,
+                      order.orderNumber.isNotEmpty
+                          ? order.orderNumber
+                          : 'Order ${order.id}',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -1503,7 +1533,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      order['id'] as String,
+                      order.createdAt ?? 'Recent',
                       style: TextStyle(
                         fontSize: 12,
                         color: colorScheme.onSurface.withValues(alpha: 0.4),
@@ -1516,7 +1546,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    order['price'] as String,
+                    order.formattedTotal,
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -1532,7 +1562,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Text(
-                      order['status'] as String,
+                      order.displayStatus,
                       style: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.w600,
@@ -1547,6 +1577,22 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
         );
       }).toList(),
     );
+  }
+
+  Color _orderStatusColor(String status) {
+    switch (status.toLowerCase()) {
+      case 'completed':
+      case 'delivered':
+        return const Color(0xFF22C55E);
+      case 'processing':
+      case 'pending':
+        return const Color(0xFFF59E0B);
+      case 'cancelled':
+      case 'failed':
+        return const Color(0xFFE53935);
+      default:
+        return const Color(0xFF3B82F6);
+    }
   }
 }
 
