@@ -23,6 +23,7 @@ abstract class AppConstants {
   static const String sellerPayoutsRoute = '/seller/payouts';
   static const String sellerReportsRoute = '/seller/reports';
   static const String sellerSupportRoute = '/seller/support';
+  static const String sellerKycRoute = '/seller/kyc';
   static const String registrationSuccessRoute = '/registration-success';
 
   // Timeouts

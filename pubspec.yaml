@@ -59,6 +59,9 @@ dependencies:
   # SVG rendering
   flutter_svg: ^2.0.18
 
+  # Image picker
+  image_picker: ^1.1.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

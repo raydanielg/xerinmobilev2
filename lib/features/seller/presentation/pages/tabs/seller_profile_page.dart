@@ -12,6 +12,11 @@ class SellerProfilePage extends StatelessWidget {
 
     final menuItems = [
       {
+        'icon': Icons.verified_user_outlined,
+        'label': 'KYC Verification',
+        'route': AppConstants.sellerKycRoute,
+      },
+      {
         'icon': Icons.store_outlined,
         'label': 'Shop Details',
         'route': AppConstants.sellerShopDetailsRoute,

@@ -12,6 +12,7 @@ import '../../features/customer/presentation/pages/customer_dashboard.dart';
 import '../../features/customer/presentation/pages/explore_products_page.dart';
 import '../../features/customer/presentation/pages/product_detail_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
+import '../../features/seller/presentation/pages/kyc_page.dart';
 import '../../features/seller/presentation/pages/payouts_page.dart';
 import '../../features/seller/presentation/pages/reports_page.dart';
 import '../../features/seller/presentation/pages/seller_dashboard.dart';
@@ -117,6 +118,10 @@ class AppRouter {
       GoRoute(
         path: AppConstants.sellerSupportRoute,
         builder: (context, state) => const SellerSupportPage(),
+      ),
+      GoRoute(
+        path: AppConstants.sellerKycRoute,
+        builder: (context, state) => const KycPage(),
       ),
       GoRoute(
         path: AppConstants.registrationSuccessRoute,
