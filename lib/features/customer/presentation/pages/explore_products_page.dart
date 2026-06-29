@@ -1,21 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../config/constants/app_constants.dart';
+import '../../../../config/di/service_locator.dart';
+import '../../data/models/category_model.dart';
+import '../../data/models/product_model.dart';
+import '../cubit/products_cubit.dart';
+import '../cubit/products_state.dart';
 
-class ExploreProductsPage extends StatelessWidget {
+class ExploreProductsPage extends StatefulWidget {
   const ExploreProductsPage({super.key});
 
-  final List<Map<String, dynamic>> _products = const [
-    {'name': 'Wireless Headphones', 'price': 'TSh 325,000', 'rating': 4.8, 'category': 'Electronics', 'image': 'https://picsum.photos/seed/headphones/300/400'},
-    {'name': 'Running Shoes', 'price': 'TSh 224,000', 'rating': 4.6, 'category': 'Sports', 'image': 'https://picsum.photos/seed/shoes/300/400'},
-    {'name': 'Smart Watch', 'price': 'TSh 622,500', 'rating': 4.9, 'category': 'Electronics', 'image': 'https://picsum.photos/seed/watch/300/400'},
-    {'name': 'Designer Bag', 'price': 'TSh 150,000', 'rating': 4.4, 'category': 'Fashion', 'image': 'https://picsum.photos/seed/bag/300/400'},
-    {'name': 'Laptop Stand', 'price': 'TSh 115,000', 'rating': 4.5, 'category': 'Electronics', 'image': 'https://picsum.photos/seed/laptop/300/400'},
-    {'name': 'Yoga Mat', 'price': 'TSh 86,000', 'rating': 4.7, 'category': 'Sports', 'image': 'https://picsum.photos/seed/yoga/300/400'},
-    {'name': 'Kitchen Blender', 'price': 'TSh 150,000', 'rating': 4.3, 'category': 'Home', 'image': 'https://picsum.photos/seed/blender/300/400'},
-    {'name': 'Coffee Beans', 'price': 'TSh 62,500', 'rating': 4.8, 'category': 'Food', 'image': 'https://picsum.photos/seed/coffee/300/400'},
-  ];
+  @override
+  State<ExploreProductsPage> createState() => _ExploreProductsPageState();
+}
+
+class _ExploreProductsPageState extends State<ExploreProductsPage> {
+  late final ProductsCubit _cubit;
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _cubit = sl<ProductsCubit>()..loadAll();
+  }
+
+  @override
+  void dispose() {
+    _cubit.close();
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  String _categoryName(List<CategoryModel> categories, String categoryId) {
+    final match = categories.firstWhere(
+      (c) => c.id == categoryId,
+      orElse: () => const CategoryModel(id: '', name: 'General', slug: 'general'),
+    );
+    return match.name;
+  }
 
   @override
   Widget build(BuildContext context) {
