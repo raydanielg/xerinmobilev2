@@ -47,98 +47,167 @@ class _ExploreProductsPageState extends State<ExploreProductsPage> {
 
     return Scaffold(
       backgroundColor: colorScheme.surface,
-      body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        if (context.canPop()) {
-                          context.pop();
-                        } else {
-                          context.go(AppConstants.homeRoute);
-                        }
-                      },
-                      child: Container(
-                        width: 44,
-                        height: 44,
-                        decoration: BoxDecoration(
-                          color: colorScheme.primary.withValues(alpha: 0.08),
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                        child: Icon(
-                          Icons.arrow_back_rounded,
-                          color: colorScheme.primary,
-                          size: 22,
+      body: BlocProvider.value(
+        value: _cubit,
+        child: SafeArea(
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          if (context.canPop()) {
+                            context.pop();
+                          } else {
+                            context.go(AppConstants.homeRoute);
+                          }
+                        },
+                        child: Container(
+                          width: 44,
+                          height: 44,
+                          decoration: BoxDecoration(
+                            color: colorScheme.primary.withValues(alpha: 0.08),
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                          child: Icon(
+                            Icons.arrow_back_rounded,
+                            color: colorScheme.primary,
+                            size: 22,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Explore Products',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: colorScheme.onSurface,
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Explore Products',
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: colorScheme.onSurface,
+                              ),
                             ),
-                          ),
-                          Text(
-                            '${_products.length} products available',
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: colorScheme.onSurface.withValues(alpha: 0.45),
+                            BlocBuilder<ProductsCubit, ProductsState>(
+                              builder: (context, state) {
+                                final count = state is ProductsLoaded ? state.products.length : 0;
+                                return Text(
+                                  '$count products available',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: colorScheme.onSurface.withValues(alpha: 0.45),
+                                  ),
+                                );
+                              },
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            SliverPadding(
-              padding: const EdgeInsets.all(20),
-              sliver: SliverGrid(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.68,
-                  crossAxisSpacing: 14,
-                  mainAxisSpacing: 14,
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
+                  child: TextField(
+                    controller: _searchController,
+                    onSubmitted: (value) => _cubit.loadProducts(search: value.trim()),
+                    decoration: InputDecoration(
+                      hintText: 'Search products...',
+                      prefixIcon: const Icon(Icons.search_rounded),
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.clear_rounded),
+                        onPressed: () {
+                          _searchController.clear();
+                          _cubit.loadAll();
+                        },
+                      ),
+                      filled: true,
+                      fillColor: colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(14),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                  ),
                 ),
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    final product = _products[index];
-                    return _buildProductCard(product, colorScheme, context);
+              ),
+              SliverPadding(
+                padding: const EdgeInsets.all(20),
+                sliver: BlocBuilder<ProductsCubit, ProductsState>(
+                  builder: (context, state) {
+                    if (state is ProductsLoading) {
+                      return const SliverFillRemaining(
+                        child: Center(child: CircularProgressIndicator()),
+                      );
+                    }
+                    if (state is ProductsError) {
+                      return SliverFillRemaining(
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(24),
+                            child: Text(
+                              state.message,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: colorScheme.onSurface.withValues(alpha: 0.6),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                    final loaded = state is ProductsLoaded ? state : const ProductsLoaded();
+                    final products = loaded.products;
+                    final categories = loaded.categories;
+                    if (products.isEmpty) {
+                      return const SliverFillRemaining(
+                        child: Center(child: Text('No products available')),
+                      );
+                    }
+                    return SliverGrid(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.68,
+                        crossAxisSpacing: 14,
+                        mainAxisSpacing: 14,
+                      ),
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          final product = products[index];
+                          return _buildProductCard(
+                            product,
+                            _categoryName(categories, product.categoryId),
+                            colorScheme,
+                            context,
+                          );
+                        },
+                        childCount: products.length,
+                      ),
+                    );
                   },
-                  childCount: _products.length,
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget _buildProductCard(
-      Map<String, dynamic> product, ColorScheme colorScheme, BuildContext context) {
+      ProductModel product, String category, ColorScheme colorScheme, BuildContext context) {
     return GestureDetector(
       onTap: () => context.go(
         AppConstants.productDetailRoute,
         extra: {
-          'name': product['name'],
-          'price': product['price'],
-          'image': product['image'],
-          'category': product['category'],
-          'rating': product['rating'],
+          'product': product,
+          'category': category,
         },
       ),
       child: Container(
@@ -164,12 +233,22 @@ class _ExploreProductsPageState extends State<ExploreProductsPage> {
                 ClipRRect(
                   borderRadius:
                       const BorderRadius.vertical(top: Radius.circular(10)),
-                  child: Image.network(
-                    product['image'] as String,
-                    height: 150,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
+                  child: product.thumbnailUrl != null
+                      ? Image.network(
+                          product.thumbnailUrl!,
+                          height: 150,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        )
+                      : Container(
+                          height: 150,
+                          width: double.infinity,
+                          color: colorScheme.surfaceContainerHighest,
+                          child: Icon(
+                            Icons.image_not_supported_rounded,
+                            color: colorScheme.onSurface.withValues(alpha: 0.3),
+                          ),
+                        ),
                 ),
                 Positioned(
                   top: 8,
