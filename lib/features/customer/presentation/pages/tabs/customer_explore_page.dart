@@ -151,71 +151,102 @@ class CustomerExplorePage extends StatelessWidget {
   }
 
   Widget _buildTrendingList(ColorScheme colorScheme) {
-    final items = List.generate(4, (i) => {
-      'name': 'Trending Product ${i + 1}',
-      'price': '\$${(i + 2) * 10}.99',
-      'sold': '${(i + 1) * 120} sold',
-    });
-
-    return Column(
-      children: items.map((item) {
-        return Container(
-          margin: const EdgeInsets.only(bottom: 10),
-          padding: const EdgeInsets.all(14),
-          decoration: BoxDecoration(
-            color: colorScheme.surface,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: colorScheme.onSurface.withValues(alpha: 0.06),
+    return BlocBuilder<HomeCubit, HomeState>(
+      builder: (context, state) {
+        if (state is HomeLoading) {
+          return const Center(
+            child: Padding(
+              padding: EdgeInsets.all(32),
+              child: CircularProgressIndicator(),
             ),
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  color: colorScheme.primary.withValues(alpha: 0.08),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(Icons.local_fire_department_rounded,
-                    color: colorScheme.primary, size: 24),
+          );
+        }
+        final products = state is HomeLoaded ? state.featuredProducts : <ProductModel>[];
+        if (products.isEmpty) {
+          return const Center(
+            child: Padding(
+              padding: EdgeInsets.all(32),
+              child: Text('No trending products available'),
+            ),
+          );
+        }
+        return Column(
+          children: products.take(4).map((product) {
+            return GestureDetector(
+              onTap: () => context.go(
+                AppConstants.productDetailRoute,
+                extra: {'product': product, 'category': 'Trending'},
               ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 10),
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: colorScheme.surface,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: colorScheme.onSurface.withValues(alpha: 0.06),
+                  ),
+                ),
+                child: Row(
                   children: [
-                    Text(
-                      item['name'] as String,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: colorScheme.onSurface,
+                    Container(
+                      width: 48,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        color: colorScheme.primary.withValues(alpha: 0.08),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: product.thumbnailUrl != null
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.network(
+                                product.thumbnailUrl!,
+                                fit: BoxFit.cover,
+                                width: 48,
+                                height: 48,
+                              ),
+                            )
+                          : Icon(Icons.local_fire_department_rounded,
+                              color: colorScheme.primary, size: 24),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            product.name,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: colorScheme.onSurface,
+                            ),
+                          ),
+                          Text(
+                            product.formattedPrice,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: colorScheme.onSurface.withValues(alpha: 0.4),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     Text(
-                      item['sold'] as String,
+                      product.rating.toStringAsFixed(1),
                       style: TextStyle(
-                        fontSize: 12,
-                        color: colorScheme.onSurface.withValues(alpha: 0.4),
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: colorScheme.primary,
                       ),
                     ),
                   ],
                 ),
               ),
-              Text(
-                item['price'] as String,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: colorScheme.primary,
-                ),
-              ),
-            ],
-          ),
+            );
+          }).toList(),
         );
-      }).toList(),
+      },
     );
   }
 }
