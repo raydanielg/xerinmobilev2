@@ -39,12 +39,23 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   children: [
                     Stack(
                       children: [
-                        Image.network(
-                          widget.image,
-                          height: 320,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                        ),
+                        widget.product.thumbnailUrl != null
+                            ? Image.network(
+                                widget.product.thumbnailUrl!,
+                                height: 320,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              )
+                            : Container(
+                                height: 320,
+                                width: double.infinity,
+                                color: colorScheme.surfaceContainerHighest,
+                                child: Icon(
+                                  Icons.image_not_supported_rounded,
+                                  size: 64,
+                                  color: colorScheme.onSurface.withValues(alpha: 0.3),
+                                ),
+                              ),
                         Positioned(
                           top: 16,
                           left: 20,
@@ -131,7 +142,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                     ),
                                     const SizedBox(width: 4),
                                     Text(
-                                      widget.rating.toStringAsFixed(1),
+                                      widget.product.rating.toStringAsFixed(1),
                                       style: TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w700,
@@ -145,7 +156,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           ),
                           const SizedBox(height: 16),
                           Text(
-                            widget.name,
+                            widget.product.name,
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
@@ -154,7 +165,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           ),
                           const SizedBox(height: 12),
                           Text(
-                            widget.price,
+                            widget.product.formattedPrice,
                             style: TextStyle(
                               fontSize: 28,
                               fontWeight: FontWeight.bold,
@@ -174,7 +185,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'This premium ${widget.name.toLowerCase()} offers excellent quality, durability, and style. Perfect for everyday use. Order now and get fast delivery anywhere in Tanzania.',
+                            widget.product.description ??
+                                'This premium ${widget.product.name.toLowerCase()} offers excellent quality, durability, and style. Perfect for everyday use. Order now and get fast delivery anywhere in Tanzania.',
                             style: TextStyle(
                               fontSize: 14,
                               height: 1.6,
@@ -240,7 +252,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              widget.price,
+                              widget.product.formattedPrice,
                               style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold,
@@ -260,15 +272,15 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             child: ElevatedButton.icon(
                               onPressed: () {
                                 _cartController.addToCart(
-                                  name: widget.name,
-                                  price: widget.price,
-                                  image: widget.image,
+                                  name: widget.product.name,
+                                  price: widget.product.formattedPrice,
+                                  image: widget.product.thumbnailUrl ?? '',
                                   category: widget.category,
                                 );
                                 setState(() => _added = true);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: Text('${widget.name} added to cart'),
+                                    content: Text('${widget.product.name} added to cart'),
                                     backgroundColor: const Color(0xFF22C55E),
                                     behavior: SnackBarBehavior.floating,
                                     shape: RoundedRectangleBorder(
@@ -312,16 +324,16 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             child: ElevatedButton(
                               onPressed: () {
                                 _cartController.addToCart(
-                                  name: widget.name,
-                                  price: widget.price,
-                                  image: widget.image,
+                                  name: widget.product.name,
+                                  price: widget.product.formattedPrice,
+                                  image: widget.product.thumbnailUrl ?? '',
                                   category: widget.category,
                                 );
                                 context.go(AppConstants.homeRoute);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
-                                      'Proceeding to checkout for ${widget.name}',
+                                      'Proceeding to checkout for ${widget.product.name}',
                                     ),
                                     backgroundColor: const Color(0xFF22C55E),
                                     behavior: SnackBarBehavior.floating,
@@ -396,7 +408,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           children: [
             ...List.generate(5, (index) {
               return Icon(
-                index < widget.rating.round()
+                index < widget.product.rating.round()
                     ? Icons.star_rounded
                     : Icons.star_border_rounded,
                 size: 18,
@@ -405,7 +417,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             }),
             const SizedBox(width: 8),
             Text(
-              widget.rating.toStringAsFixed(1),
+              widget.product.rating.toStringAsFixed(1),
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
