@@ -1643,8 +1643,4 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
   }
 }
 
-class _CategoryItem {
-  final IconData icon;
-  final String label;
-  const _CategoryItem({required this.icon, required this.label});
-}
+// _CategoryItem removed — real CategoryModel is used from API
