@@ -219,17 +219,6 @@ class _CategoriesPageState extends State<CategoriesPage> {
         ),
       ),
     ),
-  );
+    );
   }
-}
-
-class _CategoryItem {
-  final IconData icon;
-  final String label;
-  final Color color;
-  const _CategoryItem({
-    required this.icon,
-    required this.label,
-    required this.color,
-  });
 }
