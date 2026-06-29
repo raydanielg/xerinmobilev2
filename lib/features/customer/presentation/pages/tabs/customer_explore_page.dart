@@ -6,8 +6,6 @@ import '../../../../../config/constants/app_constants.dart';
 import '../../../../../config/di/service_locator.dart';
 import '../../../data/models/category_model.dart';
 import '../../../data/models/product_model.dart';
-import '../../cubit/home_cubit.dart';
-import '../../cubit/home_state.dart';
 import '../../cubit/products_cubit.dart';
 import '../../cubit/products_state.dart';
 

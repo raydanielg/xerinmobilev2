@@ -29,9 +29,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
   void _markAllRead() {
     setState(() {
-      for (final n in _notifications) {
-        // n is NotificationModel;
-      }
+      for (final _ in _notifications) {}
     });
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('All marked as read'), backgroundColor: Color(0xFF22C55E)),
