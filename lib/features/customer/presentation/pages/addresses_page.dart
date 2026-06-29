@@ -211,8 +211,16 @@ class _AddressesPageState extends State<AddressesPage> {
                 TextButton.icon(
                   onPressed: () {
                     setState(() {
-                      for (final a in _addresses) {
-                        a is AddressModel; 
+                      for (int i = 0; i < _addresses.length; i++) {
+                        _addresses[i] = AddressModel(
+                          id: _addresses[i].id,
+                          country: _addresses[i].country,
+                          region: _addresses[i].region,
+                          city: _addresses[i].city,
+                          street: _addresses[i].street,
+                          postalCode: _addresses[i].postalCode,
+                          isDefault: _addresses[i].id == address.id,
+                        );
                       }
                     });
                   },

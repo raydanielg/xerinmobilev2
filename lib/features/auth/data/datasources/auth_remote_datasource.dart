@@ -176,4 +176,24 @@ class AuthRemoteDataSource {
       throw ServerException(_client.getErrorMessage(e));
     }
   }
+
+  Future<UserModel> updateProfile({
+    String? firstName,
+    String? lastName,
+    String? phone,
+  }) async {
+    try {
+      final response = await _client.patch(
+        ApiConstants.myProfile,
+        data: {
+          if (firstName != null) 'first_name': firstName,
+          if (lastName != null) 'last_name': lastName,
+          if (phone != null) 'phone': phone,
+        },
+      );
+      return UserModel.fromJson(response.data as Map<String, dynamic>);
+    } on DioException catch (e) {
+      throw ServerException(_client.getErrorMessage(e));
+    }
+  }
 }
