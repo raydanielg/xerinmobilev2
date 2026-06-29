@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../config/constants/app_constants.dart';
+import '../cubit/auth_cubit.dart';
+import '../cubit/auth_state.dart';
 import '../widgets/auth_logo.dart';
 import '../widgets/auth_text_field.dart';
 
@@ -21,7 +24,6 @@ class _SignInPageState extends State<SignInPage>
   final _passNode = FocusNode();
   bool _obscurePass = true;
   bool _remember = false;
-  bool _isLoading = false;
 
   late final AnimationController _animCtrl;
   late final Animation<Offset> _slideAnim;
@@ -54,24 +56,42 @@ class _SignInPageState extends State<SignInPage>
 
   Future<void> _onSignIn() async {
     if (!_formKey.currentState!.validate()) return;
+    context.read<AuthCubit>().login(
+          email: _emailCtrl.text.trim(),
+          password: _passCtrl.text,
+        );
+  }
 
-    setState(() => _isLoading = true);
-
-    // Simulate API sign in request
-    await Future.delayed(const Duration(seconds: 2));
-
-    if (!mounted) return;
-
-    setState(() => _isLoading = false);
-
-    context.go(AppConstants.homeRoute);
+  void _onStateChange(BuildContext context, AuthState state) {
+    if (state is AuthLoginSuccess) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Signed in successfully!'),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      context.go(AppConstants.homeRoute);
+    } else if (state is AuthError) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(state.message),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Scaffold(
+    return BlocConsumer<AuthCubit, AuthState>(
+      listener: _onStateChange,
+      builder: (context, state) {
+        final isLoading = state is AuthLoading;
+        return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 28),
@@ -196,7 +216,7 @@ class _SignInPageState extends State<SignInPage>
                       width: double.infinity,
                       height: 54,
                       child: ElevatedButton(
-                        onPressed: _isLoading ? null : _onSignIn,
+                        onPressed: isLoading ? null : _onSignIn,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: colorScheme.primary,
                           foregroundColor: colorScheme.onPrimary,
@@ -207,7 +227,7 @@ class _SignInPageState extends State<SignInPage>
                           ),
                           elevation: 0,
                         ),
-                        child: _isLoading
+                        child: isLoading
                             ? SizedBox(
                                 width: 22,
                                 height: 22,
@@ -267,6 +287,8 @@ class _SignInPageState extends State<SignInPage>
           ),
         ),
       ),
+    );
+      },
     );
   }
 
