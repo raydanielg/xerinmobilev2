@@ -105,7 +105,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                     onActionTap: () => context.go(AppConstants.exploreProductsRoute),
                   ),
                   const SizedBox(height: 14),
-                  _buildFeaturedProducts(colorScheme, featured, categories, isLoadingData),
+                  _buildFeaturedProducts(colorScheme, featured, isLoadingData),
                   const SizedBox(height: 24),
                   _buildSectionTitle('Recent Orders', '', colorScheme),
                   const SizedBox(height: 14),
@@ -1139,26 +1139,9 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
     }
 
     if (categories.isEmpty) {
-      return SizedBox(
-        height: 120,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/images/nocategories.png',
-              height: 70,
-              fit: BoxFit.contain,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'No categories available',
-              style: TextStyle(
-                fontSize: 13,
-                color: colorScheme.onSurface.withValues(alpha: 0.5),
-              ),
-            ),
-          ],
-        ),
+      return const SizedBox(
+        height: 82,
+        child: Center(child: Text('No categories', style: TextStyle(fontSize: 13))),
       );
     }
 
@@ -1244,16 +1227,8 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
   Widget _buildFeaturedProducts(
     ColorScheme colorScheme,
     List<ProductModel> products,
-    List<CategoryModel> categories,
     bool isLoading,
   ) {
-    String categoryName(String categoryId) {
-      final match = categories.firstWhere(
-        (c) => c.id == categoryId,
-        orElse: () => const CategoryModel(id: '', name: 'General', slug: 'general'),
-      );
-      return match.name;
-    }
     if (isLoading) {
       return SizedBox(
         height: 220,
@@ -1291,8 +1266,11 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
             onTap: () => context.go(
               AppConstants.productDetailRoute,
               extra: {
-                'product': product,
-                'category': categoryName(product.categoryId),
+                'name': product.name,
+                'price': product.formattedPrice,
+                'image': product.thumbnailUrl ?? '',
+                'category': product.categoryName ?? '',
+                'rating': product.rating,
               },
             ),
             child: Container(
@@ -1347,13 +1325,12 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                                   );
                                 },
                                 errorBuilder: (_, __, ___) => _featuredPlaceholder(
-                                    colorScheme, categoryName(product.categoryId)),
+                                    colorScheme, product.categoryName),
                               )
                             : _featuredPlaceholder(
-                                colorScheme, categoryName(product.categoryId)),
+                                colorScheme, product.categoryName),
                       ),
-                      final catName = categoryName(product.categoryId);
-                      if (catName.isNotEmpty)
+                      if ((product.categoryName ?? '').isNotEmpty)
                         Positioned(
                           top: 8,
                           left: 8,
@@ -1365,7 +1342,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
-                              catName,
+                              product.categoryName!,
                               style: TextStyle(
                                 fontSize: 9,
                                 fontWeight: FontWeight.w700,
