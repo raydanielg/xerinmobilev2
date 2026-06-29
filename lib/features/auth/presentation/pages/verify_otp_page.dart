@@ -205,11 +205,11 @@ class _VerifyOtpPageState extends State<VerifyOtpPage>
                       final isFocused = _focusNodes[index].hasFocus;
                       final hasValue = _otpCtls[index].text.isNotEmpty;
                       return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 7),
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
                         child: AnimatedContainer(
                           duration: const Duration(milliseconds: 200),
-                          width: 68,
-                          height: 76,
+                          width: 46,
+                          height: 58,
                           decoration: BoxDecoration(
                             color: hasValue
                                 ? colorScheme.primary.withValues(alpha: 0.08)

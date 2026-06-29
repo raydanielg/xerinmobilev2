@@ -47,7 +47,12 @@ class AppRouter {
       ),
       GoRoute(
         path: AppConstants.verifyOtpRoute,
-        builder: (context, state) => const VerifyOtpPage(),
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return VerifyOtpPage(
+            phone: extra?['phone'] as String? ?? '',
+          );
+        },
       ),
       GoRoute(
         path: AppConstants.forgotPasswordRoute,
