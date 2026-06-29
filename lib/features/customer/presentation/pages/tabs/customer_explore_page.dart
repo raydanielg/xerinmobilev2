@@ -42,11 +42,12 @@ class _CustomerExplorePageState extends State<CustomerExplorePage> {
   @override
   void initState() {
     super.initState();
-    context.read<ProductsCubit>().loadAll();
+    _productsCubit = sl<ProductsCubit>()..loadAll();
   }
 
   @override
   void dispose() {
+    _productsCubit.close();
     _searchCtrl.dispose();
     super.dispose();
   }
@@ -55,16 +56,18 @@ class _CustomerExplorePageState extends State<CustomerExplorePage> {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return BlocBuilder<ProductsCubit, ProductsState>(
-      builder: (context, state) {
-        final categories = state is ProductsLoaded ? state.categories : <CategoryModel>[];
-        final products = state is ProductsLoaded ? state.products : <ProductModel>[];
-        final trending = state is ProductsLoaded ? state.trending : <ProductModel>[];
-        final isLoading = state is ProductsLoading;
-        final homeState = context.read<HomeCubit>().state;
-        final user = homeState is HomeLoaded ? homeState.user : null;
+    return BlocProvider.value(
+      value: _productsCubit,
+      child: BlocBuilder<ProductsCubit, ProductsState>(
+        builder: (context, state) {
+          final categories = state is ProductsLoaded ? state.categories : <CategoryModel>[];
+          final products = state is ProductsLoaded ? state.products : <ProductModel>[];
+          final trending = state is ProductsLoaded ? state.trending : <ProductModel>[];
+          final isLoading = state is ProductsLoading;
+          final homeState = context.read<HomeCubit>().state;
+          final user = homeState is HomeLoaded ? homeState.user : null;
 
-        return SafeArea(
+          return SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
