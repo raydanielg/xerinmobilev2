@@ -81,7 +81,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 16),
-                _buildHeader(colorScheme, userName: user?.firstName ?? user?.fullName ?? 'Guest'),
+                _buildHeader(colorScheme, userName: user?.fullName ?? 'Guest'),
                 const SizedBox(height: 20),
                 _buildSearchBar(colorScheme),
                 const SizedBox(height: 24),
