@@ -51,18 +51,10 @@ class CustomerProfilePage extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  Container(
-                    width: 80,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.2),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.person_rounded,
-                      color: Colors.white,
-                      size: 40,
-                    ),
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundColor: Colors.white.withValues(alpha: 0.2),
+                    backgroundImage: const AssetImage('assets/images/avatar.png'),
                   ),
                   const SizedBox(height: 16),
                   Text(
