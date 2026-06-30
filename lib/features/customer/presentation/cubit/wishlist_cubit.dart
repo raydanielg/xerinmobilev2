@@ -10,11 +10,9 @@ class WishlistCubit extends Cubit<WishlistState> {
   final Logger _logger;
 
   WishlistCubit({
-    required WishlistRemoteDataSource dataSource,
-    required Logger logger,
-  })  : _dataSource = dataSource,
-        _logger = logger,
-        super(const WishlistInitial());
+    required this._dataSource,
+    required this._logger,
+  })  : super(const WishlistInitial());
 
   Future<void> loadWishlist() async {
     emit(const WishlistLoading());

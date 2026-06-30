@@ -27,7 +27,7 @@ class AuthRemoteDataSource {
           'last_name': lastName,
           'email': email,
           'password': password,
-          if (phone != null) 'phone': phone,
+          'phone': ?phone,
         },
       );
       return UserModel.fromJson(response.data as Map<String, dynamic>);
@@ -57,9 +57,9 @@ class AuthRemoteDataSource {
           'phone': phone,
           'password': password,
           'business_name': businessName,
-          if (businessCategory != null) 'business_category': businessCategory,
-          if (contactEmail != null) 'contact_email': contactEmail,
-          if (contactPhone != null) 'contact_phone': contactPhone,
+          'business_category': ?businessCategory,
+          'contact_email': ?contactEmail,
+          'contact_phone': ?contactPhone,
           'agreement_accepted': true,
         },
       );
@@ -186,9 +186,9 @@ class AuthRemoteDataSource {
       final response = await _client.patch(
         ApiConstants.myProfile,
         data: {
-          if (firstName != null) 'first_name': firstName,
-          if (lastName != null) 'last_name': lastName,
-          if (phone != null) 'phone': phone,
+          'first_name': ?firstName,
+          'last_name': ?lastName,
+          'phone': ?phone,
         },
       );
       return UserModel.fromJson(response.data as Map<String, dynamic>);

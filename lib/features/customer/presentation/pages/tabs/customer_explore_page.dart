@@ -224,7 +224,7 @@ class _CustomerExplorePageState extends State<CustomerExplorePage> {
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: products.length,
-            separatorBuilder: (_, __) => const SizedBox(width: 12),
+            separatorBuilder: (_, _) => const SizedBox(width: 12),
             itemBuilder: (context, index) {
               final product = products[index];
               final discount = product.salePrice != null
@@ -254,7 +254,7 @@ class _CustomerExplorePageState extends State<CustomerExplorePage> {
                           width: 90, height: 90,
                           color: Colors.white.withValues(alpha: 0.2),
                           child: product.thumbnailUrl != null
-                              ? Image.network(product.thumbnailUrl!, fit: BoxFit.cover, errorBuilder: (_, __, ___) => _productPlaceholder(colorScheme))
+                              ? Image.network(product.thumbnailUrl!, fit: BoxFit.cover, errorBuilder: (_, _, _) => _productPlaceholder(colorScheme))
                               : _productPlaceholder(colorScheme),
                         ),
                       ),
@@ -365,7 +365,7 @@ class _CustomerExplorePageState extends State<CustomerExplorePage> {
                   borderRadius: BorderRadius.circular(12),
                   child: product.thumbnailUrl != null
                       ? Image.network(product.thumbnailUrl!, width: 52, height: 52, fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => _productPlaceholder(colorScheme))
+                          errorBuilder: (_, _, _) => _productPlaceholder(colorScheme))
                       : _productPlaceholder(colorScheme),
                 ),
                 const SizedBox(width: 12),
@@ -449,7 +449,7 @@ class _CustomerExplorePageState extends State<CustomerExplorePage> {
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
                   child: Stack(fit: StackFit.expand, children: [
                     product.thumbnailUrl != null
-                        ? Image.network(product.thumbnailUrl!, fit: BoxFit.cover, errorBuilder: (_, __, ___) => _productGridPlaceholder(colorScheme))
+                        ? Image.network(product.thumbnailUrl!, fit: BoxFit.cover, errorBuilder: (_, _, _) => _productGridPlaceholder(colorScheme))
                         : _productGridPlaceholder(colorScheme),
                     Positioned(top: 8, right: 8,
                       child: Container(

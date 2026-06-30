@@ -12,9 +12,8 @@ class ProductsCubit extends Cubit<ProductsState> {
 
   ProductsCubit({
     required ProductRemoteDataSource productDataSource,
-    required Logger logger,
+    required this._logger,
   })  : _productDs = productDataSource,
-        _logger = logger,
         super(const ProductsInitial());
 
   Future<void> loadCategories() async {

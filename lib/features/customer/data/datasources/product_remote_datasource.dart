@@ -45,10 +45,10 @@ class ProductRemoteDataSource {
       final queryParams = <String, dynamic>{
         'skip': skip,
         'limit': limit,
-        if (categoryId != null) 'category_id': categoryId,
+        'category_id': ?categoryId,
         if (search != null && search.isNotEmpty) 'search': search,
-        if (sortBy != null) 'sort_by': sortBy,
-        if (isActive != null) 'is_active': isActive,
+        'sort_by': ?sortBy,
+        'is_active': ?isActive,
       };
       final response = await _client.get(
         ApiConstants.products,

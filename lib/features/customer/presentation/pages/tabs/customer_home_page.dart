@@ -698,7 +698,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                               width: 52,
                               height: 52,
                               fit: BoxFit.cover,
-                              errorBuilder: (_, __, ___) => _productPlaceholder(colorScheme, product.categoryName),
+                              errorBuilder: (_, _, _) => _productPlaceholder(colorScheme, product.categoryName),
                             )
                           : _productPlaceholder(colorScheme, product.categoryName),
                     ),
@@ -1103,8 +1103,8 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
           itemCount: 6,
-          separatorBuilder: (_, __) => const SizedBox(width: 10),
-          itemBuilder: (_, __) => SizedBox(
+          separatorBuilder: (_, _) => const SizedBox(width: 10),
+          itemBuilder: (_, _) => SizedBox(
             width: 64,
             child: Column(
               children: [
@@ -1144,7 +1144,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: categories.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 10),
+        separatorBuilder: (_, _) => const SizedBox(width: 10),
         itemBuilder: (context, index) {
           final cat = categories[index];
           return GestureDetector(
@@ -1229,8 +1229,8 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
           itemCount: 4,
-          separatorBuilder: (_, __) => const SizedBox(width: 14),
-          itemBuilder: (_, __) => Container(
+          separatorBuilder: (_, _) => const SizedBox(width: 14),
+          itemBuilder: (_, _) => Container(
             width: 160,
             decoration: BoxDecoration(
               color: colorScheme.onSurface.withValues(alpha: 0.04),
@@ -1253,7 +1253,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: products.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 14),
+        separatorBuilder: (_, _) => const SizedBox(width: 14),
         itemBuilder: (context, index) {
           final product = products[index];
           return GestureDetector(
@@ -1315,7 +1315,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                                     ),
                                   );
                                 },
-                                errorBuilder: (_, __, ___) => _featuredPlaceholder(
+                                errorBuilder: (_, _, _) => _featuredPlaceholder(
                                     colorScheme, product.categoryName),
                               )
                             : _featuredPlaceholder(

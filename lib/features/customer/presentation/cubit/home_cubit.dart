@@ -21,11 +21,10 @@ class HomeCubit extends Cubit<HomeState> {
     required ProductRemoteDataSource productDataSource,
     required CustomerRemoteDataSource customerDataSource,
     required AuthRemoteDataSource authDataSource,
-    required Logger logger,
+    required this._logger,
   })  : _productDs = productDataSource,
         _customerDs = customerDataSource,
         _authDs = authDataSource,
-        _logger = logger,
         super(const HomeInitial());
 
   Future<void> loadHome() async {

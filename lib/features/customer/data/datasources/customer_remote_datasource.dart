@@ -51,7 +51,7 @@ class CustomerRemoteDataSource {
           'region': region,
           'city': city,
           'street': street,
-          if (postalCode != null) 'postal_code': postalCode,
+          'postal_code': ?postalCode,
           'is_default': isDefault,
         },
       );
@@ -78,7 +78,7 @@ class CustomerRemoteDataSource {
           'region': region,
           'city': city,
           'street': street,
-          if (postalCode != null) 'postal_code': postalCode,
+          'postal_code': ?postalCode,
           'is_default': isDefault,
         },
       );
@@ -107,7 +107,7 @@ class CustomerRemoteDataSource {
         queryParameters: {
           'skip': skip,
           'limit': limit,
-          if (status != null) 'status': status,
+          'status': ?status,
         },
       );
       final data = response.data;
