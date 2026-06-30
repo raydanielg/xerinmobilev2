@@ -52,8 +52,8 @@ void main() {
   });
 
   tearDownAll(() async {
-    await TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-        .setMockMethodCallHandler(_secureStorageChannel, null);
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+      .setMockMethodCallHandler(_secureStorageChannel, null);
   });
 
   testWidgets('App loads smoke test', (WidgetTester tester) async {
