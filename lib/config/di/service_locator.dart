@@ -20,7 +20,15 @@ import '../constants/api_constants.dart';
 final GetIt sl = GetIt.instance;
 
 /// Initialize all app dependencies.
-Future<void> initServiceLocator() async {
+Future<void> initServiceLocator({bool reset = false}) async {
+  if (reset) {
+    await sl.reset();
+  }
+
+  if (sl.isRegistered<SharedPreferences>()) {
+    return;
+  }
+
   // External services
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
