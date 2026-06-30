@@ -58,6 +58,7 @@ void main() {
 
   testWidgets('App loads smoke test', (WidgetTester tester) async {
     await tester.pumpWidget(const XerinApp());
+    await tester.pump(const Duration(seconds: 3));
     expect(find.byType(MaterialApp), findsOneWidget);
   });
 }
