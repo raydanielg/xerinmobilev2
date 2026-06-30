@@ -1,6 +1,24 @@
 /// API-related constants.
 abstract class ApiConstants {
-  static const String baseUrl = 'http://187.124.32.94:8080';
+    static const String _defaultBaseUrl = 'https://187.124.32.94:8080';
+    static const String _envBaseUrl = String.fromEnvironment('API_BASE_URL');
+
+    static String get baseUrl => _resolveBaseUrl(_envBaseUrl);
+
+    static String _resolveBaseUrl(String candidate) {
+        final raw = candidate.trim();
+        if (raw.isEmpty) return _defaultBaseUrl;
+
+        final withScheme = raw.contains('://') ? raw : 'https://$raw';
+        final parsed = Uri.tryParse(withScheme);
+        if (parsed == null || parsed.host.isEmpty) return _defaultBaseUrl;
+
+        final secureUri = parsed.scheme == 'http'
+                ? parsed.replace(scheme: 'https')
+                : parsed;
+
+        return secureUri.toString().replaceFirst(RegExp(r'/$'), '');
+    }
 
   // Auth endpoints
   static const String register = '/auth/register';
