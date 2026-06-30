@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,6 +24,9 @@ Future<void> initServiceLocator() async {
   // External services
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
+  sl.registerLazySingleton<FlutterSecureStorage>(
+    () => const FlutterSecureStorage(),
+  );
 
   sl.registerLazySingleton<Logger>(
     () => Logger(
@@ -51,7 +55,9 @@ Future<void> initServiceLocator() async {
   );
 
   // Core
-  sl.registerLazySingleton<TokenStorage>(() => TokenStorage(sl()));
+  final tokenStorage = TokenStorage(sharedPreferences, sl<FlutterSecureStorage>());
+  await tokenStorage.initialize();
+  sl.registerLazySingleton<TokenStorage>(() => tokenStorage);
   sl.registerLazySingleton<ApiClient>(
       () => ApiClient(sl<Dio>(), sl<TokenStorage>(), sl<Logger>()));
 
